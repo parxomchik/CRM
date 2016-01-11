@@ -1,0 +1,50 @@
+@mixin btn-shadow(){
+    @extend .shadow-z-2;
+    transition: box-shadow transform 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    &:active:not(.btn-link) {
+        @extend .shadow-z-3;
+    }
+
+    &:hover {
+        @extend .shadow-z-5;
+    }
+
+}
+
+.btn {
+    position: relative;
+    border: 0;
+    // margin: 10px 1px;
+    // cursor: pointer;
+    text-transform: uppercase;
+    // text-decoration: none;
+    &:hover:not(.btn-link) {
+        @extend .shadow-z-2-hover;
+    }
+    transition: box-shadow 0.3s cubic-bezier(0.4, 0, 0.2, 1);
+    &:active:not(.btn-link) {
+        @extend .shadow-z-3;
+    }
+    outline: none !important;
+}
+
+// This is needed to style buttons which has not a variation suffix (they must stiled as btn-default)
+.btn-link, .btn:not([class^="btn btn-"]), .btn-default {
+    // color: $lightbg-text;
+    &:hover {
+        // color: $lightbg-text;
+    }
+}
+.btn:not([class^="btn btn-"]), .btn-default {
+    &:hover {
+        background-color: rgba(255,255,255,0.5);
+    }
+}
+
+.btn-raised {
+    @include btn-shadow();
+}
+
+.open > .dropdown-toggle.btn {
+    //.variations(#{""}, background-color, $btn-default);
+}

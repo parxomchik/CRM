@@ -1,0 +1,25 @@
+$navbar-color: #0072bc;
+$client-content-background:#f5f5f5;
+$sidebar-border-color : #a8a8a8;
+
+
+
+
+$gray-base:              #000 !default;
+$gray-darker:            lighten($gray-base, 13.5%) !default; // #222
+$gray-dark:              lighten($gray-base, 20%) !default;   // #333
+$gray:                   lighten($gray-base, 33.5%) !default; // #555
+$gray-light:             lighten($gray-base, 46.7%) !default; // #777
+$gray-lighter:           lighten($gray-base, 93.5%) !default; // #eee
+
+$brand-primary:         #0088cc !default;
+$brand-success:         #22cc5a !default;
+$brand-info:            #999999 !default;
+$brand-warning:         #ff5d58 !default;
+$brand-danger:          #d9534f !default;
+
+
+$brand-custom: #ed6123 !default;
+
+$default: $gray-light !default;
+$underline-color: $gray-light !default;

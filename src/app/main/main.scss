@@ -1,0 +1,61 @@
+#registrationBtn {
+  width: 300px;
+  position: relative;
+  top: ($carousel-slide-height - 160px);
+  //color: red;
+}
+
+#promo{
+  //margin-top: 10px;
+  img{
+    border-radius: 50%;
+    width: 400px;
+  }
+  h2{
+    margin-bottom: 30px;
+  }
+  .promo-block{
+    img{
+      margin-bottom: 10px;
+    }
+  }
+}
+#benefits{
+  .benefits-block {
+    margin-bottom: 15px;
+    img{
+      margin-bottom: 10px;
+    }
+  }
+
+}
+
+#policy{
+  #policy-read-more-btn {
+    width: 300px;
+  }
+}
+
+@media (max-width: 767px) {
+
+  .row.reorder-xs {
+    -webkit-transform: rotate(180deg);
+    -moz-transform: rotate(180deg);
+    -ms-transform: rotate(180deg);
+    -o-transform: rotate(180deg);
+    transform: rotate(180deg);
+
+    direction: rtl;
+  }
+
+  .row.reorder-xs > [class*="col-"] {
+    -webkit-transform: rotate(-180deg);
+    -moz-transform: rotate(-180deg);
+    -ms-transform: rotate(-180deg);
+    -o-transform: rotate(-180deg);
+    transform: rotate(-180deg);
+
+    direction: ltr;
+  }
+
+}

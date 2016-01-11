@@ -1,0 +1,120 @@
+<div class="wrapper container">
+  <header class="header">
+    <client-navbar ></client-navbar>
+  </header>
+  <div class="aside-flex aside-flex-1  sidebar hidden-xs">
+    <client-sidebar></client-sidebar>
+  </div>
+  <article class="main client-content-profile">
+
+            <!-- content -->
+            <!--<div class="row ">-->
+              <!--<div class="col-sm-4 col-xs-12 padding-left-right-0">-->
+                <!--<h4  class="text-left" >Всього нараховано:  {{history.bonuses.bonusReceived}}</h4>-->
+              <!--</div>-->
+              <!--<div class="col-sm-4 col-xs-12 pull-right padding-left-right-0">-->
+                <!--<h4 class="">Всього активно:   {{history.bonuses.activeBonuses}} </h4>-->
+              <!--</div>-->
+            <!--</div>-->
+
+    <div class="row order-container well padding-0">
+      <div class="panel panel-default margin-bottom-0">
+        <div class="panel-heading order-header" ><p class="order-header-text" >Пошук / сортування</p></div>
+        <div class="panel-body">
+              <div class="col-md-12 padding-left-right-0">
+                <form name="historySearch" class="form-inline ">
+                    <div class="input-group col-xs-12 col-md-3 margin-right-10">
+                      <input type="text" ng-model="history.sort.periodBegin" class="form-control" placeholder="Початок періоду" bs-datepicker data-autoclose="true" data-bs-show="HistorySearchFrom.show"  disabled required>
+                      <span class="input-group-btn">
+                      <button class="btn calendar" ng-click="HistorySearchFrom.show = ! HistorySearchFrom.show">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                      </span>
+                    </div>
+                    <div class="input-group col-xs-12 col-md-3">
+                      <input type="text" ng-model="history.sort.periodEnd" class="form-control" placeholder="Кінець періоду" bs-datepicker data-autoclose="true" data-bs-show="HistorySearchTo.show"  disabled required>
+                      <span class="input-group-btn">
+                      <button class="btn  calendar" ng-click="HistorySearchTo.show = ! HistorySearchTo.show">
+                        <i class="fa fa-calendar"></i>
+                      </button>
+                      </span>
+                    </div>
+                  <div class="input-group col-md-3 padding-left-right-0 margin-left-10">
+                      <input type="text" class="form-control" placeholder="Пошук...">
+                  </div>
+                  <button id="history-search-submit" ng-disabled = "!historySearch.$valid" ng-click="history.historySearch(history.sort.periodBegin,history.sort.periodEnd)" type="submit" class="btn   margin-left-10 pull-right">
+                    <i class="fa fa-search"></i>
+                    Пошук
+                  </button>
+                </form>
+              </div>
+           </div>
+        </div>
+      </div>
+
+
+
+
+            <div class="row order-container well padding-0">
+              <div class="panel panel-default margin-bottom-0">
+                <div class="panel-heading order-header col-md-12" >
+                  <div class="col-md-12 padding-0">
+                    <div class="col-md-4 padding-0">
+                      <p class="order-header-text" >
+                        Історія по картці
+                      </p>
+                    </div>
+                    <div class="col-md-4 padding-0">
+                      <p class="order-header-text text-center" >
+                        Всього нараховано:  {{history.bonuses.bonusReceived}}
+                      </p>
+                    </div>
+                    <div class="col-md-4 padding-0">
+                      <p class="order-header-text pull-right" >
+                        Всього активно:   {{history.bonuses.activeBonuses}}
+                      </p>
+                    </div>
+                  </div>
+
+                  <p>
+                  </p>
+                  <!--<h4  class="text-right " >Всього нараховано:  {{history.bonuses.bonusReceived}}</h4>-->
+                </div>
+                <div class="panel-body" style="padding-top: 60px;padding-bottom: 0;">
+                    <table class="table  table-responsive ">
+                      <thead style="background-color: #0072bc; color: white;">
+                      <tr>
+                        <th>Дата</th>
+                        <th class="hidden-xs">№ Картки</th>
+                        <th class="hidden-xs">№ Документу</th>
+                        <th>Сума</th>
+                        <th>Нараховано бонусів</th>
+                        <th class="hidden-xs">Нараховано сейф</th>
+                        <th>Списано бонусів</th>
+                        <th class="hidden-xs">Списано сейф</th>
+                      </tr>
+                      </thead>
+                      <tbody>
+                      <tr ng-repeat="order in history.orders" style="background-color: #d8edf7;font-size: 14px; font-weight: 600">
+                        <td>{{order.orderDate}}</td>
+                        <td class="hidden-xs">{{order.orderCardNumber}}</td>
+                        <td class="hidden-xs">{{order.orderDocNumber}}</td>
+                        <td>{{order.orderTotal}}</td>
+                        <td>{{order.orderBonusTotal}}</td>
+                        <td class="hidden-xs">{{order.orderSaifTotal}}</td>
+                        <td>{{order.orderBonusDeducted}}</td>
+                        <td class="hidden-xs">{{order.orderSaifDeducted}}</td>
+                      </tr>
+                      </tbody>
+                    </table>
+                </div>
+              </div>
+            </div>
+</article>
+  <div class="footer-flex client-footer">
+    <client-footer></client-footer>
+  </div>
+
+  </div>
+
+

@@ -1,0 +1,106 @@
+.client-content-profile {
+  padding-top: 20px;
+  input{
+    color: #246ea8;
+  }
+  background-color: #f5f5f5;
+  padding-bottom: 40px;
+  //h3{
+  //  //color: white;
+  //}
+  //#birth-day{
+  //  background-color: #e5e5e5;
+  //  i{
+  //    font-size: 18px;
+  //  }
+  //}
+  .well{
+    background-color: white;
+    padding-bottom: 10px;
+    //margin-right: 10px;
+    -webkit-box-shadow: 0px 0px 12px 3px rgba(182,182,182,0.3);
+    -moz-box-shadow: 0px 0px 12px 3px rgba(182,182,182,0.3);
+    box-shadow: 0px 0px 12px 3px rgba(182,182,182,0.3);
+  }
+  .btn span.glyphicon {
+    opacity: 0;
+  }
+  .btn.active span.glyphicon {
+    opacity: 1;
+  }
+  .panel-heading span
+  {
+    margin-top: -26px;
+    font-size: 15px;
+    margin-right: -12px;
+  }
+  #policy-checkbox-wrapper {
+    margin-top: 10px;
+    margin-left: auto;
+    margin-right: auto;
+    width: 40px;
+  }
+  .hobbi-checkbox-wrapper {
+    margin-bottom: 5px;
+  }
+
+  .panel-body.padding-0  {
+    padding: 0;
+  }
+
+  .panel-title {
+    min-height: 20px;
+  }
+  .clickable {
+    background: rgba(0, 0, 0, 0.15);
+    display: inline-block;
+    padding: 6px 12px;
+    border-radius: 4px;
+    cursor: pointer;
+    &:hover{
+      background:red;
+      i{
+        color: white;
+      }
+    }
+  }
+}
+.card-number {
+  background-color: #fedc01;
+  max-width: 300px;
+  padding: 10px;
+  //margin-top: 20px;
+  margin-bottom: 20px;
+  h3{
+    margin: 0;
+    color: #333333;
+  }
+}
+
+
+
+
+.social-network {
+  height: 55px;
+  background-color: #e7e7e7;
+}
+
+#profile-submit {
+  margin-top: 20px;
+  width: 250px;
+}
+
+.calendar{
+  background-color: #e5e5e5;
+  i{
+    font-size: 18px;
+  }
+}
+
+
+.kid-panel-header{
+  background-color: #3bb2e9 !important;
+  span{
+    background-color: white;
+  }
+}

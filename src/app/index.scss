@@ -1,0 +1,186 @@
+/**
+ *  If you want to override some bootstrap variables, you have to change values here.
+ *  The list of variables are listed here bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss
+ */
+@import url(https://fonts.googleapis.com/css?family=Open+Sans:400,700,600italic,600,400italic,700italic,300,300italic);
+@import "../material/_custom/colors";
+@import "../material/_material/common";
+@import "../material/_material/shadows";
+@import "../material/_material/ripples";
+
+@import "../material/_material/cards";
+//@import "../material/_material/buttons";
+//@import "../material/_material/inputs";
+@import "../material/guidelines";
+@import "../material/_custom/element_positions";
+@import "admin/client/client-propositions/client-propositions";
+@import "admin/client/client-feedback/client-feedback";
+@import "admin/client/client-history/client-history";
+@import "main/carousel";
+@import "components/footer/footer";
+@import "admin/client/client-feedback/client-feedback";
+@import "components/client-navbar/client-navbar";
+@import "../material/_custom/awesome-bootstrap-checkbox";
+
+
+
+$navbar-inverse-link-color: #5AADBB;
+$icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
+
+/**
+ *  Do not remove this comments bellow. It's the markers used by wiredep to inject
+ *  sass dependencies when defined in the bower.json of your dependencies
+ */
+// bower:scss
+// endbower
+
+body{
+  font-family: 'Open Sans', sans-serif;
+  font-weight: 600;
+}
+
+.browsehappy {
+  margin: 0.2em 0;
+  background: #ccc;
+  color: #000;
+  padding: 0.2em 0;
+}
+
+.thumbnail {
+  height: 200px;
+
+  img.pull-right {
+    width: 50px;
+  }
+}
+
+@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
+  .sidebar {
+    padding-right: 0;
+    padding-left: 0;
+    .fa-sidebar {
+      font-size: 1.6em;
+      width: 1.6em;
+      text-align: center;
+    }
+  }
+}
+
+
+.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {
+  border: 0;
+}
+.checkbox label::before {
+  content: "";
+  display: inline-block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 0;
+  margin-left: -20px;
+  border: 1px solid #cccccc;
+  border-radius: 3px;
+  background-color: #fff;
+  -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+  transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
+}
+.checkbox label::after {
+  display: inline-block;
+  position: absolute;
+  width: 30px;
+  height: 30px;
+  left: 1px;
+  top: 0;
+  margin-left: -20px;
+  padding-left: 3px;
+  padding-top: -5px;
+  font-size: 22px;
+  color: #555555;
+}
+.checkbox label {
+  line-height: 30px;
+}
+#policy_checkbox {
+  margin-top: 35px
+}
+.wrapper {
+  display: -webkit-box;
+  display: -moz-box;
+  display: -ms-flexbox;
+  display: -webkit-flex;
+  display: flex;
+  -webkit-flex-flow: row wrap;
+  flex-flow: row wrap;
+  text-align: center;
+  padding-top: 50px;
+  padding-left: 0;
+  padding-right: ;
+}
+
+.wrapper > * {
+  flex: 1 100%;
+}
+
+
+.footer-flex {
+  order: 3;
+  padding-bottom: 10px;
+  background-color: #0072bc;
+  .info{
+    color: white;
+    font-size: 1.3em;
+
+  }
+  .info-number{
+    color: #fedc01;
+    font-size: 1.5em;
+  }
+  hr{
+    max-width: 230px;
+    margin-bottom: 10px;
+    margin-top: 0;
+  }
+}
+
+.main {
+  text-align: left;
+  flex: 6;
+  min-height: calc(100vh - 50px);
+  padding-right: 3em;
+  padding-left: 3em;
+  order: 2;
+}
+
+.aside-flex-1 {
+  order: 1;
+}
+
+input{
+  font-size: 14px;
+  font-weight: 600;
+  color: #246ea8;
+}
+@media all and (min-width: 600px) {
+  .aside-flex {
+    flex: 2 ;
+    text-align: left;
+  }
+}
+
+@media (min-width: 768px) and (max-width: 992px) {
+  .aside-flex {
+    flex: 1 ;
+  }
+  .main {
+    flex: 10 0px;
+  }
+}
+
+
+/**
+ *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
+ *  all your sass files automatically
+ */
+// injector
+// endinjector

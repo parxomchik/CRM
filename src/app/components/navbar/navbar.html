@@ -1,0 +1,48 @@
+<!--<nav style="height: 50px" class="navbar navbar-static-top navbar-inverse" ng-controller="NavbarController as login">-->
+  <!--<div class="container-fluid">-->
+    <!--<div class="navbar-header">-->
+      <!--<button ng-click="navbar.navMailCollapsedMobile = !navbar.navMailCollapsedMobile" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">-->
+        <!--<span class="sr-only">Toggle navigation</span>-->
+        <!--<span class="icon-bar"></span>-->
+        <!--<span class="icon-bar"></span>-->
+        <!--<span class="icon-bar"></span>-->
+      <!--</button>-->
+      <!--<a class="navbar-brand" href="#">-->
+        <!--<span class="glyphicon glyphicon-home"></span> ВИГОДА-->
+      <!--</a>-->
+    <!--</div>-->
+
+    <!--<div class="collapse navbar-collapse" uib-collapse="navbar.navMailCollapsedMobile">-->
+      <!--<ul class="nav navbar-nav">-->
+        <!--<li ng-class="{ active: isActive('/')}"><a ng-href="#" ui-sref="home">Home</a></li>-->
+        <!--<li ng-class="{ active: isActive('/profile')}"><a  ng-href="#" ui-sref="profile">Clientpage</a></li>-->
+        <!--<li ng-class="{ active: isActive('/brandbook')}"><a  ng-href="#" ui-sref="brandbook" >Brandbook</a></li>-->
+      <!--</ul>-->
+      <!--<button type="button" class="btn btn-default navbar-btn pull-right" ng-click="login.open()">Войти</button>-->
+
+    <!--</div>-->
+  <!--</div>-->
+<!--</nav>-->
+<nav class="navbar navbar-default " ng-controller="NavbarController as login">
+  <div class="container-fluid">
+    <div class="navbar-header">
+      <button ng-click="navbar.navMainCollapsedMobile = !navbar.navMainCollapsedMobile" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
+        <span class="sr-only">Toggle navigation</span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+        <span class="icon-bar"></span>
+      </button>
+      <a class="navbar-brand" ng-href="#/">
+      <span class="glyphicon glyphicon-home"></span> ВИГОДА
+      </a>
+    </div>
+    <div uib-collapse="navbar.navMainCollapsedMobile" class="navbar-collapse collapse">
+      <ul class="nav navbar-nav">
+        <li ui-sref-active="active" ><a ng-href="#" ui-sref="home">Home</a></li>
+        <li ui-sref-active="active" ><a  ng-href="#" ui-sref="profile">Clientpage</a></li>
+        <li ui-sref-active="active" ><a  ng-href="#" ui-sref="brandbook" >Brandbook</a></li>
+      </ul>
+      <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="login.showLoginModal()">Войти</button>
+    </div><!--/.nav-collapse -->
+  </div>
+</nav>

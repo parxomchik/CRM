@@ -1,0 +1,30 @@
+<div class="wrapper container">
+  <header class="header">
+    <client-navbar ></client-navbar>
+  </header>
+  <div class="aside-flex aside-flex-1  sidebar hidden-xs">
+    <client-sidebar></client-sidebar>
+  </div>
+
+<article class="main client-content-profile">
+  <div class="row">
+    <form name="clientFeedbackForm">
+      <div >
+        <h4>Виберіть тему:</h4>
+        <select class="form-control "  name="mySelect"
+                ng-options="option.subjectName for option in feedback.feedbacks.subjects track by option.subjectId"
+                ng-model="feedback.feedbacks.selectedSubject"></select>
+        <h4>Введіть текст звернення</h4>
+        <textarea class="form-control margin-top-10" rows="14" ng-model="feedback.feedbacks.feedbackText" required></textarea>
+        <!--<button id="feedback-submit" ng-disabled="clientFeedbackForm.$invalid" type="submit" class="btn btn-primary margin-top-20 center-block" ng-click="feedback.send(feedback.feedbacks.selectedSubject,feedback.feedbacks.feedbackText)">Надіслати</button>-->
+        <button id="feedback-submit" ng-disabled="clientFeedbackForm.$invalid" type="submit" class="btn btn-primary margin-top-20 center-block" ng-click="feedback.send(feedback.feedbacks.selectedSubject,feedback.feedbacks.feedbackText)">Надіслати</button>
+      </div>
+    </form>
+  </div>
+</article>
+  <div class="footer-flex client-footer">
+    <client-footer></client-footer>
+  </div>
+  </div>
+
+

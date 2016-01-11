@@ -1,0 +1,4424 @@
+Index: src/app/admin/client/client-feedback/client-feedback.factory.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-feedback/client-feedback.factory.js	(date 1448378766000)
++++ src/app/admin/client/client-feedback/client-feedback.factory.js	(date 1448378766000)
+@@ -0,0 +1,126 @@
++/**
++ *
++ * @ngdoc service
++ * @module project
++ * @name feedbackFactory
++ * @description
++ *
++ * Сервис используется для вкладки обратной связи на странице клиента
++ *
++ *
++ *
++ * @example
++ <example module="sampleServiceExample" deps="">
++ <file name="feedbackController.js">
++ vm.feedbacks = {
++        feedbackText:'111',
++        subjects: [
++            {
++                subjectId:1,
++                subjectName:'aaa1'
++            },
++            {
++                subjectId:2,
++                subjectName:'aaa2'
++            },
++            {
++                subjectId:3,
++                subjectName:'aaa3'
++            }
++        ],
++        selectedSubject:{
++            subjectId:2,
++            subjectName:'aaa2'
++        }
++
++    }
++ </file>
++ <file name="index.html">
++
++ </file>
++
++ </example>
++ *
++ **/
++
++/**
++ *
++ * @ngdoc method
++ * @name feedbackFactory#feedbackController
++ * @param {number} subjectId  - id Темы.
++ * @param {subjectName} author - Названия темы.
++ * @description
++ *
++ * Описание полей контроллера
++ **/
++
++
++
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .factory('feedbackFactory', feedbackFactory);
++
++    /** @ngInject */
++    function feedbackFactory($cookies,$http,restConfig) {
++        return {
++            /**
++             *
++             * @ngdoc method
++             * @name feedbackFactory#getFeedback
++             * @param {String} cookies - При запросе информации отправляем куки
++             * @return
++             *
++             * {Array} subjectId,
++             * @description
++             *
++             * Get the message.
++             **/
++            getFeedback: function () {
++                return $http({
++                    method: 'GET',
++                    url: restConfig.url+'feedback',
++                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++                    data: {
++                      session_id: $cookies.getObject('session_id')
++                    }
++                });
++            },
++            /**
++             *
++             * @ngdoc method
++             * @name feedbackFactory#sendFeedback
++             * @param {String} feedbackText - текст сообщения
++             * @param {Object} selectedSubject - контейнер для выбраной темы
++             * @param {Number} subjectId  - id выбраной темы
++             * @param {String} subjectName -  название выбраной темы
++             * @description
++             *
++             * Get the message.
++             **/
++            sendFeedback: function (selectedSubject,feedbackText) {
++                return $http({
++                    method: 'POST',
++                    url: restConfig.url+'feedback/save',
++                    //data: $.param({
++                    //    selectedSubject:selectedSubject,
++                    //    feedbackText:feedbackText,
++                    //    session_id: $cookies.getObject('session_id')
++                    //}),
++                    //headers: {
++                    //    'Content-Type': 'application/x-www-form-urlencoded'
++                    //}
++                  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++                  data: {
++                    selectedSubject:selectedSubject,
++                    feedbackText:feedbackText,
++                    session_id: $cookies.getObject('session_id')
++                  }
++                });
++
++            }
++        };
++    }
++})();
+Index: src/app/admin/client/client-feedback/client-feedback.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-feedback/client-feedback.scss	(date 1448378766000)
++++ src/app/admin/client/client-feedback/client-feedback.scss	(date 1448378766000)
+@@ -0,0 +1,8 @@
++#feedback-submit {
++  width: 300px;
++}
++.client-content-feedback {
++  h4{
++    color: white;
++  }
++}
+\ No newline at end of file
+Index: src/app/admin/client/client-propositions/client-propositions.controller.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-propositions/client-propositions.controller.js	(date 1448378766000)
++++ src/app/admin/client/client-propositions/client-propositions.controller.js	(date 1448378766000)
+@@ -0,0 +1,57 @@
++(function() {
++    'use strict';
++
++angular
++    .module('angularStrap')
++    .controller('clientPropositionsController', clientPropositionsController);
++
++/** @ngInject */
++function clientPropositionsController($log,propositionsFactory) {
++    $log.debug("clientPropositionsController start");
++
++    var vm = this;
++    //vm.propositions =
++    //    [
++    //        {
++    //            id:1,
++    //            imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5',
++    //            title: 'Make a Image Blur Effects With',
++    //            ShortDescription:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
++    //            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," +
++    //            " when an unknown printer took a galley of type and scrambled it to make a type specimen book."
++    //        },
++    //        {
++    //            id:2,
++    //            imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5',
++    //            title: 'Make a Image Blur Effects With',
++    //            ShortDescription:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
++    //            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," +
++    //            " when an unknown printer took a galley of type and scrambled it to make a type specimen book."
++    //        },
++    //        {
++    //            id:3,
++    //            imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5',
++    //            title: 'Make a Image Blur Effects With',
++    //            ShortDescription:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
++    //            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," +
++    //            " when an unknown printer took a galley of type and scrambled it to make a type specimen book."
++    //        },
++    //        {
++    //            id:4,
++    //            imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5',
++    //            title: 'Make a Image Blur Effects With',
++    //            ShortDescription:"Lorem Ipsum is simply dummy text of the printing and typesetting industry. " +
++    //            "Lorem Ipsum has been the industry's standard dummy text ever since the 1500s," +
++    //            " when an unknown printer took a galley of type and scrambled it to make a type specimen book."
++    //        }
++    //    ];
++    propositionsFactory.getPropositions()
++        .success(function(data){
++            $log.debug('propositionsFactory.getPropositions success = '+angular.toJson(data));
++            vm.propositions = data.data;
++        })
++        .error(function(){
++           $log.debug('propositionsFactory.getPropositions error = '+data);
++        })
++}
++})();
+Index: src/app/admin/client/client-propositions/client-propositions.factory.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-propositions/client-propositions.factory.js	(date 1448378766000)
++++ src/app/admin/client/client-propositions/client-propositions.factory.js	(date 1448378766000)
+@@ -0,0 +1,24 @@
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .factory('propositionsFactory', propositionsFactory);
++
++    /** @ngInject */
++    function propositionsFactory($cookies,$http,$stateParams,restConfig) {
++        return {
++            getPropositions: function () {
++                return $http({
++                    method: 'GET',
++                    url: restConfig.url+'/propositions/',
++                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++                    data: {
++                      session_id: $cookies.getObject('session_id')
++                    }
++                }
++                )
++            }
++        };
++    }
++})();
+Index: src/app/admin/client/client-propositions/client-propositions.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-propositions/client-propositions.scss	(date 1448378766000)
++++ src/app/admin/client/client-propositions/client-propositions.scss	(date 1448378766000)
+@@ -0,0 +1,30 @@
++
++
++.post
++{
++  background-color: #FFF;
++  overflow: hidden;
++  box-shadow: 0 0 1px #CCC;
++}
++.post .content
++{
++  padding: 15px;
++}
++.post .author
++{
++  font-size: 11px;
++  color: #737373;
++  padding: 25px 30px 20px;
++}
++.post-img-content img {
++  padding-bottom: 10px
++
++}
++.post-img-content span {
++  padding-left: 15px
++}
++.content-text {
++  padding-bottom: 10px;
++}
++
++
+Index: src/app/brandbook/brandbook.controller.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/brandbook/brandbook.controller.js	(date 1448378766000)
++++ src/app/brandbook/brandbook.controller.js	(date 1448378766000)
+@@ -0,0 +1,14 @@
++(function() {
++    'use strict';
++
++angular
++    .module('angularStrap')
++    .controller('brandbookController', brandbookController);
++
++/** @ngInject */
++function brandbookController() {
++    var vm = this;
++
++
++}
++})();
+Index: src/app/brandbook/brandbook.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/brandbook/brandbook.html	(date 1448378766000)
++++ src/app/brandbook/brandbook.html	(date 1448378766000)
+@@ -0,0 +1,1111 @@
++<!DOCTYPE html>
++<html lang="en">
++  <head>
++    <meta charset="utf-8">
++    <meta http-equiv="X-UA-Compatible" content="IE=edge">
++    <meta name="viewport" content="width=device-width, initial-scale=1">
++
++    <title>Guideliner Tool</title>
++
++      <!-- Place favicon.ico and apple-touch-icon.png in the root directory -->
++
++      <!-- build:css({.tmp/serve,src}) styles/vendor.css -->
++      <!-- bower:css -->
++      <!-- run `gulp inject` to automatically populate bower styles dependencies -->
++      <!-- endbower -->
++      <!-- endbuild -->
++
++
++
++      <!-- build:css({.tmp/serve,src}) styles/app.css -->
++      <!-- inject:css -->
++      <!-- css files will be automatically insert here -->
++      <!-- endinject -->
++      <!-- endbuild -->
++
++    <!-- HTML5 shim and Respond.js for IE8 support of HTML5 elements and media queries -->
++    <!-- WARNING: Respond.js doesn't work if you view the page via file:// -->
++    <!--[if lt IE 9]>
++      <script src="https://oss.maxcdn.com/html5shiv/3.7.2/html5shiv.min.js"></script>
++      <script src="https://oss.maxcdn.com/respond/1.4.2/respond.min.js"></script>
++    <![endif]-->
++    
++  </head>
++  <body>
++  <div>
++      <acme-navbar />
++  </div>
++    <!--<nav class="navbar navbar-default navbar-fixed-top">-->
++        <!--<div class="container">-->
++            <!--<div class="navbar-header">-->
++                <!--<button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target="#navbar" aria-expanded="false" aria-controls="navbar">-->
++                    <!--<span class="sr-only">Toggle navigation</span>-->
++                    <!--<span class="icon-bar"></span>-->
++                    <!--<span class="icon-bar"></span>-->
++                    <!--<span class="icon-bar"></span>-->
++                <!--</button>-->
++                <!--<a class="navbar-brand" href="/index.html">GUIDELINER</a>-->
++            <!--</div>-->
++            <!--<div id="navbar" class="collapse navbar-collapse">-->
++                <!--<ul class="nav navbar-nav" role="tablist">-->
++                    <!--<li role="presentation" class="active"><a href="#home" data-toggle="tab">Guidelines</a></li>-->
++                    <!--<li role="presentation"><a href="#how_to" data-toggle="tab">How to</a></li>-->
++                    <!--<li role="presentation"><a href="#structure" data-toggle="tab">Structure</a></li>-->
++                <!--</ul>-->
++                <!--<ul class="nav navbar-nav navbar-right">-->
++                    <!--<li class="dropdown">-->
++                        <!--<a href="#" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>-->
++                        <!--<ul class="dropdown-menu">-->
++                            <!--<li><a href="#" tabindex="0">Link</a></li>-->
++                            <!--<li><a href="#" tabindex="0">Link</a></li>-->
++                            <!--<li role="separator" class="divider"></li>-->
++                            <!--<li class="dropdown-header">Nav header</li>-->
++                            <!--<li><a href="#">Separated link</a></li>-->
++                        <!--</ul>-->
++                    <!--</li>-->
++                <!--</ul>-->
++            <!--</div>-->
++            <!--&lt;!&ndash;/.nav-collapse &ndash;&gt;-->
++        <!--</div>-->
++    <!--</nav>-->
++
++
++    <div class="container">
++        <div class="tab-pane fade active in" id="home">
++            <div class="styles-block">
++    <div class="page-header">
++    <h1>Colors</h1>
++</div>
++<h3 class="block-title">Gray palette</h3>
++<div class="row gray-palette">
++    <div class="col-lg-2 text-center">
++        <div class="gray-base clearfix">
++            <p>$gray-base</p>
++        </div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="gray-darker clearfix">
++            <p>$gray-darker</p>
++        </div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="gray-dark clearfix">
++            <p>$gray-dark</p>
++        </div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="gray clearfix">
++            <p>$gray</p>
++        </div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="gray-light clearfix">
++            <p>$gray-light</p>
++        </div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="gray-lighter clearfix">
++            <p>$gray-lighter</p>
++        </div>
++    </div>
++</div>
++<h3 class="block-title">Color palette</h3>
++<div class="row show-modal">
++    <div class="col-lg-2 text-center">
++        <div class="color-block default clearfix">
++            <div class="first col-lg-12">
++                $default
++            </div>
++            <div class="second col-lg-6">
++                <p>< 25%</p>
++            </div>
++            <div class="third col-lg-6">
++                <p>< 65%</p>
++            </div>
++        </div>
++        <div class="color-title">Default</div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="color-block primary clearfix">
++            <div class="first col-lg-12">
++                $brand-primary
++            </div>
++            <div class="second col-lg-6">
++                <p>< 25%</p>
++            </div>
++            <div class="third col-lg-6">
++                <p>< 65%</p>
++            </div>
++        </div>
++        <div class="color-title">Primary</div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="color-block success clearfix">
++            <div class="first col-lg-12">
++                $brand-success
++            </div>
++            <div class="second col-lg-6">
++                <p>< 25%</p>
++            </div>
++            <div class="third col-lg-6">
++                <p>< 65%</p>
++            </div>
++        </div>
++        <div class="color-title">Success</div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="color-block info clearfix">
++            <div class="first col-lg-12">
++                $brand-info
++            </div>
++            <div class="second col-lg-6">
++                <p>< 25%</p>
++            </div>
++            <div class="third col-lg-6">
++                <p>< 65%</p>
++            </div>
++        </div>
++        <div class="color-title">Info</div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="color-block warning clearfix">
++            <div class="first col-lg-12">
++                $brand-warning
++            </div>
++            <div class="second col-lg-6">
++                <p>< 25%</p>
++            </div>
++            <div class="third col-lg-6">
++                <p>< 65%</p>
++            </div>
++        </div>
++        <div class="color-title">Warning</div>
++    </div>
++    <div class="col-lg-2 text-center">
++        <div class="color-block danger clearfix">
++            <div class="first col-lg-12">
++                $brand-danger
++            </div>
++            <div class="second col-lg-6">
++                <p>< 25%</p>
++            </div>
++            <div class="third col-lg-6">
++                <p>< 65%</p>
++            </div>
++        </div>
++        <div class="color-title">Danger</div>
++    </div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++	<h1>Navbars</h1>
++</div>
++
++<div class="component">
++	<nav class="navbar navbar-default">
++		<div class="container">
++		  <div class="navbar-header">
++		    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
++		      <span class="sr-only">Toggle navigation</span>
++		      <span class="icon-bar"></span>
++		      <span class="icon-bar"></span>
++		      <span class="icon-bar"></span>
++		    </button>
++		    <a class="navbar-brand" href="#">Project name</a>
++		  </div>
++		  <div class="navbar-collapse collapse">
++		    <ul class="nav navbar-nav">
++		      <li class="active"><a tabindex="0">Home</a></li>
++		      <li><a tabindex="0">About</a></li>
++		      <li><a tabindex="0">Contact</a></li>
++		      <li class="dropdown">
++		        <a tabindex="0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
++		        <ul class="dropdown-menu">
++		          <li><a tabindex="0">Action</a></li>
++		          <li><a tabindex="0">Another action</a></li>
++		          <li><a tabindex="0">Something else here</a></li>
++		          <li role="separator" class="divider"></li>
++		          <li class="dropdown-header">Nav header</li>
++		          <li><a tabindex="0">Separated link</a></li>
++		          <li><a tabindex="0">One more separated link</a></li>
++		        </ul>
++		      </li>
++		    </ul>
++		  </div><!--/.nav-collapse -->
++		</div>
++	</nav>
++</div>
++
++<div class="component">
++	<nav class="navbar navbar-inverse">
++		<div class="container">
++		  <div class="navbar-header">
++		    <button type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
++		      <span class="sr-only">Toggle navigation</span>
++		      <span class="icon-bar"></span>
++		      <span class="icon-bar"></span>
++		      <span class="icon-bar"></span>
++		    </button>
++		    <a class="navbar-brand" href="#">Project name</a>
++		  </div>
++		  <div class="navbar-collapse collapse">
++		    <ul class="nav navbar-nav">
++		      <li class="active"><a tabindex="0">Home</a></li>
++		      <li><a tabindex="0">About</a></li>
++		      <li><a tabindex="0">Contact</a></li>
++		      <li class="dropdown">
++		        <a tabindex="0" class="dropdown-toggle" data-toggle="dropdown" role="button" aria-haspopup="true" aria-expanded="false">Dropdown <span class="caret"></span></a>
++		        <ul class="dropdown-menu">
++		          <li><a tabindex="0">Action</a></li>
++		          <li><a tabindex="0">Another action</a></li>
++		          <li><a tabindex="0">Something else here</a></li>
++		          <li role="separator" class="divider"></li>
++		          <li class="dropdown-header">Nav header</li>
++		          <li><a tabindex="0">Separated link</a></li>
++		          <li><a tabindex="0">One more separated link</a></li>
++		        </ul>
++		      </li>
++		    </ul>
++		  </div><!--/.nav-collapse -->
++		</div>
++	</nav>
++</div>
++</div>
++<div class="styles-block">
++    <div class="page-header">
++	<h1>Buttons</h1>
++</div>
++
++<div class="row">
++<!-- 	<div class="col-lg-12">
++		<h3 class="block-title">States</h3>
++		<button type="button" class="btn btn-primary">Normal</button>
++		<button type="button" class="btn btn-primary hovered">Hovered</button>
++		<button type="button" class="btn btn-primary focused">Focused</button>
++		<button type="button" class="btn btn-primary pressed">Pressed</button>
++		<button type="button" class="btn btn-primary disabled">Disabled</button>
++	</div> -->
++	<div class="col-lg-12">
++		<h3 class="block-title">Sizing</h3>
++		<button type="button" class="btn btn-primary btn-lg">Large button</button>
++		<button type="button" class="btn btn-primary">Default button</button>
++		<button type="button" class="btn btn-primary btn-sm">Small button</button>
++		<button type="button" class="btn btn-primary btn-xs">Extra-small button</button>
++	</div>
++	<div class="col-lg-12">
++		<h3 class="block-title">Colors</h3>
++		<button type="button" class="btn btn-default">Default</button>
++		<button type="button" class="btn btn-primary">Primary</button>
++		<button type="button" class="btn btn-success">Success</button>
++		<button type="button" class="btn btn-info">Info</button>
++		<button type="button" class="btn btn-warning">Warning</button>
++		<button type="button" class="btn btn-danger">Danger</button>
++		<button type="button" class="btn btn-link">Link</button>
++	</div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++	<h1>Typography</h1>
++</div>
++
++<div class="row">
++	<div class="col-lg-4">
++		<h3 class="block-title">Headings</h3>
++		<div class="sizing"><h1>Heading 1</h1></div>
++		<div class="sizing"><h2>Heading 2</h2></div>
++		<div class="sizing"><h3>Heading 3</h3></div>
++		<div class="sizing"><h4>Heading 4</h4></div>
++		<div class="sizing"><h5>Heading 5</h5></div>
++		<div class="sizing"><h6>Heading 6</h6></div>
++	</div>
++	<div class="col-lg-8">
++		<h3 class="block-title">Example body text</h3>
++		<p>Most of its text is made up from sections 1.10.32–3 of <a tabindex="0">link example</a>. Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.</p>
++		<p><small>This line of text is meant to be treated as fine print.</small></p>
++		<p>The following snippet of text is <strong>rendered as bold text</strong>.</p>
++		<p>The following snippet of text is <em>rendered as italicized text</em>.</p>
++		<p>An abbreviation of the word attribute is <abbr title="attribute">attr</abbr>.</p>
++	</div>
++</div>
++
++<h3 class="block-title">Quotes</h3>
++<div class="row">
++	<div class="col-lg-6">
++		<blockquote>
++		    <p>It helps to outline the visual elements of a document or presentation, eg typography, font, or layout.</p>
++		    <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
++		</blockquote>
++	</div>
++	<div class="col-lg-6">
++		<blockquote class="pull-right">
++		    <p>It helps to outline the visual elements of a document or presentation, eg typography, font, or layout.</p>
++		    <small>Someone famous in <cite title="Source Title">Source Title</cite></small>
++		</blockquote>
++	</div>
++</div>
++</div>
++<div class="styles-block">
++    <div class="page-header">
++	<h1>Fonts</h1>
++</div>
++
++<div class="row">
++	<div class="col-lg-12">
++		<h3 class="block-title">Custom - Social icons</h3>
++		<div class="row">
++			<div class="col-lg-3"><span class="icon-facebook"></span> icon-facebook</div>
++			<div class="col-lg-3"><span class="icon-linkedin"></span> icon-linkedin</div>
++			<div class="col-lg-3"><span class="icon-twitter"></span> icon-twitter</div>
++		</div>
++	</div>
++</div>
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Tables</h1>
++</div>
++<div class="row">
++    <div class="col-md-6">
++        <table class="table">
++            <thead>
++                <tr>
++                    <th>#</th>
++                    <th>First Name</th>
++                    <th>Last Name</th>
++                    <th>Username</th>
++                </tr>
++            </thead>
++            <tbody>
++                <tr>
++                    <td>1</td>
++                    <td>Mark</td>
++                    <td>Otto</td>
++                    <td>@mdo</td>
++                </tr>
++                <tr>
++                    <td>2</td>
++                    <td>Jacob</td>
++                    <td>Thornton</td>
++                    <td>@fat</td>
++                </tr>
++                <tr>
++                    <td>3</td>
++                    <td>Larry</td>
++                    <td>the Bird</td>
++                    <td>@twitter</td>
++                </tr>
++                <tr>
++                    <td>4</td>
++                    <td>Mark</td>
++                    <td>Otto</td>
++                    <td>@TwBootstrap</td>
++                </tr>
++            </tbody>
++        </table>
++    </div>
++    <div class="col-md-6">
++        <table class="table table-bordered">
++            <thead>
++                <tr>
++                    <th>#</th>
++                    <th>First Name</th>
++                    <th>Last Name</th>
++                    <th>Username</th>
++                </tr>
++            </thead>
++            <tbody>
++                <tr>
++                    <td rowspan="2">1</td>
++                    <td>Mark</td>
++                    <td>Otto</td>
++                    <td>@mdo</td>
++                </tr>
++                <tr>
++                    <td>Mark</td>
++                    <td>Otto</td>
++                    <td>@TwBootstrap</td>
++                </tr>
++                <tr>
++                    <td>2</td>
++                    <td>Jacob</td>
++                    <td>Thornton</td>
++                    <td>@fat</td>
++                </tr>
++                <tr>
++                    <td>3</td>
++                    <td colspan="2">Larry the Bird</td>
++                    <td>@twitter</td>
++                </tr>
++            </tbody>
++        </table>
++    </div>
++</div>
++<div class="row">
++    <div class="col-md-12">
++        <table class="table table-striped table-hover">
++            <thead>
++                <tr>
++                    <th>#</th>
++                    <th>First Name</th>
++                    <th>Last Name</th>
++                    <th>Username</th>
++                </tr>
++            </thead>
++            <tbody>
++                <tr>
++                    <td>1</td>
++                    <td>Mark</td>
++                    <td>Otto</td>
++                    <td>@mdo</td>
++                </tr>
++                <tr>
++                    <td>2</td>
++                    <td>Jacob</td>
++                    <td>Thornton</td>
++                    <td>@fat</td>
++                </tr>
++                <tr class="info">
++                    <td>3</td>
++                    <td>Larry</td>
++                    <td>the Bird</td>
++                    <td>@twitter</td>
++                </tr>
++                <tr class="success">
++                    <td>4</td>
++                    <td>Mark</td>
++                    <td>Otto</td>
++                    <td>@mdo</td>
++                </tr>
++                <tr class="danger">
++                    <td>5</td>
++                    <td>Jacob</td>
++                    <td>Thornton</td>
++                    <td>@fat</td>
++                </tr>
++                <tr class="warning">
++                    <td>6</td>
++                    <td>Larry</td>
++                    <td>the Bird</td>
++                    <td>@twitter</td>
++                </tr>
++                <tr class="active">
++                    <td>7</td>
++                    <td>Mark</td>
++                    <td>Otto</td>
++                    <td>@mdo</td>
++                </tr>
++            </tbody>
++        </table>
++    </div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Forms</h1>
++</div>
++<div class="row">
++    <div class="col-md-6">
++        <form class="form-horizontal">
++            <fieldset>
++                <div class="form-group">
++                    <input type="email" class="form-control" id="inputEmail" placeholder="Email">
++                </div>
++                <div class="form-group">
++                    <input type="password" class="form-control" id="inputPassword" placeholder="Password">
++                </div>
++                <div class="form-group">
++                    <textarea class="form-control" rows="3" id="textArea"></textarea>
++                </div>
++                <div class="form-group">
++                    <div class="radio radio-primary">
++                        <label>
++                            <input type="radio" name="optionsRadios" id="optionsRadios1" value="option1" checked="">
++                            Option one is this
++                        </label>
++                    </div>
++                    <div class="radio radio-primary">
++                        <label>
++                            <input type="radio" name="optionsRadios" id="optionsRadios2" value="option2">
++                            Option two can be something else
++                        </label>
++                    </div>
++                </div>
++                <div class="form-group">
++                    <select class="form-control" id="select">
++                        <option>1</option>
++                        <option>2</option>
++                        <option>3</option>
++                        <option>4</option>
++                        <option>5</option>
++                    </select>
++                    <br>
++                    <select multiple="" class="form-control">
++                        <option>1</option>
++                        <option>2</option>
++                        <option>3</option>
++                        <option>4</option>
++                        <option>5</option>
++                    </select>
++                </div>
++                <div class="form-group">
++                    <button class="btn btn-default">Cancel</button>
++                    <button class="btn btn-primary">Submit</button>
++                </div>
++            </fieldset>
++        </form>
++    </div>
++    <div class="col-md-6">
++        <h3 class="block-title">Material flow</h3>
++        <div class="form-group">
++            <input class="form-control floating-label" id="focusedInput" type="text" placeholder="Write something to make the label float">
++        </div>
++
++        <div class="form-group">
++            <input class="form-control floating-label" id="focusedInput" type="text" placeholder="Focus to show the hint" data-hint="You should really write something here">
++        </div>
++        <h3 class="block-title">Validation</h3>
++        <div class="form-group has-warning">
++            <label class="control-label" for="inputWarning">Input warning</label>
++            <input type="text" class="form-control" id="inputWarning">
++        </div>
++
++        <div class="form-group has-error">
++            <label class="control-label" for="inputError">Input error</label>
++            <input type="text" class="form-control" id="inputError">
++        </div>
++
++        <div class="form-group has-success">
++            <label class="control-label" for="inputSuccess">Input success</label>
++            <input type="text" class="form-control" id="inputSuccess">
++        </div>
++    </div>
++</div>
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Navs</h1>
++</div>
++<div class="row">
++    <div class="col-lg-12">
++        <h3 class="block-title">Breadcrumbs</h3>
++        <div class="bs-component">
++            <ul class="breadcrumb">
++                <li class="active">Home</li>
++            </ul>
++            <ul class="breadcrumb">
++                <li><a tabindex="0">Home</a></li>
++                <li class="active">Library</li>
++            </ul>
++            <ul class="breadcrumb" style="margin-bottom: 5px;">
++                <li><a tabindex="0">Home</a></li>
++                <li><a tabindex="0">Library</a></li>
++                <li class="active">Data</li>
++            </ul>
++        </div>
++    </div>
++    <div class="col-lg-6">
++        <h3 class="block-title">Tabs</h3>
++        <ul class="nav nav-tabs" role="tablist">
++            <li role="presentation" class="active"><a href="#hhome-tab" data-toggle="tab">Home</a></li>
++            <li role="presentation"><a href="#help" data-toggle="tab">Help</a></li>
++            <li role="presentation" class="dropdown">
++                <a class="dropdown-toggle" data-toggle="dropdown" href="#" role="button" aria-haspopup="true" aria-expanded="false">
++                    Dropdown <span class="caret"></span>
++                </a>
++                <ul class="dropdown-menu">
++                    <li><a href="#action" data-toggle="tab">Action</a></li>
++                    <li class="divider"></li>
++                    <li><a href="#action2" data-toggle="tab">Another action</a></li>
++                </ul>
++            </li>
++        </ul>
++        <div class="tab-content">
++            <div class="tab-pane fade active in" id="home-tab">
++                <p><b>Home tab</b> content. Lorem ipsum is a pseudo-Latin text used in web design, typography, layout, and printing in place of English to emphasise design elements over content. It's also called placeholder (or filler) text. It's a convenient tool for mock-ups. It helps to outline the visual elements of a document or presentation, eg typography, font, or layout.</p>
++            </div>
++            <div class="tab-pane fade" id="help">
++                <p><b>Help tab</b> content. In a professional context it often happens that private or corporate clients corder a publication to be made and presented with the actual content still not being ready. Think of a news blog that's filled with content hourly on the day of going live.</p>
++            </div>
++            <div class="tab-pane fade" id="action">
++                <p><b>Dropdown | Action</b> content. Most of its text is made up from sections 1.10.32–3 of Cicero's De finibus bonorum et malorum (On the Boundaries of Goods and Evils; finibus may also be translated as purposes). Neque porro quisquam est qui dolorem ipsum quia dolor sit amet.</p>
++            </div>
++            <div class="tab-pane fade" id="action2">
++                <p><b>Dropdown | Another action</b> content. Cicero famously orated against his political opponent Lucius Sergius Catilina. Occasionally the first Oration against Catiline is taken for type specimens: Quo usque tandem abutere, Catilina, patientia nostra? Quam diu etiam furor iste tuus nos eludet?</p>
++            </div>
++        </div>
++    </div>
++    <div class="col-lg-6">
++        <h3 class="block-title">Pills</h3>
++        <ul class="nav nav-pills" role="tablist">
++            <li role="presentation" class="active"><a tabindex="0">Home</a></li>
++            <li role="presentation"><a tabindex="0">Help</a></li>
++            <li role="presentation" class="disabled"><a tabindex="0">Disabled</a></li>
++            <li role="presentation" class="dropdown">
++                <a class="dropdown-toggle" data-toggle="dropdown" data-target="#">
++                    Dropdown <span class="caret"></span>
++                </a>
++                <ul class="dropdown-menu">
++                    <li><a tabindex="0">Action</a></li>
++                    <li><a tabindex="0">Another action</a></li>
++                    <li><a tabindex="0">Something else here</a></li>
++                    <li class="divider"></li>
++                    <li><a tabindex="0">Separated link</a></li>
++                </ul>
++            </li>
++        </ul>
++    </div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++	<h1>Page navigation</h1>
++</div>
++<div class="row">
++	<div class="col-lg-6">
++		<h3 class="block-title">Pagination</h3>
++		<nav>
++		  <ul class="pagination pagination-lg">
++		    <li>
++		      <a tabindex="0" aria-label="Previous">
++		        <span aria-hidden="true">&laquo;</span>
++		      </a>
++		    </li>
++		    <li><a tabindex="0">1</a></li>
++		    <li><a tabindex="0">2</a></li>
++		    <li><a tabindex="0">3</a></li>
++		    <li><a tabindex="0">4</a></li>
++		    <li><a tabindex="0">5</a></li>
++		    <li>
++		      <a tabindex="0" aria-label="Next">
++		        <span aria-hidden="true">&raquo;</span>
++		      </a>
++		    </li>
++		  </ul>
++		</nav>
++		<nav>
++		  <ul class="pagination">
++		    <li>
++		      <a tabindex="0" aria-label="Previous">
++		        <span aria-hidden="true">&laquo;</span>
++		      </a>
++		    </li>
++		    <li><a tabindex="0">1</a></li>
++		    <li><a tabindex="0">2</a></li>
++		    <li><a tabindex="0">3</a></li>
++		    <li><a tabindex="0">4</a></li>
++		    <li><a tabindex="0">5</a></li>
++		    <li>
++		      <a tabindex="0" aria-label="Next">
++		        <span aria-hidden="true">&raquo;</span>
++		      </a>
++		    </li>
++		  </ul>
++		</nav>
++		<nav>
++		  <ul class="pagination pagination-sm">
++		    <li>
++		      <a tabindex="0" aria-label="Previous">
++		        <span aria-hidden="true">&laquo;</span>
++		      </a>
++		    </li>
++		    <li><a tabindex="0">1</a></li>
++		    <li><a tabindex="0">2</a></li>
++		    <li><a tabindex="0">3</a></li>
++		    <li><a tabindex="0">4</a></li>
++		    <li><a tabindex="0">5</a></li>
++		    <li>
++		      <a tabindex="0" aria-label="Next">
++		        <span aria-hidden="true">&raquo;</span>
++		      </a>
++		    </li>
++		  </ul>
++		</nav>
++	</div>
++	<div class="col-lg-6">
++		<h3 class="block-title">Pager</h3>
++		<nav>
++		  <ul class="pager">
++		    <li><a tabindex="0">Previous</a></li>
++		    <li><a tabindex="0">Next</a></li>
++		  </ul>
++		</nav>
++		<nav>
++		  <ul class="pager">
++		    <li class="previous"><a tabindex="0"><span aria-hidden="true">&larr;</span> Older</a></li>
++		    <li class="next"><a tabindex="0">Newer <span aria-hidden="true">&rarr;</span></a></li>
++		  </ul>
++		</nav>
++	</div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++	<h1>Labels</h1>
++</div>
++
++<div class="row">
++	<div class="col-lg-7">
++		<h3 class="block-title">Headings and labels</h3>
++		<div class="labels-inline">
++			<h1>h1 <span class="label label-default">label</span></h1>
++			<h2>h2 <span class="label label-default">label</span></h2>
++			<h3>h3 <span class="label label-default">label</span></h3>
++			<h4>h4 <span class="label label-default">label</span></h4>
++			<h5>h5 <span class="label label-default">label</span></h5>
++			<h6>h6 <span class="label label-default">label</span></h6>
++		</div>
++	</div>
++	<div class="col-lg-5">
++		<h3 class="block-title">Colors</h3>
++		<span class="label label-default">Default</span>
++		<span class="label label-primary">Primary</span>
++		<span class="label label-success">Success</span>
++		<span class="label label-info">Info</span>
++		<span class="label label-warning">Warning</span>
++		<span class="label label-danger">Danger</span>
++	</div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++	<h1>Badges</h1>
++</div>
++<ul class="nav nav-pills" role="tablist">
++	<li role="presentation" class="active"><a tabindex="0">Home <span class="badge">42</span></a></li>
++	<li role="presentation"><a tabindex="0">Profile</a></li>
++	<li role="presentation"><a tabindex="0">Messages <span class="badge">3</span></a></li>
++</ul>
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Alerts</h1>
++</div>
++<div class="row">
++    <div class="col-lg-3">
++        <div class="alert alert-success" role="alert">
++            <strong>Well done!</strong> You successfully read this important alert message.
++        </div>
++    </div>
++    <div class="col-lg-3">
++        <div class="alert alert-info" role="alert">
++            <strong>Heads up!</strong> This alert needs your attention, but it's not super important.
++        </div>
++    </div>
++    <div class="col-lg-3">
++        <div class="alert alert-warning" role="alert">
++            <strong>Warning!</strong> Better check yourself, you're not looking too good.
++        </div>
++    </div>
++    <div class="col-lg-3">
++        <div class="alert alert-danger" role="alert">
++            <strong>Oh snap!</strong> Change a few things up and try submitting again.
++        </div>
++    </div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Progress bars</h1>
++</div>
++<div class="progress">
++    <div class="progress-bar" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%;"><span class="sr-only">60% Complete</span></div>
++</div>
++<div class="progress">
++    <div class="progress-bar progress-bar-success" role="progressbar" aria-valuenow="40" aria-valuemin="0" aria-valuemax="100" style="width: 40%"><span class="sr-only">40% Complete (success)</span></div>
++</div>
++<div class="progress">
++    <div class="progress-bar progress-bar-info" role="progressbar" aria-valuenow="20" aria-valuemin="0" aria-valuemax="100" style="width: 20%"><span class="sr-only">20% Complete</span></div>
++</div>
++<div class="progress">
++    <div class="progress-bar progress-bar-warning" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"><span class="sr-only">60% Complete (warning)</span></div>
++</div>
++<div class="progress">
++    <div class="progress-bar progress-bar-danger" role="progressbar" aria-valuenow="80" aria-valuemin="0" aria-valuemax="100" style="width: 80%"><span class="sr-only">80% Complete (danger)</span></div>
++</div>
++<div class="progress">
++    <div class="progress-bar progress-bar-striped" role="progressbar" aria-valuenow="60" aria-valuemin="0" aria-valuemax="100" style="width: 60%"><span class="sr-only">60% Complete</span></div>
++</div>
++<div class="progress">
++    <div class="progress-bar progress-bar-success" style="width: 35%"><span class="sr-only">35% Complete (success)</span></div>
++    <div class="progress-bar progress-bar-warning" style="width: 20%"><span class="sr-only">20% Complete (warning)</span></div>
++    <div class="progress-bar progress-bar-danger" style="width: 10%"><span class="sr-only">10% Complete (danger)</span></div>
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>List groups</h1>
++</div>
++<div class="row">
++    <div class="col-sm-4">
++        <ul class="list-group">
++            <li class="list-group-item">Cras justo odio</li>
++            <li class="list-group-item">Dapibus ac facilisis in</li>
++            <li class="list-group-item">Morbi leo risus</li>
++            <li class="list-group-item">Porta ac consectetur ac</li>
++            <li class="list-group-item">Vestibulum at eros</li>
++        </ul>
++    </div>
++    <!-- /.col-sm-4 -->
++    <div class="col-sm-4">
++        <div class="list-group">
++            <a href="#" class="list-group-item active">
++      Cras justo odio
++    </a>
++            <a href="#" class="list-group-item">Dapibus ac facilisis in</a>
++            <a href="#" class="list-group-item">Morbi leo risus</a>
++            <a href="#" class="list-group-item">Porta ac consectetur ac</a>
++            <a href="#" class="list-group-item">Vestibulum at eros</a>
++        </div>
++    </div>
++    <!-- /.col-sm-4 -->
++    <div class="col-sm-4">
++        <div class="list-group">
++            <a href="#" class="list-group-item active">
++                <h4 class="list-group-item-heading">List group item heading</h4>
++                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
++            </a>
++            <a href="#" class="list-group-item">
++                <h4 class="list-group-item-heading">List group item heading</h4>
++                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
++            </a>
++            <a href="#" class="list-group-item">
++                <h4 class="list-group-item-heading">List group item heading</h4>
++                <p class="list-group-item-text">Donec id elit non mi porta gravida at eget metus. Maecenas sed diam eget risus varius blandit.</p>
++            </a>
++        </div>
++    </div>
++    <!-- /.col-sm-4 -->
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Panels</h1>
++</div>
++<div class="row">
++    <div class="col-sm-4">
++        <div class="panel panel-default">
++            <div class="panel-heading">
++                <h3 class="panel-title">Panel title</h3>
++            </div>
++            <div class="panel-body">
++                Panel content
++            </div>
++        </div>
++        <div class="panel panel-primary">
++            <div class="panel-heading">
++                <h3 class="panel-title">Panel title</h3>
++            </div>
++            <div class="panel-body">
++                Panel content
++            </div>
++        </div>
++    </div>
++    <!-- /.col-sm-4 -->
++    <div class="col-sm-4">
++        <div class="panel panel-success">
++            <div class="panel-heading">
++                <h3 class="panel-title">Panel title</h3>
++            </div>
++            <div class="panel-body">
++                Panel content
++            </div>
++        </div>
++        <div class="panel panel-info">
++            <div class="panel-heading">
++                <h3 class="panel-title">Panel title</h3>
++            </div>
++            <div class="panel-body">
++                Panel content
++            </div>
++        </div>
++    </div>
++    <!-- /.col-sm-4 -->
++    <div class="col-sm-4">
++        <div class="panel panel-warning">
++            <div class="panel-heading">
++                <h3 class="panel-title">Panel title</h3>
++            </div>
++            <div class="panel-body">
++                Panel content
++            </div>
++        </div>
++        <div class="panel panel-danger">
++            <div class="panel-heading">
++                <h3 class="panel-title">Panel title</h3>
++            </div>
++            <div class="panel-body">
++                Panel content
++            </div>
++        </div>
++    </div>
++    <!-- /.col-sm-4 -->
++</div>
++
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Cards</h1>
++</div>
++
++<div class="row">
++	<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
++		<div class="card">
++			<img src="http://placehold.it/350x150" class="img-responsive" />
++			<div class="card_content">
++				"Here is an example of card content. Just to show you how this block should look like."
++			</div>
++		</div>
++	</div>
++	<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
++		<div class="card">
++			<img src="http://placehold.it/350x150" class="img-responsive" />
++			<div class="card_content">
++				"Here is an example of card content. Just to show you how this block should look like."
++			</div>
++		</div>
++	</div>
++	<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
++		<div class="card">
++			<img src="http://placehold.it/350x150" class="img-responsive" />
++			<div class="card_content">
++				"Here is an example of card content. Just to show you how this block should look like."
++			</div>
++		</div>
++	</div>
++	<div class="col-xs-12 col-sm-4 col-md-3 col-lg-3">
++		<div class="card">
++			<img src="http://placehold.it/350x150" class="img-responsive" />
++			<div class="card_content">
++				"Here is an example of card content. Just to show you how this block should look like."
++			</div>
++		</div>
++	</div>
++</div>
++</div>
++<div class="styles-block">
++    <div class="page-header">
++    <h1>Modal</h1>
++</div>
++<div class="modal fade in">
++  <div class="modal-dialog">
++    <div class="modal-content">
++      <div class="modal-header">
++        <button type="button" class="close" data-dismiss="modal" aria-label="Close"><span aria-hidden="true">&times;</span></button>
++        <h4 class="modal-title">Modal title</h4>
++      </div>
++      <div class="modal-body">
++        <p>One fine body&hellip;</p>
++      </div>
++      <div class="modal-footer">
++        <button type="button" class="btn btn-default" data-dismiss="modal">Close</button>
++        <button type="button" class="btn btn-primary">Save changes</button>
++      </div>
++    </div><!-- /.modal-content -->
++  </div><!-- /.modal-dialog -->
++</div><!-- /.modal -->
++</div>
++        </div>
++        <div class="tab-content">
++
++            <div class="tab-pane fade" id="how_to"  >
++                <h1>Hello, HowTo!</h1>
++<div class="highlight">
++  <pre>
++    <code class="language-bash" data-lang="bash">
++      bootstrap/
++      ├── less/
++      ├── js/
++      ├── fonts/
++      ├── dist/
++      │   ├── css/
++      │   ├── js/
++      │   └── fonts/
++      └── docs/
++          └── examples/
++    </code>
++  </pre>
++</div>
++            </div>
++            <div class="tab-pane fade" id="structure" >
++                <h1>Hello, structure!</h1>
++<div class="highlight">
++  <pre>
++    <code class="language-bash" data-lang="bash">
++      bootstrap/
++      ├── less/
++      ├── js/
++      ├── fonts/
++      ├── dist/
++      │   ├── css/
++      │   ├── js/
++      │   └── fonts/
++      └── docs/
++          └── examples/
++    </code>
++  </pre>
++</div>
++            </div>
++        </div>
++    </div>
++
++    <footer class="footer">
++      <div class="container">
++        <ul class="nav navbar-nav" role="tablist">
++            <li role="presentation" class="active"><a href="#home" data-toggle="tab">Guidelines</a></li>
++            <li role="presentation"><a href="#how_to" data-toggle="tab">How to</a></li>
++            <li role="presentation"><a href="#structure" data-toggle="tab">Structure</a></li>
++        </ul>
++      </div>
++    </footer>
++
++
++    <!-- Copy Code Modal -->
++    <div id="source-code" class="modal fade">
++        <div class="modal-dialog">
++            <div class="modal-content">
++                <div class="modal-header">
++                    <button type="button" class="close" data-dismiss="modal" aria-hidden="true">×</button>
++                    <h4 class="modal-title">Source code</h4>
++                </div>
++                <div class="modal-body">
++                    <pre></pre>
++                    <div class='btn-clipboard' data-toggle="tooltip" data-placement="left" title="Tooltip on left">Copy</div>
++                </div>
++            </div>
++        </div>
++    </div>
++    <!-- build:js(src) scripts/vendor.js -->
++    <!-- bower:js -->
++    <!-- run `gulp inject` to automatically populate bower script dependencies -->
++    <!-- endbower -->
++    <!-- endbuild -->
++
++    <!-- build:js({.tmp/serve,.tmp/partials,src}) scripts/app.js -->
++    <!-- inject:js -->
++    <!-- js files will be automatically insert here -->
++    <!-- endinject -->
++
++    <!-- inject:partials -->
++    <!-- angular templates will be automatically converted in js and inserted here -->
++    <!-- endinject -->
++    <!-- endbuild -->
++    <!--<script type="text/javascript" src="../../CiclumGulpMaterialThemeplate/app/scripts/jquery.min.js"></script>-->
++    <!--<script type="text/javascript" src="../../CiclumGulpMaterialThemeplate/app/scripts/bootstrap.min.js"></script>-->
++    <!--<script type="text/javascript" src="../../CiclumGulpMaterialThemeplate/app/scripts/ZeroClipboard.js"></script>-->
++    <!--<script type="text/javascript" src="../../CiclumGulpMaterialThemeplate/app/scripts/material.js"></script>-->
++    <!--<script type="text/javascript" src="../../CiclumGulpMaterialThemeplate/app/scripts/ripples.js"></script>-->
++    <!--<script type="text/javascript" src="../../CiclumGulpMaterialThemeplate/app/scripts/main.js"></script>-->
++
++  </body>
++</html>
+\ No newline at end of file
+Index: src/app/components/client-navbar/client-navbar.directive.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/client-navbar/client-navbar.directive.js	(date 1448378766000)
++++ src/app/components/client-navbar/client-navbar.directive.js	(date 1448378766000)
+@@ -0,0 +1,118 @@
++/**
++ *
++ * @ngdoc directive
++ * @module project
++ * @name clientNavbar
++ * @restrict E
++ * @description
++ * Это директива для подключения навигации на  странице клиента
++ *
++ * @example
++ <example module="project" deps="" animate="false">
++ <file name="index.html">
++ <client-navbar></client-navbar>
++ </file>
++ <file name="main.js">
++ function clientNavbar() {
++    var directive = {
++        restrict: 'E',
++        templateUrl: 'app/components/client-navbar/client-navbar.html',
++        scope: {
++            creationDate: '='
++        },
++        controller: clientNavbarController,
++        controllerAs: 'navbar',
++        bindToController: true
++    };
++
++    return directive;
++}
++ </file>
++ </example>
++ *
++ **/
++
++
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .directive('clientNavbar', clientNavbar);
++
++    /** @ngInject */
++    function clientNavbar() {
++    var directive = {
++        restrict: 'E',
++        templateUrl: 'app/components/client-navbar/client-navbar.html',
++        scope: {
++            creationDate: '='
++        },
++        controller: clientNavbarController,
++        controllerAs: 'navbar',
++        bindToController: true
++    };
++
++    return directive;
++}
++    /** @ngInject */
++    function clientNavbarController(screenSize,$scope,$aside,$location) {
++        var vm = this;
++        if (screenSize.is('xs')) {
++            // it's a mobile device so fetch a small image
++            vm.navCollapsedMobile = true;
++        }else {
++            vm.navCollapsedMobile = false;
++        }
++        var LeftAside = $aside(
++        {
++        scope: $scope,
++        template: './app/components/templates/menu-aside-left.tpl.html',
++        show: false,
++        placement:'left',
++        animation:'am-fade-and-slide-left'
++        });
++
++        var RightAside = $aside(
++        {
++        scope: $scope,
++        template: './app/components/templates/menu-aside-right.tpl.html',
++        show: false,
++        placement:'right',
++        animation:'am-fade-and-slide-right'
++        });
++      // Show when some event occurs (use $promise property to ensure the template has been loaded)
++      vm.openLeftAside = function() {
++        LeftAside.$promise.then(LeftAside.show);
++      };
++
++      vm.openRightAside = function() {
++        //alert('right')
++        RightAside.$promise.then(RightAside.show);
++      };
++
++      vm.feedback = function () {
++        LeftAside.hide();
++        RightAside.hide();
++        $location.path("/client/feedback");
++      };
++      vm.history = function () {
++        LeftAside.hide();
++        RightAside.hide();
++        $location.path("/client/history");
++      };
++      vm.propositions = function () {
++        LeftAside.hide();
++        RightAside.hide();
++        $location.path("/client/propositions");
++      };
++      vm.profile = function () {
++        LeftAside.hide();
++        RightAside.hide();
++        $location.path("/client/profile");
++      };
++      vm.isActive = function (viewLocation) {
++        return viewLocation === $location.path();
++      };
++    }
++})();
+Index: src/app/components/client-navbar/client-navbar.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/client-navbar/client-navbar.scss	(date 1448378766000)
++++ src/app/components/client-navbar/client-navbar.scss	(date 1448378766000)
+@@ -0,0 +1,42 @@
++.sidebar {
++  position: fixed;
++  top: 0;
++  bottom: 0;
++  left: 0;
++  z-index: 1000;
++  display: block;
++  overflow-x: hidden;
++  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
++  border-right: 1px solid #eee;
++}
++#client-navbar {
++  color: white;
++}
++@media (max-width: $screen-xs-max) {
++  .navbar-brand {
++    float: none;
++  }
++
++  .navbar-center
++  {
++    position: absolute;
++    width: 100%;
++    left: 0;
++    top: 0;
++    text-align: center;
++    margin: auto;
++    height:100%;
++  }
++  .sidebar-btn {
++    margin-left: 10px;
++  }
++}
++.client-navbar {
++  background-color: #0458ad;
++  .navbar-nav>li>a {
++    color: white;
++  }
++  .navbar-nav>li>a:hover {
++    color: red;
++  }
++}
+\ No newline at end of file
+Index: src/app/components/client-sidebar/client-sidebar.directive.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/client-sidebar/client-sidebar.directive.js	(date 1448378766000)
++++ src/app/components/client-sidebar/client-sidebar.directive.js	(date 1448378766000)
+@@ -0,0 +1,77 @@
++/**
++ *
++ * @ngdoc directive
++ * @module project
++ * @name clientSidebar
++ * @restrict E
++ * @description
++ * Это директива для подключения бокового меню на странице клиента
++ *
++ * @example
++ <example module="project" deps="" animate="false">
++ <file name="index.html">
++ <client-sidebar></client-sidebar>
++ </file>
++ <file name="main.js">
++ function clientSidebar() {
++    var directive = {
++        restrict: 'E',
++        templateUrl: 'app/components/client-sidebar/client-sidebar.html',
++        scope: {
++            creationDate: '='
++        },
++        controller: clientSidebarController,
++        controllerAs: 'vm',
++        bindToController: true
++    };
++
++    return directive;
++}
++ </file>
++ </example>
++ *
++ **/
++
++
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .directive('clientSidebar', clientSidebar);
++
++
++    function clientSidebar() {
++    var directive = {
++        restrict: 'E',
++        templateUrl: 'app/components/client-sidebar/client-sidebar.html',
++        scope: {
++            creationDate: '='
++        },
++        controller: clientSidebarController,
++        controllerAs: 'sidebar',
++        bindToController: true
++    };
++
++    return directive;
++}
++    /** @ngInject */
++    function clientSidebarController($location) {
++        var vm = this;
++                  vm.feedback = function () {
++                     $location.path("/client/feedback");
++                  };
++                  vm.history = function () {
++                     $location.path("/client/history");
++                  };
++                  vm.propositions = function () {
++                     $location.path("/client/propositions");
++                  };
++                  vm.profile = function () {
++                     $location.path("/client/profile");
++                  };
++                  vm.isActive = function (viewLocation) {
++                      return viewLocation === $location.path();
++                  };
++    }
++})();
+Index: src/app/components/client-sidebar/client-sidebar.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/client-sidebar/client-sidebar.html	(date 1448378766000)
++++ src/app/components/client-sidebar/client-sidebar.html	(date 1448378766000)
+@@ -0,0 +1,26 @@
++<ul class="nav nav-pills nav-stacked ">
++  <li role="presentation" ng-class="{ active: sidebar.isActive('/client/profile')}">
++    <a href ng-click="sidebar.profile()">
++      <span class="glyphicon glyphicon-user fa-sidebar" aria-hidden="true"></span>
++      <span class="hidden-sm">Профиль</span>
++    </a>
++  </li>
++  <li role="presentation" ng-class="{ active: sidebar.isActive('/client/history')}">
++    <a href ng-click="sidebar.history()">
++      <i class="fa fa-comment fa-sidebar"></i>
++      <span class="hidden-sm">История</span>
++    </a>
++  </li>
++  <li role="presentation" ng-class="{ active: sidebar.isActive('/client/propositions')}">
++    <a href ng-click="sidebar.propositions()">
++      <i class="fa fa-comment fa-sidebar"></i>
++      <span class="hidden-sm">Персональные предложения</span>
++    </a>
++  </li>
++  <li role="presentation" ng-class="{ active: sidebar.isActive('/client/feedback')}">
++    <a href ng-click="sidebar.feedback()">
++      <i class="fa fa-comment fa-sidebar"></i>
++      <span class="hidden-sm">Обратная связь</span>
++    </a>
++  </li>
++</ul>
+Index: src/app/components/client-sidebar/client-sidebar.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/client-sidebar/client-sidebar.scss	(date 1448378766000)
++++ src/app/components/client-sidebar/client-sidebar.scss	(date 1448378766000)
+@@ -0,0 +1,12 @@
++.sidebar {
++  position: fixed;
++  top: 55px;
++  bottom: 0;
++  left: 0;
++  z-index: 1000;
++  display: block;
++  overflow-x: hidden;
++  overflow-y: auto; /* Scrollable contents if viewport is shorter than content. */
++  border-right: 1px solid #eee;
++}
++
+Index: src/app/components/footer/footer.directive.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/footer/footer.directive.js	(date 1448378766000)
++++ src/app/components/footer/footer.directive.js	(date 1448378766000)
+@@ -0,0 +1,58 @@
++/**
++ *
++ * @ngdoc directive
++ * @module project
++ * @name mainFooter
++ * @restrict E
++ * @description
++ * Это директива для подключения подвала на главной странице
++ *
++ * @example
++ <example module="project" deps="" animate="false">
++ <file name="index.html">
++ <main-footer></main-footer>
++ </file>
++ <file name="main.js">
++ function userNavbar() {
++    var directive = {
++      restrict: 'E',
++      templateUrl: 'app/components/navbar/navbar.html',
++      scope: {
++          creationDate: '='
++      }
++    };
++    return directive;
++  } </file>
++ </example>
++ *
++ **/
++
++
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .directive('mainFooter', mainFooter);
++
++
++    function mainFooter() {
++    var directive = {
++        restrict: 'E',
++        templateUrl: 'app/components/footer/footer.html',
++        scope: {
++            creationDate: '='
++        },
++        controller: footerController,
++        controllerAs: 'footer',
++        bindToController: true
++    };
++
++    return directive;
++}
++    /** @ngInject */
++    function footerController($location,$scope) {
++        //var vm = this;
++
++    }
++})();
+Index: src/app/components/footer/footer.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/footer/footer.html	(date 1448378766000)
++++ src/app/components/footer/footer.html	(date 1448378766000)
+@@ -0,0 +1,5 @@
++<footer class="footer">
++    <div class="container">
++        <p class="text-muted">Place sticky footer content here.</p>
++    </div>
++</footer>
+\ No newline at end of file
+Index: src/app/components/footer/footer.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/footer/footer.scss	(date 1448378766000)
++++ src/app/components/footer/footer.scss	(date 1448378766000)
+@@ -0,0 +1,24 @@
++/*--------------------------------------------------
++ Sticky footer styles
++-------------------------------------------------- */
++$footer-height: 60px;
++
++//html {
++//  position: relative;
++//  min-height: 100%;
++//}
++body {
++  /* Margin bottom by footer height */
++  margin-bottom: 60px !important;
++}
++.footer-padding {
++  margin-bottom: ($footer-height +20px);
++}
++.footer {
++  position: absolute;
++  bottom: 0;
++  width: 100%;
++  /* Set the fixed height of the footer here */
++  height: $footer-height;
++  background-color: #f5f5f5;
++}
+Index: src/app/components/navbar/modalLogin.tpl.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/navbar/modalLogin.tpl.html	(date 1448378766000)
++++ src/app/components/navbar/modalLogin.tpl.html	(date 1448378766000)
+@@ -0,0 +1,34 @@
++<div class="modal" tabindex="-1" role="dialog">
++  <div class="modal-dialog">
++    <div class="modal-content">
++      <div class="modal-header" >
++        <button type="button" class="close" ng-click="$hide()">&times;</button>
++        <h4 class="modal-title" >111</h4>
++      </div>
++      <div class="modal-body" >
++        <form name="loginForm" novalidate ng-submit="submit()">
++          <div class="form-group">
++            <label>Введите номер телефона</label>
++            <input type="text" name="MobilePhone" class="form-control" ng-model="loginModal.MobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required>
++          </div>
++          <div class="form-group">
++            <label>Введите пароль</label>
++            <input type="password" name="Password" class="form-control" ng-model="loginModal.Password" placeholder="Введите пароль" required>
++          </div>
++          <div class="checkbox">
++            <label>
++              <input type="checkbox" ng-model="loginModal.privatePolicy" required> Check me out
++            </label>
++          </div>
++          <hr/>
++          <div class="row">
++            <div class="col-md-4 col-md-offset-4">
++              <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="login.loginSubmit(loginModal.MobilePhone,loginModal.Password,loginModal.privatePolicy)">Submit</button>
++              <button class="btn btn-warning" type="button" ng-click="$hide()">Cancel</button>
++            </div>
++          </div>
++          </form>
++    </div>
++  </div>
++</div>
++</div>
+Index: src/app/components/navbar/navbar.controller.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/navbar/navbar.controller.js	(date 1448378766000)
++++ src/app/components/navbar/navbar.controller.js	(date 1448378766000)
+@@ -0,0 +1,40 @@
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .controller('NavbarController',NavbarController);
++
++    /** @ngInject */
++    function NavbarController($location,$scope,$log,$modal) {
++        var vm = this;
++
++        $scope.isActive = function (viewLocation) {
++            return viewLocation === $location.path();
++        };
++      var myOtherModal = $modal({
++        scope: $scope,
++        template: './app/components/templates/modal-login.tpl.html',
++        //"content": "<modal-login></modal-login>",
++        show: false
++      });
++      // Show when some event occurs (use $promise property to ensure the template has been loaded)
++      vm.showLoginModal = function () {
++        myOtherModal.$promise.then(myOtherModal.show);
++      };
++      vm.loginSubmit = function (MobilePhone,Password,privatePolicy) {
++        $log.debug(MobilePhone,Password,privatePolicy);
++        vm.registrationData = {
++          phoneNumber:MobilePhone,
++          password: Password,
++          privatePolicy: privatePolicy
++        };
++      };
++    }
++
++
++
++
++
++})();
++
+Index: src/app/components/navbar/navbar.directive.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/navbar/navbar.directive.js	(date 1448378766000)
++++ src/app/components/navbar/navbar.directive.js	(date 1448378766000)
+@@ -0,0 +1,50 @@
++/**
++ *
++ * @ngdoc directive
++ * @module project
++ * @name userNavbar
++ * @restrict E
++ * @description
++ * Это директива для подключения навигации на главной странице
++ *
++ * @example
++ <example module="project" deps="" animate="false">
++ <file name="index.html">
++ <user-navbar></user-navbar>
++ </file>
++ <file name="main.js">
++ function userNavbar() {
++    var directive = {
++      restrict: 'E',
++      templateUrl: 'app/components/navbar/navbar.html',
++      scope: {
++          creationDate: '='
++      }
++    };
++    return directive;
++  } </file>
++ </example>
++ *
++ **/
++
++
++
++(function() {
++  'use strict';
++
++  angular
++    .module('angularStrap')
++    .directive('userNavbar', userNavbar);
++
++  /** @ngInject */
++  function userNavbar() {
++    var directive = {
++      restrict: 'E',
++      templateUrl: 'app/components/navbar/navbar.html',
++      scope: {
++          creationDate: '='
++      }
++    };
++    return directive;
++  }
++})();
+Index: src/app/components/navbar/navbar.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/navbar/navbar.html	(date 1448378766000)
++++ src/app/components/navbar/navbar.html	(date 1448378766000)
+@@ -0,0 +1,48 @@
++<!--<nav style="height: 50px" class="navbar navbar-static-top navbar-inverse" ng-controller="NavbarController as login">-->
++  <!--<div class="container-fluid">-->
++    <!--<div class="navbar-header">-->
++      <!--<button ng-click="navbar.navMailCollapsedMobile = !navbar.navMailCollapsedMobile" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">-->
++        <!--<span class="sr-only">Toggle navigation</span>-->
++        <!--<span class="icon-bar"></span>-->
++        <!--<span class="icon-bar"></span>-->
++        <!--<span class="icon-bar"></span>-->
++      <!--</button>-->
++      <!--<a class="navbar-brand" href="#">-->
++        <!--<span class="glyphicon glyphicon-home"></span> ВИГОДА-->
++      <!--</a>-->
++    <!--</div>-->
++
++    <!--<div class="collapse navbar-collapse" uib-collapse="navbar.navMailCollapsedMobile">-->
++      <!--<ul class="nav navbar-nav">-->
++        <!--<li ng-class="{ active: isActive('/')}"><a ng-href="#" ui-sref="home">Home</a></li>-->
++        <!--<li ng-class="{ active: isActive('/profile')}"><a  ng-href="#" ui-sref="profile">Clientpage</a></li>-->
++        <!--<li ng-class="{ active: isActive('/brandbook')}"><a  ng-href="#" ui-sref="brandbook" >Brandbook</a></li>-->
++      <!--</ul>-->
++      <!--<button type="button" class="btn btn-default navbar-btn pull-right" ng-click="login.open()">Войти</button>-->
++
++    <!--</div>-->
++  <!--</div>-->
++<!--</nav>-->
++<nav class="navbar navbar-default" ng-controller="NavbarController as login">
++  <div class="container-fluid">
++    <div class="navbar-header">
++      <button ng-click="navbar.navMainCollapsedMobile = !navbar.navMainCollapsedMobile" type="button" class="navbar-toggle collapsed" data-toggle="collapse" data-target=".navbar-collapse">
++        <span class="sr-only">Toggle navigation</span>
++        <span class="icon-bar"></span>
++        <span class="icon-bar"></span>
++        <span class="icon-bar"></span>
++      </button>
++      <a class="navbar-brand" ng-href="#/">
++      <span class="glyphicon glyphicon-home"></span> ВИГОДА
++      </a>
++    </div>
++    <div uib-collapse="navbar.navMainCollapsedMobile" class="navbar-collapse collapse">
++      <ul class="nav navbar-nav">
++        <li ng-class="{ active: isActive('/')}"><a ng-href="#" ui-sref="home">Home</a></li>
++        <li ng-class="{ active: isActive('/profile')}"><a  ng-href="#" ui-sref="profile">Clientpage</a></li>
++        <li ng-class="{ active: isActive('/brandbook')}"><a  ng-href="#" ui-sref="brandbook" >Brandbook</a></li>
++      </ul>
++      <button type="button" class="btn btn-default navbar-btn pull-right" ng-click="login.showLoginModal()">Войти</button>
++    </div><!--/.nav-collapse -->
++  </div>
++</nav>
+Index: src/app/components/navbar/navbar.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/navbar/navbar.scss	(date 1448378766000)
++++ src/app/components/navbar/navbar.scss	(date 1448378766000)
+@@ -0,0 +1,3 @@
++.acme-navbar-text{
++  color: white;
++}
+Index: src/app/components/templates/menu-aside-left.tpl.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/templates/menu-aside-left.tpl.html	(date 1448378766000)
++++ src/app/components/templates/menu-aside-left.tpl.html	(date 1448378766000)
+@@ -0,0 +1,41 @@
++<div class="aside" tabindex="-1" role="dialog">
++  <div class="aside-dialog">
++    <div class="aside-content">
++      <div class="aside-header" >
++        <button type="button" class="close" ng-click="$hide()">&times;</button>
++        <h4 class="aside-title" >111</h4>
++      </div>
++      <div class="aside-body" >
++        <ul class="nav nav-pills nav-stacked ">
++          <li role="presentation" ng-class="{ active: navbar.isActive('/client/profile')}">
++            <a href ng-click="navbar.profile()">
++              <span class="glyphicon glyphicon-user fa-sidebar" aria-hidden="true"></span>
++              <span class="hidden-sm">Профиль</span>
++            </a>
++          </li>
++          <li role="presentation" ng-class="{ active: navbar.isActive('/client/history')}">
++            <a href ng-click="navbar.history()">
++              <i class="fa fa-comment fa-sidebar"></i>
++              <span class="hidden-sm">История</span>
++            </a>
++          </li>
++          <li role="presentation" ng-class="{ active: navbar.isActive('/client/propositions')}">
++            <a href ng-click="navbar.propositions()">
++              <i class="fa fa-comment fa-sidebar"></i>
++              <span class="hidden-sm">Персональные предложения</span>
++            </a>
++          </li>
++          <li role="presentation" ng-class="{ active: navbar.isActive('/client/feedback')}">
++            <a href ng-click="navbar.feedback()">
++              <i class="fa fa-comment fa-sidebar"></i>
++              <span class="hidden-sm">Обратная связь</span>
++            </a>
++          </li>
++        </ul>
++      </div>
++      <div class="aside-footer">
++        <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
++      </div>
++    </div>
++  </div>
++</div>
+Index: src/app/components/templates/menu-aside-right.tpl.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/templates/menu-aside-right.tpl.html	(date 1448378766000)
++++ src/app/components/templates/menu-aside-right.tpl.html	(date 1448378766000)
+@@ -0,0 +1,35 @@
++<div class="aside" tabindex="-1" role="dialog">
++  <div class="aside-dialog">
++    <div class="aside-content">
++      <div class="aside-header" >
++        <button type="button" class="close" ng-click="$hide()">&times;</button>
++        <h4 class="aside-title" >222</h4>
++      </div>
++      <div class="aside-body" >
++        <ul class="nav nav-pills nav-stacked ">
++          <li role="presentation" ng-class="{ active: navbar.isActive('/client/profile')}">
++            <a href ng-click="navbar.profile()">
++              <span class="glyphicon glyphicon-user fa-sidebar" aria-hidden="true"></span>
++              <span class="hidden-sm">Змінити пароль</span>
++            </a>
++          </li>
++          <li role="presentation" ng-class="{ active: navbar.isActive('/client/history')}">
++            <a href ng-click="navbar.history()">
++              <i class="fa fa-comment fa-sidebar"></i>
++              <span class="hidden-sm">Змінити логін</span>
++            </a>
++          </li>
++          <li role="presentation" ng-class="{ active: navbar.isActive('/client/propositions')}">
++            <a href ng-click="navbar.propositions()">
++              <i class="fa fa-comment fa-sidebar"></i>
++              <span class="hidden-sm">Заблокувати картку</span>
++            </a>
++          </li>
++        </ul>
++      </div>
++      <div class="aside-footer">
++        <button type="button" class="btn btn-default" ng-click="$hide()">Close</button>
++      </div>
++    </div>
++  </div>
++</div>
+Index: src/app/components/templates/modal-login.tpl.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/templates/modal-login.tpl.html	(date 1448378766000)
++++ src/app/components/templates/modal-login.tpl.html	(date 1448378766000)
+@@ -0,0 +1,34 @@
++<div class="modal" tabindex="-1" role="dialog">
++  <div class="modal-dialog">
++    <div class="modal-content">
++      <div class="modal-header" >
++        <button type="button" class="close" ng-click="$hide()">&times;</button>
++        <h4 class="modal-title" >111</h4>
++      </div>
++      <div class="modal-body" >
++        <form name="loginForm" novalidate ng-submit="submit()">
++          <div class="form-group">
++            <label>Введите номер телефона</label>
++            <input type="text" name="MobilePhone" class="form-control" ng-model="loginModal.MobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required>
++          </div>
++          <div class="form-group">
++            <label>Введите пароль</label>
++            <input type="password" name="Password" class="form-control" ng-model="loginModal.Password" placeholder="Введите пароль" required>
++          </div>
++          <div class="checkbox">
++            <label>
++              <input type="checkbox" ng-model="loginModal.privatePolicy" required> Check me out
++            </label>
++          </div>
++          <hr/>
++          <div class="row">
++            <div class="col-md-4 col-md-offset-4">
++              <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="login.loginSubmit(loginModal.MobilePhone,loginModal.Password,loginModal.privatePolicy)">Submit</button>
++              <button class="btn btn-warning" type="button" ng-click="$hide()">Cancel</button>
++            </div>
++          </div>
++        </form>
++      </div>
++    </div>
++  </div>
++</div>
+Index: src/app/components/templates/modal-registration.tpl.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/templates/modal-registration.tpl.html	(date 1448378766000)
++++ src/app/components/templates/modal-registration.tpl.html	(date 1448378766000)
+@@ -0,0 +1,34 @@
++<div class="modal" tabindex="-1" role="dialog">
++  <div class="modal-dialog">
++    <div class="modal-content">
++      <div class="modal-header" >
++        <button type="button" class="close" ng-click="$hide()">&times;</button>
++        <h4 class="modal-title" >111</h4>
++      </div>
++      <div class="modal-body" >
++        <form name="registrationForm" novalidate ng-submit="registrationModal.registrationSubmin(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy)">
++          <div class="form-group">
++            <label>Введите номер телефона</label>
++            <input type="text" name="MobilePhone" class="form-control" ng-model="registrationModal.MobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required>
++          </div>
++          <div class="form-group">
++            <label>Введите пароль</label>
++            <input type="password" name="Password" class="form-control" ng-model="registrationModal.Password" placeholder="Введите пароль" required>
++          </div>
++          <div class="checkbox">
++            <label>
++              <input type="checkbox" ng-model="registrationModal.privatePolicy" required> Check me out
++            </label>
++          </div>
++          <hr/>
++          <div class="row">
++            <div class="col-md-4 col-md-offset-4">
++              <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid" ng-click="main.registrationSubmin(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy)">Submit</button>
++              <button class="btn btn-warning" type="button" ng-click="$hide()">Cancel</button>
++            </div>
++          </div>
++        </form>
++    </div>
++  </div>
++</div>
++</div>
+Index: src/app/index.config.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/index.config.js	(date 1448378766000)
++++ src/app/index.config.js	(date 1448378766000)
+@@ -0,0 +1,40 @@
++(function() {
++  'use strict';
++
++  angular
++    .module('angularStrap')
++    .config(config)
++    .config(modalConfig)
++    .config(datePicker);
++
++  /** @ngInject */
++  function datePicker ($datepickerProvider) {
++    angular.extend($datepickerProvider.defaults, {
++      dateFormat: 'dd.MM.yyyy',
++      startWeek: 1
++    });
++  }
++  /** @ngInject */
++  function config($logProvider) {
++  //  // Enable log
++  //  $logProvider.debugEnabled(true);
++  //
++  //  // Set options third-party lib
++  //  toastr.options.timeOut = 3000;
++  //  toastr.options.positionClass = 'toast-top-right';
++  //  toastr.options.preventDuplicates = true;
++  //  toastr.options.progressBar = true;
++  }
++  /** @ngInject */
++  function modalConfig($modalProvider) {
++    // Enable log
++    angular.extend($modalProvider.defaults, {
++      animation: 'am-fade-and-scale'
++    });
++
++  }
++
++
++
++
++})();
+Index: src/app/index.constants.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/index.constants.js	(date 1448378766000)
++++ src/app/index.constants.js	(date 1448378766000)
+@@ -0,0 +1,15 @@
++(function() {
++  'use strict';
++
++  angular
++    .module('angularStrap')
++    //.constant('baseUrl', baseUrlConstant)
++     .constant("restConfig", {
++        "url": "http://crm.epicentr.com:8081/api/",
++        "port": "8081"
++      })
++        .constant("loginConfig", {
++        "url": "http://crm.epicentr.com/api/login/",
++        "port": "8081"
++      });
++})();
+Index: src/app/index.route.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/index.route.js	(date 1448378766000)
++++ src/app/index.route.js	(date 1448378766000)
+@@ -0,0 +1,57 @@
++(function() {
++  'use strict';
++
++  angular
++    .module('angularStrap')
++    .config(routeConfig);
++
++  /** @ngInject */
++  function routeConfig($stateProvider, $urlRouterProvider, $httpProvider) {
++    $stateProvider
++      .state('home', {
++        url: '/',
++        templateUrl: 'app/main/main.html',
++        controller: 'MainController',
++        controllerAs: 'main'
++      })
++        .state('brandbook', {
++        url: '/brandbook',
++        templateUrl: 'app/brandbook/brandbook.html',
++        controller: 'brandbookController',
++        controllerAs: 'brandbook'
++      })
++      .state('profile', {
++        url: '/client/profile',
++        templateUrl: 'app/admin/client/client-profile/client-profile.html',
++        controller: 'clientProfileController',
++        controllerAs: 'profile',
++          resolve:{
++
++          }
++      })
++        .state('history', {
++          url: '/client/history',
++          templateUrl: 'app/admin/client/client-history/client-history.html',
++          controller: 'clientHistoryController',
++          controllerAs: 'history'
++
++      })
++        .state('propositions', {
++          url: '/client/propositions',
++          templateUrl: 'app/admin/client/client-propositions/client-propositions.html',
++          controller: 'clientPropositionsController',
++          controllerAs: 'propositions'
++
++      })
++        .state('feedback', {
++          url: '/client/feedback',
++          templateUrl: 'app/admin/client/client-feedback/client-feedback.html',
++          controller: 'clientFeedbackController',
++          controllerAs: 'feedback'
++      });
++
++    //$httpProvider.defaults.withCredentials = true;
++    $urlRouterProvider.otherwise('/');
++  }
++
++})();
+Index: src/app/index.run.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/index.run.js	(date 1448378766000)
++++ src/app/index.run.js	(date 1448378766000)
+@@ -0,0 +1,15 @@
++(function() {
++  'use strict';
++
++  angular
++    .module('angularStrap')
++    .run(runBlock);
++
++  /** @ngInject */
++  function runBlock($log,$cookies) {
++
++    $log.debug('runBlock end');
++    $cookies.put('sesion_id', '2015');
++  }
++
++})();
+Index: src/app/main/carousel.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/carousel.scss	(date 1448378766000)
++++ src/app/main/carousel.scss	(date 1448378766000)
+@@ -0,0 +1,12 @@
++$carousel-slide-height:700px;
++
++.bgimage {
++  background-size:cover;
++  //height: 100%;
++  //background-position: center center;
++}
++ul[rn-carousel] {
++  width:auto;
++  min-height: $carousel-slide-height;
++  margin: 0 auto;
++}
+\ No newline at end of file
+Index: src/app/main/main.controller.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/main.controller.js	(date 1448378766000)
++++ src/app/main/main.controller.js	(date 1448378766000)
+@@ -0,0 +1,65 @@
++/**
++ * @nameController MainController
++ * @element textarea
++ * @function
++ *
++ * @description
++ * Resize textarea automatically to the size of its text content.
++ *
++ * **Note:** ie<9 needs polyfill for window.getComputedStyle
++ *
++ * @example
++ <example module="rfx">
++ <file name="index.html">
++ <textarea ng-model="text"rx-autogrow class="input-block-level"></textarea>
++ <pre>{{text}}</pre>
++ </file>
++ </example>
++ */
++
++
++
++(function() {
++  'use strict';
++
++  angular
++    .module('angularStrap')
++    .controller('MainController', MainController)
++
++  /** @ngInject */
++  function MainController(restConfig,$log,$scope, loginFactory,$modal) {
++    var vm = this;
++
++    vm.slides = [
++      {
++        img: './assets/slider/1.jpg'
++      },
++      {
++        img: './assets/slider/2.jpg'
++      },
++      {
++        img: './assets/slider/3.jpg'
++      }
++    ];
++
++    var myOtherModal = $modal({scope: $scope, template: './app/components/templates/modal-registration.tpl.html', show: false});
++    // Show when some event occurs (use $promise property to ensure the template has been loaded)
++    vm.showRegisterationModal = function () {
++      myOtherModal.$promise.then(myOtherModal.show);
++    };
++    vm.registrationSubmin = function (MobilePhone,Password,privatePolicy) {
++      $log.debug(MobilePhone,Password,privatePolicy);
++      vm.registrationData = {
++        phoneNumber:MobilePhone,
++        password: Password,
++        privatePolicy: privatePolicy
++      };
++      //$uibModalInstance.close(vm.registrationData);
++    };
++
++
++
++  }
++
++
++})();
+Index: src/app/main/main.controller.spec.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/main.controller.spec.js	(date 1448378766000)
++++ src/app/main/main.controller.spec.js	(date 1448378766000)
+@@ -0,0 +1,15 @@
++(function() {
++  'use strict';
++
++  describe('controllers', function(){
++
++    beforeEach(module('project'));
++
++    it('should define more than 5 awesome things', inject(function($controller) {
++      var vm = $controller('MainController');
++
++      expect(angular.isArray(vm.awesomeThings)).toBeTruthy();
++      expect(vm.awesomeThings.length > 5).toBeTruthy();
++    }));
++  });
++})();
+Index: src/app/main/main.factory.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/main.factory.js	(date 1448378766000)
++++ src/app/main/main.factory.js	(date 1448378766000)
+@@ -0,0 +1,34 @@
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .factory('loginFactory', loginFactory);
++
++    /** @ngInject */
++    function loginFactory($http,$cookies){
++        return {
++            sendLogin: function (data) {
++                return $http({
++                    method: 'POST',
++                    url: 'http://wall.epicentr.com:8081/api/login',
++                    data: $.param({
++                        email:  data.email,
++                        password:  data.password
++                    }),
++                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
++                })
++            },
++            sendRegistration: function (data) {
++                return $http({
++                    method: 'POST',
++                    url: 'http://wall.epicentr.com:8081/api/dashboard',
++                    data: $.param({
++                        session_id: $cookies.getObject('session_id')
++                    }),
++                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
++                })
++            }
++        };
++    }
++})();
+Index: src/app/main/main.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/main.html	(date 1448378766000)
++++ src/app/main/main.html	(date 1448378766000)
+@@ -0,0 +1,117 @@
++<div class="container footer-padding col-lg-10 col-lg-offset-1">
++  <div class="row">
++      <user-navbar />
++ </div>
++  <div class="row">
++      <div class="carousel-demo">
++          <ul rn-carousel rn-carousel-index="carouselIndex2" rn-carousel-auto-slide rn-carousel-pause-on-hover rn-carousel-buffered class="carousel2">
++              <li ng-repeat="slide in main.slides" >
++                  <div class="bgimage">
++                  <!--<div ng-style="{'background-image': 'url(' + slide.img + ')'}"  class="bgimage">-->
++
++                      <img style="z-index: 10" class="img-responsive" ng-src="{{slide.img}}" alt=""/>
++
++                  </div>
++
++              </li>
++            <button style="z-index: 100" id="registrationBtn" type="button" class="btn btn-success center-block" data-animation="am-fade-and-scale" data-placement="center" ng-click="main.showRegisterationModal()" >Регистрация</button>
++
++          </ul>
++      </div>
++</div>
++
++    <section id="promo" class="row ">
++        <h2 class="text-center">Як приеднатись до програми</h2>
++
++        <div class="col-xs-12 col-sm-4 col-md-4 promo-block">
++            <a ng-href="#" class="center-block">
++                <img class="center-block" ng-src="" alt="" holder="holder.js/300x300/text:?">
++            </a>
++        </div>
++            <div class="col-xs-12 col-sm-4 col-md-4 promo-block">
++                <a ng-href="#" class="center-block">
++                    <img class="center-block" ng-src="" alt="" holder="holder.js/300x300/text:?">
++                </a>
++            </div>
++            <div class="col-xs-12 col-sm-4 col-md-4 promo-block">
++                <a ng-href="#" class="center-block">
++                    <img class="center-block" ng-src="" alt="" holder="holder.js/300x300/text:?">
++                </a>
++            </div>
++        </section>
++        <section id="benefits" class="row ">
++            <!--<div class="container">-->
++        <h2 class="text-center">Переваги</h2>
++            <div class="col-lg-12 row benefits-block">
++                <div class="col-sm-3 col-lg-3 col-xs-12 ">
++                    <a ng-href="#" class="center-block">
++                        <img class="center-block" ng-src="" alt="" holder="holder.js/150x150/text:?">
++                    </a>
++                </div>
++                <div class="col-lg-9 col-sm-9 col-xs-12">
++                    ЕКОНОМІЯ - безліч товарів з приємними цінами та бонусами, накопичивши які можна використати як економію при наступних покупках.
++                </div>
++            </div>
++            <div class=" row benefits-block reorder-xs">
++                <div class="col-lg-8 col-sm-9 col-lg-offset-1 ">
++                    СПЕЦІАЛЬНІ ПРОПОЗИЦІЇ ї – величезний вибір товарів та пропозицій саме для Вас. Деталі Ви зможете дізнатись зареєструвавшись на нашому сайті чи в будь-якому гіпермаркеті
++                </div>
++                <div class="col-sm-3 col-lg-3 col-xs-12 ">
++                    <a ng-href="#" class="center-block">
++                        <img class="center-block" ng-src="" alt="" holder="holder.js/150x150/text:?">
++                    </a>
++                </div>
++            </div>
++            <div class="col-lg-12 row benefits-block">
++                <div class="col-sm-3 col-lg-3 col-xs-12">
++                    <a ng-href="#" class="center-block">
++                        <img class="center-block" ng-src="" alt="" holder="holder.js/150x150/text:?">
++                    </a>
++                </div>
++                <div class="col-lg-9 col-sm-9 col-xs-12">
++                    ПРИМНОЖУЙ БОНУСИ – отримуй бонуси за покупки та примножуй їх спеціальними пропозиціями.                </div>
++            </div>
++        </section>
++    <section id="policy" class="row ">
++        <h2 class="text-center">ПРАВИЛА ПРОГРАМИ ЛОЯЛЬНОСТІ </h2>
++        <h4 class="text-center">Дані Правила визначають умови участі в Програмі лояльності , яка проводиться на території України в мережі магазинів  та аптечних закладів  під знаком для товарів та послуг(далі – «Місце проведення Програми»), у період з 1 січня 2014 року по 31 грудня 2014 року (надалі «Період проведення Програми).</h4>
++
++
++           <strong>1. Терміни й визначення</strong>
++
++            <p><strong>«Програма»</strong> Програма лояльності , яка є комплексом дій і заходів, що надають Учасникові можливість одержувати й використовувати Бали при купівлі Учасником товарів у Місці проведення Програми.</p>
++
++            <p><strong>«Правила Програми»</strong> – дані Правила, що надаються для ознайомлення кожному Учасникові шляхом розміщення на сайті Програми, та які визначають обсяг прав і обов'язків Виконавця й Учасника при участі в Програмі.</p>
++
++            <p><strong>«Учасник Програми» / «Учасник»</strong> – фізична особа, тримач Картки, яка досягла 18-річного віку, яка є споживачем у розумінні Закону України «Про захист прав споживачів», надала свою згоду на участь у Програмі шляхом заповнення та підписання Анкети в паперовому вигляді або шляхом заповнення та збереженням реєстраційної форми на Сайті Програми, та немає будь-яких обмежень щодо такої участі, однозначно погодилась та приєдналась до Правил Програми, «Угоди користувача» та «Політики конфіденційності».</p>
++            <p><strong>«Виконавець Програми»</strong>             –  та ТОВ «БМТС», що володіють усіма правами на управління й розвиток Програми.
++            </p>
++            <p><strong>«Анкета»</strong>             – паперова реєстраційна форма, яка видається Учасникові для заповнення в Місці проведення Програми, або електронна реєстраційна форма, яка розміщена на Сайті Програми, заповнення якої є заявою особи, що підтверджує бажання стати Учасником Програми, її згодою з усіма Правилами Програми й згодою на зберігання, обробку й використання Виконавцем будь-яких даних Учасника (як персональних, так і загальнодоступних), що знаходяться в Анкеті, на умовах даної Програми.
++            </p>
++            <p><strong>«Картка»</strong>           – пластикова Картка, яка видається Учасникові на умовах даної Програми після заповнення Анкети та яка має унікальний у рамках Програми	номер, необхідний для ідентифікації Учасника.
++            </p>
++            <p><strong>«Пін-код Картки»</strong>             – невід’ємний захисний номер, що додається до кожної Картки та видається разом з Карткою Учасника, який він має зберігати під час усього строку дії Програми та повідомляти його тільки Виконавцю Програми за запитом. Учасник не має права розголошувати Пін-код Картки іншим особам. Виконавець не несе будь-якої відповідальності за використання Пін-коду Учасника іншими особами.
++            </p>
++            <p><strong>«Бали»</strong>             – умовні одиниці (економії), що нараховуються на Рахунок Учасника при здійсненні ним купівлі товарів (окрім подарункових сертифікатів), які реалізуються у рамках Програми, а також за виконання певних дій у рамках спеціальних пропозицій і акцій Програми.
++            </p>
++            <p><strong>«Рахунок у Програмі» («Рахунок Учасника», «Баланс Балів»)</strong>             – сукупність різних даних у базі даних Виконавця, що містять інформацію про Учасника та його поточний баланс Балів.
++            </p>
++            <p><strong>«Сайт Програми»</strong>             – Інтернет-сайт, що знаходиться за адресою www.watsons.com.ua/club, за допомогою якого здійснюється інформаційна підтримка Учасників Програми та надаються додаткові сервіси у рамках Програми.
++            </p>
++            <p><strong>«Інформаційний центр Програми»</strong>             – основні засоби інформаційної підтримки Учасників, а саме Сайт Програми та телефон «гарячої лінії» 0-800-300-333. Всі дзвінки за вказаним номером зі стаціонарних телефонів у межах України є безкоштовними, дзвінки з мобільних телефонів оплачуються згідно з тарифами оператора зв’язку.
++            </p>
++            <p><strong>«Спеціальна пропозиція»</strong>             – заохочення, економії, та/або інші рекламні заходи, якими можуть скористатись лише Учасники Програми.
++            </p>
++
++        <a id="policy-read-more-btn"  type="button" class="btn btn-success center-block"  >Подробно</a>
++    </section>
++
++
++
++
++
++</div>
++
++<main-footer></main-footer>
++
++
+Index: src/app/main/main.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/main.scss	(date 1448378766000)
++++ src/app/main/main.scss	(date 1448378766000)
+@@ -0,0 +1,61 @@
++#registrationBtn {
++  width: 300px;
++  position: relative;
++  top: ($carousel-slide-height - 160px);
++  //color: red;
++}
++
++#promo{
++  //margin-top: 10px;
++  img{
++    border-radius: 50%;
++    width: 400px;
++  }
++  h2{
++    margin-bottom: 30px;
++  }
++  .promo-block{
++    img{
++      margin-bottom: 10px;
++    }
++  }
++}
++#benefits{
++  .benefits-block {
++    margin-bottom: 15px;
++    img{
++      margin-bottom: 10px;
++    }
++  }
++
++}
++
++#policy{
++  #policy-read-more-btn {
++    width: 300px;
++  }
++}
++
++@media (max-width: 767px) {
++
++  .row.reorder-xs {
++    -webkit-transform: rotate(180deg);
++    -moz-transform: rotate(180deg);
++    -ms-transform: rotate(180deg);
++    -o-transform: rotate(180deg);
++    transform: rotate(180deg);
++
++    direction: rtl;
++  }
++
++  .row.reorder-xs > [class*="col-"] {
++    -webkit-transform: rotate(-180deg);
++    -moz-transform: rotate(-180deg);
++    -ms-transform: rotate(-180deg);
++    -o-transform: rotate(-180deg);
++    transform: rotate(-180deg);
++
++    direction: ltr;
++  }
++
++}
+Index: src/app/main/modal.tpl.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/modal.tpl.html	(date 1448378766000)
++++ src/app/main/modal.tpl.html	(date 1448378766000)
+@@ -0,0 +1,34 @@
++<div class="modal" tabindex="-1" role="dialog">
++  <div class="modal-dialog">
++    <div class="modal-content">
++      <div class="modal-header" >
++        <button type="button" class="close" ng-click="$hide()">&times;</button>
++        <h4 class="modal-title" >111</h4>
++      </div>
++      <div class="modal-body" >
++        <form name="registrationForm" novalidate ng-submit="registrationModal.registrationSubmin(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy)">
++          <div class="form-group">
++            <label>Введите номер телефона</label>
++            <input type="text" name="MobilePhone" class="form-control" ng-model="registrationModal.MobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required>
++          </div>
++          <div class="form-group">
++            <label>Введите пароль</label>
++            <input type="password" name="Password" class="form-control" ng-model="registrationModal.Password" placeholder="Введите пароль" required>
++          </div>
++          <div class="checkbox">
++            <label>
++              <input type="checkbox" ng-model="registrationModal.privatePolicy" required> Check me out
++            </label>
++          </div>
++          <hr/>
++          <div class="row">
++            <div class="col-md-4 col-md-offset-4">
++              <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid" ng-click="main.registrationSubmin(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy)">Submit</button>
++              <button class="btn btn-warning" type="button" ng-click="$hide()">Cancel</button>
++            </div>
++          </div>
++        </form>
++    </div>
++  </div>
++</div>
++</div>
+Index: src/app/main/modal2.tpl.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/main/modal2.tpl.html	(date 1448378766000)
++++ src/app/main/modal2.tpl.html	(date 1448378766000)
+@@ -0,0 +1,27 @@
++<div class="modal-header">
++  <h3 class="modal-title">I'm a modal!</h3>
++</div>
++<div class="modal-body">
++  <form name="registrationForm" novalidate ng-submit="registrationModal.registrationSubmin(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy)">
++    <div class="form-group">
++      <label>Введите номер телефона</label>
++      <input type="text" name="MobilePhone" class="form-control" ng-model="registrationModal.MobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required>
++    </div>
++    <div class="form-group">
++      <label>Введите пароль</label>
++      <input type="password" name="Password" class="form-control" ng-model="registrationModal.Password" placeholder="Введите пароль" required>
++    </div>
++    <div class="checkbox">
++      <label>
++        <input type="checkbox" ng-model="registrationModal.privatePolicy" required> Check me out
++      </label>
++    </div>
++    <hr/>
++    <div class="row">
++      <div class="col-md-4 col-md-offset-4">
++        <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid" ng-click="registrationModal.registrationSubmin(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy)">Submit</button>
++        <button class="btn btn-warning" type="button" ng-click="registrationModal.cancel()">Cancel</button>
++      </div>
++    </div>
++  </form>
++</div>
+Index: src/app/admin/client/client-feedback/client-feedback.controller.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-feedback/client-feedback.controller.js	(date 1448963473000)
++++ src/app/admin/client/client-feedback/client-feedback.controller.js	(date 1448963473000)
+@@ -0,0 +1,65 @@
++
++
++
++(function() {
++    'use strict';
++
++angular
++    .module('angularStrap')
++    .controller('clientFeedbackController', clientFeedbackController);
++
++/** @ngInject */
++function clientFeedbackController($log,feedbackFactory,sweet) {
++    $log.debug("clientFeedbackController start");
++    var vm = this;
++    feedbackFactory.getFeedback()
++        .success(function (data) {
++            $log.debug('feedbackFactory.getFeedback success = '+angular.toJson(data));
++            vm.feedbacks = data.data;
++        })
++        .error(function (data) {
++            $log.debug('feedbackFactory.getFeedback error = '+angular.toJson(data));
++        });
++    vm.send = function (selectedSubject,feedbackText) {
++        $log.debug('selected selectedSubject = '+ angular.toJson(selectedSubject));
++        $log.debug('selected feedbackText = '+ angular.toJson(feedbackText));
++        feedbackFactory.sendFeedback(selectedSubject,feedbackText)
++            .success(function (data) {
++                $log.debug('feedbackFactory.sendFeedback success = '+angular.toJson(data));
++                sweet.show({
++                  title: "ДАНІ ЗБЕРЕЖЕНО",
++                  text: "You will not be able to recover this imaginary file!",
++                  type: "success",
++                  timer: 1500,
++                  showConfirmButton: false
++                });
++           })
++            .error(function (data) {
++                $log.debug('feedbackFactory.sendFeedback error = '+angular.toJson(data));
++            });
++    };
++    //vm.feedbacks = {
++    //    feedbackText:'111',
++    //    subjects: [
++    //        {
++    //            subjectId:1,
++    //            subjectName:'aaa1'
++    //        },
++    //        {
++    //            subjectId:2,
++    //            subjectName:'aaa2'
++    //        },
++    //        {
++    //            subjectId:3,
++    //            subjectName:'aaa3'
++    //        }
++    //    ],
++    //    selectedSubject:{
++    //        subjectId:2,
++    //        subjectName:'aaa2'
++    //    }
++    //
++    //}
++
++}
++})();
+Index: src/app/admin/client/client-history/client-history.controller.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-history/client-history.controller.js	(date 1448963473000)
++++ src/app/admin/client/client-history/client-history.controller.js	(date 1448963473000)
+@@ -0,0 +1,78 @@
++
++(function() {
++    'use strict';
++
++angular
++    .module('angularStrap')
++    .controller('clientHistoryController', clientHistoryController);
++
++/** @ngInject */
++function clientHistoryController($scope,$log,historyFactory) {
++    $log.debug("clientHistoryController start");
++
++    var vm = this;
++    historyFactory.getHistory()
++        .success(function(data){
++
++            $log.debug('historyFactory.getHistory success = '+angular.toJson(data));
++
++            vm.sort = data.data.sort;
++
++            vm.bonuses = data.data.bonuses;
++
++            vm.orders = data.data.orders;
++
++        })
++        .error(function (data) {
++            $log.debug('historyFactory.getHistory error = '+angular.toJson(data));
++
++        });
++     vm.historySearch = function (periodBegin,periodEnd) {
++       historyFactory.getPeriod(periodBegin,periodEnd)
++         .success(function (data) {
++           $log.debug('historyFactory.getPeriod success = '+angular.toJson(data));
++           vm.orders = data.data.orders;
++         })
++         .error(function (data) {
++           $log.debug('historyFactory.getPeriod error = '+angular.toJson(data));
++
++         });
++     };
++    //vm.bonuses = {
++    //    activeBonus: 123,
++    //    bonusReceived:132
++    //};
++    //vm.sort={
++    //    periodBegin:'12.03.2015',
++    //    periodEnd:'12.03.2015'
++    //};
++
++    //vm.orders = [
++    //    {
++    //        orderDate:'22.10.2015',
++    //        orderCardNumber:'22231231',
++    //        orderDocNumber:'123123',
++    //        orderTotal:'1222',
++    //        orderBonusTotal: '333',
++    //        orderSaifTotal: '12',
++    //        orderBonusDeducted: '12',
++    //        orderSaifDeducted: '12'
++    //    },
++    //    {
++    //        orderDate:'22.10.2015',
++    //        orderCardNumber:'22231231',
++    //        orderDocNumber:'123123',
++    //        orderTotal:'1222',
++    //        orderBonusTotal: '333',
++    //        orderSaifTotal: '12',
++    //        orderBonusDeducted: '12',
++    //        orderSaifDeducted: '12'
++    //    }
++    //];
++
++
++
++
++
++}
++})();
+Index: src/app/admin/client/client-history/client-history.factory.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-history/client-history.factory.js	(date 1448963473000)
++++ src/app/admin/client/client-history/client-history.factory.js	(date 1448963473000)
+@@ -0,0 +1,35 @@
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .factory('historyFactory', historyFactory);
++
++    /** @ngInject */
++    function historyFactory($cookies,$http,$stateParams,restConfig) {
++      return {
++        getHistory: function () {
++          return $http({
++            method: 'GET',
++            url: restConfig.url + 'history',
++            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++            data: {
++              session_id: $cookies.getObject('session_id')
++            }
++          });
++        },
++        getPeriod: function (periodBegin,periodEnd) {
++          return $http({
++            method: 'POST',
++            url: restConfig.url + 'history/getPeriod',
++            headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++            data: {
++              periodBegin:periodBegin,
++              periodEnd:periodEnd,
++              session_id: $cookies.getObject('session_id')
++            }
++          });
++        }
++      }
++    }
++})();
+Index: src/app/admin/client/client-history/client-history.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-history/client-history.html	(date 1448963473000)
++++ src/app/admin/client/client-history/client-history.html	(date 1448963473000)
+@@ -0,0 +1,82 @@
++<div class="container-fluid">
++    <div class="row">
++        <client-navbar ></client-navbar>
++        <div class=" col-md-2 col-sm-1 sidebar hidden-xs">
++            <client-sidebar></client-sidebar>
++        </div>
++        <div class="col-md-10 col-md-offset-2 col-sm-offset-1 client-content client-content-history">
++            <div class="row">
++                <div class="col-sm-4 col-xs-12">
++                <h3  class="text-left" >Всього нараховано:  {{history.bonuses.bonusReceived}}</h3>
++                </div>
++                <div class="col-sm-4 col-xs-12 pull-right">
++                    <h3 class="">Всього активно:   {{history.bonuses.activeBonuses}} </h3>
++                </div>
++            </div>
++            <div class="row  margin-top-20">
++                <div class="col-md-7 ">
++                  <form name="historySearch" class="form-inline " ng-submit="">
++                    <div class="form-group margin-left-10">
++                      <div class="input-group col-xs-12">
++                      <input type="text" ng-model="history.sort.periodBegin" class="form-control" placeholder="Date" bs-datepicker data-autoclose="true" data-bs-show="HistorySearchFrom.show" disabled required>
++                      <span class="input-group-btn">
++                      <button class="btn btn-primary" ng-click="HistorySearchFrom.show = ! HistorySearchFrom.show">   <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
++                      </button>
++                      </span>
++                      </div>
++                    </div>
++                    <div class="form-group margin-left-10">
++                      <div class="input-group ">
++                      <input type="text" ng-model="history.sort.periodEnd" class="form-control" placeholder="Date" bs-datepicker data-autoclose="true" data-bs-show="HistorySearchTo.show" disabled required>
++                      <span class="input-group-btn">
++                      <button class="btn btn-primary" ng-click="HistorySearchTo.show = ! HistorySearchTo.show">   <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
++                      </button>
++                      </span>
++                      </div>
++                    </div>
++                    <button ng-disabled = "!historySearch.$valid" ng-click="historySearch(history.sort.periodBegin,history.sort.periodEnd)" type="submit" class="btn btn-default margin-left-10">Пошук</button>
++                  </form>
++                </div>
++                <div class="col-md-4 col-md-offset-1">
++                    <div class="input-group col-md-10 col-xs-12">
++                        <input type="text" class="form-control" placeholder="Пошук...">
++                    </div>
++
++                </div>
++            </div>
++            <div class="row padding-left-20 padding-right-20 order-container">
++                <div class="panel panel-default">
++                    <div class="panel-heading"><p class="order-header">Історія по картці</p></div>
++                    <div class="panel-body">
++                        <table class="table table-striped table-responsive">
++                            <thead>
++                            <tr>
++                                <th>Дата</th>
++                                <th class="hidden-xs">№ Карты</th>
++                                <th class="hidden-xs">№ Документа</th>
++                                <th>Сума</th>
++                                <th>Нараховано бонусів</th>
++                                <th class="hidden-xs">Нараховано сейф</th>
++                                <th>Списано бонусів</th>
++                                <th class="hidden-xs">Списано сейф</th>
++                            </tr>
++                            </thead>
++                            <tbody>
++                            <tr ng-repeat="order in history.orders">
++                                <td>{{order.orderDate}}</td>
++                                <td class="hidden-xs">{{order.orderCardNumber}}</td>
++                                <td class="hidden-xs">{{order.orderDocNumber}}</td>
++                                <td>{{order.orderTotal}}</td>
++                                <td>{{order.orderBonusTotal}}</td>
++                                <td class="hidden-xs">{{order.orderSaifTotal}}</td>
++                                <td>{{order.orderBonusDeducted}}</td>
++                                <td class="hidden-xs">{{order.orderSaifDeducted}}</td>
++                            </tr>
++                            </tbody>
++                        </table>
++                    </div>
++                </div>
++            </div>
++        </div>
++    </div>
++</div>
+Index: src/app/admin/client/client-history/client-history.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-history/client-history.scss	(date 1448963473000)
++++ src/app/admin/client/client-history/client-history.scss	(date 1448963473000)
+@@ -0,0 +1,23 @@
++.full button span {
++  background-color: limegreen;
++  border-radius: 32px;
++  color: black;
++}
++.partially button span {
++  background-color: orange;
++  border-radius: 32px;
++  color: black;
++}
++.order-header {
++  font-size: 25px;
++  margin-bottom: 0;
++}
++.order-container {
++  padding-top: 20px;
++}
++.client-content-history {
++  h3{
++    //color: white;
++    padding-left: 15px;
++  }
++}
+Index: src/app/admin/client/client-profile/client-profile.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-profile/client-profile.scss	(date 1448963473000)
++++ src/app/admin/client/client-profile/client-profile.scss	(date 1448963473000)
+@@ -0,0 +1,47 @@
++.client-content-profile {
++  h3{
++    //color: white;
++  }
++  .btn span.glyphicon {
++    opacity: 0;
++  }
++  .btn.active span.glyphicon {
++    opacity: 1;
++  }
++  .panel-heading span
++  {
++    margin-top: -26px;
++    font-size: 15px;
++    margin-right: -12px;
++  }
++  #policy-checkbox-wrapper {
++    margin-top: 35px;
++    margin-left: auto;
++    margin-right: auto;
++    width: 40px;
++  }
++  .hobbi-checkbox-wrapper {
++    margin-bottom: 5px;
++  }
++
++  .panel-body.padding-0  {
++    padding: 0;
++  }
++  .panel-title {
++    min-height: 20px;
++  }
++  .clickable {
++    background: rgba(0, 0, 0, 0.15);
++    display: inline-block;
++    padding: 6px 12px;
++    border-radius: 4px;
++    cursor: pointer;
++    &:hover{
++      background:red;
++      i{
++        color: white;
++      }
++    }
++  }
++}
++
+Index: src/app/admin/client/client-propositions/client-propositions.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-propositions/client-propositions.html	(date 1448963473000)
++++ src/app/admin/client/client-propositions/client-propositions.html	(date 1448963473000)
+@@ -0,0 +1,30 @@
++<div class="container-fluid">
++    <div class="row">
++        <client-navbar ></client-navbar>
++        <div class=" col-md-2 col-sm-1 sidebar hidden-xs">
++            <client-sidebar></client-sidebar>
++        </div>
++        <div class="col-md-10 col-md-offset-2 col-sm-offset-1 client-content margin-top-20 ">
++            <!--<h2>Персональные предложения</h2>-->
++            <div class="row ">
++                <div class="col-sm-4 col-md-3 margin-top-10" ng-repeat="proposition in propositions.propositions">
++                    <div class="post">
++                        <div class="post-img-content">
++                            <img  ng-src="{{proposition.imgUrl}}" class="img-responsive" />
++                    <span   class="post-title"><b>{{proposition.title}}</b><br />
++                    </span>
++                        </div>
++                        <div class="content">
++                            <div class="content-text">
++                              {{proposition.ShortDescription}}
++                            </div>
++                            <div>
++                                <a  ng-href="#" class="btn btn-warning btn-block">Read more</a>
++                            </div>
++                        </div>
++                    </div>
++                </div>
++                </div>
++        </div>
++    </div>
++</div>
+Index: src/app/components/client-navbar/client-navbar.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/components/client-navbar/client-navbar.html	(date 1448963473000)
++++ src/app/components/client-navbar/client-navbar.html	(date 1448963473000)
+@@ -0,0 +1,28 @@
++<nav class="navbar navbar-default client-navbar"  >
++    <div class="container-fluid">
++        <div class="navbar-header">
++            <button ng-click="navbar.openRightAside()" type="button" class="navbar-toggle collapsed">
++                <span class="sr-only">Toggle navigation</span>
++                <span class="icon-bar"></span>
++                <span class="icon-bar"></span>
++                <span class="icon-bar"></span>
++            </button>
++            <!--<a id="client-navbar"  class="navbar-brand navbar-center" ng-href="#/client/profile"><img style="margin-top: -13px" width="120" height="60" class="img-responsive" src="./assets/svg/logo2.svg" alt=""/></a>-->
++            <button  ng-click="navbar.openLeftAside()"  type="button" class="navbar-toggle collapsed sidebar-btn pull-left" >
++                <span class="sr-only">Toggle navigation</span>
++                <span class="icon-bar"></span>
++                <span class="icon-bar"></span>
++                <span class="icon-bar"></span>
++            </button>
++        </div>
++
++
++        <!--<div uib-collapse="navbar.navCollapsedMobile" class="navbar-collapse collapse">-->
++            <!--<ul class="nav navbar-nav">-->
++                <!--<li class="active"><a tabindex="0">Home</a></li>-->
++                <!--<li><a tabindex="0">About</a></li>-->
++                <!--<li><a tabindex="0">Contact</a></li>-->
++            <!--</ul>-->
++        <!--</div>-->
++    </div>
++</nav>
+Index: src/app/index.module.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/index.module.js	(date 1448963473000)
++++ src/app/index.module.js	(date 1448963473000)
+@@ -0,0 +1,32 @@
++
++/**
++ *
++ * @ngdoc module
++ * @name project
++ * @module project
++ * @packageName my-anguar-module
++ * @description
++ * This is a sample module.
++ *
++ **/
++
++
++(function() {
++  'use strict';
++
++  angular
++    .module('angularStrap', [
++        'ngAnimate',
++        'ngCookies',
++        'ngTouch',
++        'ngSanitize',
++        'ui.router',
++        'ui.mask',
++        'matchMedia',
++        'ngLocale',
++        'angular-carousel',
++        'hSweetAlert',
++        'mgcrea.ngStrap'
++
++    ]);
++})();
+Index: src/app/index.scss
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/index.scss	(date 1448963473000)
++++ src/app/index.scss	(date 1448963473000)
+@@ -0,0 +1,122 @@
++/**
++ *  If you want to override some bootstrap variables, you have to change values here.
++ *  The list of variables are listed here bower_components/bootstrap-sass-official/assets/stylesheets/bootstrap/_variables.scss
++ */
++
++@import "../material/_custom/colors";
++
++@import "../material/_material/common";
++@import "../material/_material/shadows";
++@import "../material/_material/ripples";
++
++@import "../material/_material/cards";
++//@import "../material/_material/buttons";
++//@import "../material/_material/inputs";
++@import "../material/guidelines";
++@import "../material/_custom/element_positions";
++@import "admin/client/client-propositions/client-propositions";
++@import "admin/client/client-feedback/client-feedback";
++@import "admin/client/client-history/client-history";
++@import "main/carousel";
++@import "components/footer/footer";
++//@import "../material/_custom/_element_positions.scss";
++@import "admin/client/client-feedback/client-feedback";
++@import "components/client-navbar/client-navbar";
++@import "../material/_custom/awesome-bootstrap-checkbox";
++
++
++
++$navbar-inverse-link-color: #5AADBB;
++$icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bootstrap/";
++
++
++.client-content {
++  height: 100vh;
++  //background-image: url(../assets/images/bg_img.jpg);
++  //background-color: url(../assets/images/bg_img.jpg);
++  margin-top: 0;
++}
++
++
++/**
++ *  Do not remove this comments bellow. It's the markers used by wiredep to inject
++ *  sass dependencies when defined in the bower.json of your dependencies
++ */
++// bower:scss
++// endbower
++
++
++.browsehappy {
++  margin: 0.2em 0;
++  background: #ccc;
++  color: #000;
++  padding: 0.2em 0;
++}
++
++.thumbnail {
++  height: 200px;
++
++  img.pull-right {
++    width: 50px;
++  }
++}
++
++@media (min-width: $screen-sm-min) and (max-width: $screen-sm-max) {
++  .sidebar {
++    padding-right: 0;
++    padding-left: 0;
++    .fa-sidebar {
++      font-size: 1.6em;
++      width: 1.6em;
++      text-align: center;
++    }
++  }
++}
++
++
++.datetime-picker-dropdown > li.date-picker-menu div > table .btn-default {
++  border: 0;
++}
++.checkbox label::before {
++  content: "";
++  display: inline-block;
++  position: absolute;
++  width: 30px;
++  height: 30px;
++  left: 0;
++  margin-left: -20px;
++  border: 1px solid #cccccc;
++  border-radius: 3px;
++  background-color: #fff;
++  -webkit-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
++  -o-transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
++  transition: border 0.15s ease-in-out, color 0.15s ease-in-out;
++}
++.checkbox label::after {
++  display: inline-block;
++  position: absolute;
++  width: 30px;
++  height: 30px;
++  left: 1px;
++  top: 0;
++  margin-left: -20px;
++  padding-left: 3px;
++  padding-top: -5px;
++  font-size: 22px;
++  color: #555555;
++}
++.checkbox label {
++  line-height: 30px;
++}
++#policy_checkbox {
++  margin-top: 35px
++}
++
++
++
++/**
++ *  Do not remove this comments bellow. It's the markers used by gulp-inject to inject
++ *  all your sass files automatically
++ */
++// injector
++// endinjector
+Index: src/app/admin/client/client-feedback/client-feedback.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-feedback/client-feedback.html	(date 1448969666000)
++++ src/app/admin/client/client-feedback/client-feedback.html	(date 1448969666000)
+@@ -0,0 +1,25 @@
++<div class="container-fluid">
++    <div class="row">
++        <client-navbar></client-navbar>
++        <div class=" col-md-2 col-sm-1 sidebar hidden-xs">
++            <client-sidebar></client-sidebar>
++        </div>
++
++        <div class="col-md-10 col-md-offset-2 col-sm-offset-1 margin-top-10 client-content client-content-feedback">
++            <!--<h1>Обратная связь</h1>-->
++          <form name="clientFeedbackForm">
++            <div class="col-md-10 col-md-offset-1">
++                <h4>Виберіть тему:</h4>
++                <select class="form-control "  name="mySelect"
++                        ng-options="option.subjectName for option in feedback.feedbacks.subjects track by option.subjectId"
++                        ng-model="feedback.feedbacks.selectedSubject"></select>
++                <h4>Введіть текст звернення</h4>
++                <textarea class="form-control margin-top-10" rows="14" ng-model="feedback.feedbacks.feedbackText" required></textarea>
++                <button id="feedback-submit" ng-disabled="clientFeedbackForm.$invalid" type="submit" class="btn btn-primary margin-top-20 center-block" ng-click="feedback.send(feedback.feedbacks.selectedSubject,feedback.feedbacks.feedbackText)">Надіслати</button>
++                <div class="col-md-12">
++                </div>
++            </div>
++          </form>
++        </div>
++    </div>
++</div>
+Index: src/app/admin/client/client-profile/client-profile.controller.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-profile/client-profile.controller.js	(date 1448971102000)
++++ src/app/admin/client/client-profile/client-profile.controller.js	(date 1448971102000)
+@@ -0,0 +1,363 @@
++(function() {
++    'use strict';
++
++angular
++    .module('angularStrap')
++    .controller('clientProfileController', clientProfileController);
++
++/** @ngInject */
++function clientProfileController($scope,$log,profileFactory) {
++    $log.debug("clientProfileController start");
++    $scope.PolicyIsSelected = true;
++    var vm = this;
++    profileFactory.getProfile()
++        .success(function(data){
++            $log.debug(' profileFactory.getProfile success = '+angular.toJson(data.data));
++            vm.profiles = data.data;
++        })
++        .error(function (data) {
++            $log.debug(' profileFactory.getProfile error = '+angular.toJson(data.data));
++
++        });
++
++
++    //vm.profiles = {
++    //    FirstName:"Константин",
++    //    LastName:"Юштин",
++    //    SurName:"Єдуардович",
++    //    BirthDay: "10.12.1990",
++    //    Genders: [
++    //        {
++    //            GendertId: 1,
++    //            GenderName:'aaa1'
++    //        },
++    //        {
++    //            GendertId: 2,
++    //            GenderName:'aaa2'
++    //        },
++    //        {
++    //            GendertId: 3,
++    //            GenderName:'aaa3'
++    //        }
++    //    ],
++    //    selectedGender:{
++    //        GendertId:2,
++    //        GenderName:'aaa2'
++    //    },
++    //    MaritalStatuses: [
++    //        {
++    //            MaritalStatustId: 1,
++    //            MaritalStatusName:'aaa1'
++    //        },
++    //        {
++    //            MaritalStatustId: 2,
++    //            MaritalStatusName:'aaa2'
++    //        },
++    //        {
++    //            MaritalStatustId: 3,
++    //            MaritalStatusName:'aaa3'
++    //        }
++    //    ],
++    //    selectedMaritalStatus:{
++    //        MaritalStatustId: 3,
++    //        MaritalStatusName:'aaa3'
++    //    },
++    //    MobilePhoneNumber: "1231232131",
++    //    HomePhoneNumber: "1231232131",
++    //    Email:'mail@mail.com',
++    //    Areas: [
++    //        {
++    //            AreaName:'Не вибрано',
++    //            AreaId:0
++    //        },
++    //        {
++    //            AreaName:'1',
++    //            AreaId:1
++    //        },
++    //        {
++    //            AreaName:'2',
++    //            AreaId:2
++    //        },
++    //        {
++    //            AreaName:'3',
++    //            AreaId:3
++    //        }
++    //    ],
++    //    selectedArea:{
++    //        AreaName:'Не вибрано',
++    //        AreaId:0
++    //    } ,
++    //    Regions: [
++    //        {
++    //            RegionName:'Не вибрано',
++    //            RegionId:0
++    //        },
++    //        {
++    //            RegionName:'1',
++    //            RegionId:1
++    //        },
++    //        {
++    //            RegionName:'2',
++    //            RegionId:2
++    //        },
++    //        {
++    //            RegionName:'3',
++    //            RegionId:3
++    //        }
++    //    ],
++    //    selectedRegion:{
++    //        RegionName:'Не вибрано',
++    //        RegionId:0
++    //    },
++    //    RegionSelectIsDisabled: true,
++    //    Cities: [
++    //        {
++    //            CityName:'1',
++    //            CityId:1
++    //        },
++    //        {
++    //            CityName:'2',
++    //            CityId:2
++    //        },
++    //        {
++    //            CityName:'3',
++    //            CityId:3
++    //        }
++    //    ],
++    //    selectedCity:{
++    //        CityName:'3',
++    //        CityId:3
++    //    },
++    //    CitySelectIsDisabled : true,
++    //    ZipCode: 12345,
++    //    Street: "Богоутовская",
++    //    HouseNumber: "2А",
++    //    FlatNumber: 1,
++    //    Kids:[
++    //        {
++    //          id:1,
++    //          name:"Вася",
++    //          BirthDay:"10.12.1991",
++    //          Genders: [
++    //            {
++    //              GendertId: 1,
++    //              GenderName:'aaa1'
++    //            },
++    //            {
++    //              GendertId: 2,
++    //              GenderName:'aaa2'
++    //            }
++    //          ],
++    //          selectedGender:{
++    //            GendertId:2,
++    //            GenderName:'aaa2'
++    //          }
++    //        },
++    //        {
++    //          id:2,
++    //          name:"Вася",
++    //          BirthDay:"10.12.1992",
++    //          Genders: [
++    //            {
++    //              GendertId: 1,
++    //              GenderName:'aaa1'
++    //            },
++    //            {
++    //              GendertId: 2,
++    //              GenderName:'aaa2'
++    //            }
++    //          ],
++    //          selectedGender:{
++    //            GendertId:2,
++    //            GenderName:'aaa2'
++    //          }
++    //
++    //        },
++    //        {
++    //          id:3,
++    //          name:"Вася",
++    //          BirthDay:"10.12.1993",
++    //          Genders: [
++    //            {
++    //              GendertId: 1,
++    //              GenderName:'aaa1'
++    //            },
++    //            {
++    //              GendertId: 2,
++    //              GenderName:'aaa2'
++    //            }
++    //          ],
++    //          selectedGender:{
++    //            GendertId:2,
++    //            GenderName:'aaa2'
++    //          }
++    //
++    //        }
++    //    ],
++    //    Pets: [
++    //        {
++    //          name: "cat",
++    //          label: "Кіт",
++    //          isSelected: true
++    //        },
++    //        {name: "dog",
++    //          label: "Пес",
++    //          isSelected: true
++    //
++    //        },
++    //        {
++    //          name: "bird",
++    //          label: "Птах",
++    //          isSelected: true
++    //        },
++    //        {
++    //          name: "fish",
++    //          label: "Рибки",
++    //          isSelected: false
++    //
++    //        }
++    //    ],
++    //    PetOther: '111',
++    //    Hobbes:[
++    //        {
++    //          name: 1,
++    //          label: "Рибальство",
++    //          isSelected: true
++    //        },
++    //        {
++    //          name: 2,
++    //          label: "Полювання",
++    //          isSelected: true
++    //
++    //        },
++    //        {
++    //          name: 3,
++    //          label: "Майстрування",
++    //          isSelected: true
++    //
++    //        },
++    //        {
++    //          name: 4,
++    //          label: "Спорт",
++    //          isSelected: true
++    //
++    //        },
++    //        {
++    //          name: 5,
++    //          label: "Декор інтерєрів",
++    //          isSelected: true
++    //
++    //        },
++    //        {
++    //          name: 6,
++    //          label: "Рукоділля",
++    //          isSelected: true
++    //
++    //        },
++    //        {
++    //          name: 7,
++    //          label: "Садівництво",
++    //          isSelected: true
++    //
++    //        }
++    //    ],
++    //    HobbyOther: '222',
++    //    CarIsSelected:{
++    //        val:0
++    //    },
++    //    SmsIsSelected:{
++    //        val:0
++    //    },
++    //    EmailIsSelected:{
++    //        val:0
++    //    },
++    //    PolicyIsSelected:true
++    //
++    //};
++
++
++    vm.KidsSelect = function (value){
++            $log.debug('vm.profiles.KidsIsSelected = '+value);
++            if(vm.profiles.Kids.length == 0){
++                vm.profiles.Kids.push(
++                    {id:0}
++                );
++                $log.debug('vm.profiles.Kids.length = '+vm.profiles.Kids.length);
++                $log.debug('vm.profiles.Kids = '+angular.toJson(vm.profiles.Kids));
++
++            }
++    };
++    vm.KidRemove = function ($index) {
++        $log.debug('KidRemove $index = '+$index);
++            vm.profiles.Kids.splice($index,1);
++        $log.debug('vm.profiles.Kids.length = '+vm.profiles.Kids.length);
++
++        if (vm.profiles.Kids.length == 0){
++            vm.profiles.KidsIsSelected = 2;
++        }
++    };
++    vm.KidAdd = function () {
++        vm.profiles.Kids.push(
++            {
++              id:0,
++                        Genders: [
++                          {
++                            GendertId: 1,
++                            GenderName:'aaa1'
++                          },
++                          {
++                            GendertId: 2,
++                            GenderName:'aaa2'
++                          }
++                        ],
++                        selectedGender:{
++                          GendertId:2,
++                          GenderName:'aaa2'
++                        }
++            }
++        );
++    };
++    vm.AreaChange = function (data) {
++        alert(data);
++        $log.debug('AreaChange = '+data);
++        $log.debug('vm.profiles.RegionSelectIsDisabled = '+vm.profiles.RegionSelectIsDisabled);
++
++        profileFactory.getProfileRegions(data)
++            .success(function (data) {
++                vm.profiles.Regions = data.data;
++            })
++            .error(function (data) {
++              $log.debug('profileFactory.getProfileRegions = '+data);
++            });
++        if (data !== 0){
++            vm.profiles.RegionSelectIsDisabled = false;
++            $log.debug('vm.profiles.RegionSelectIsDisabled = '+vm.profiles.RegionSelectIsDisabled);
++        }
++        else {
++            vm.profiles.RegionSelectIsDisabled = true;
++        }
++    };
++    vm.RegionChange = function (data) {
++        profileFactory.getProfileCities(data)
++            .success(function (data) {
++                vm.profiles.Cities = data.data;
++            })
++            .error(function (data) {
++                $log.debug('profileFactory.getProfileCities = '+data);
++            });
++        $log.debug('RegionChange = '+data);
++        $log.debug('vm.profiles.CitySelectIsDisabled = '+vm.profiles.CitySelectIsDisabled);
++        if (data !== 0){
++
++            vm.profiles.CitySelectIsDisabled = false;
++            $log.debug('vm.profiles.CitySelectIsDisabled = '+vm.profiles.CitySelectIsDisabled);
++        }
++        else {
++            vm.profiles.CitySelectIsDisabled = true;
++
++        }
++    }
++}
++
++
++})();
+Index: src/app/admin/client/client-profile/client-profile.factory.js
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-profile/client-profile.factory.js	(date 1448971102000)
++++ src/app/admin/client/client-profile/client-profile.factory.js	(date 1448971102000)
+@@ -0,0 +1,260 @@
++/**
++ *
++ * @ngdoc service
++ * @module project
++ * @name profileFactory
++ * @description
++ *
++ * Сервис используется для вкладки обратной связи на странице клиента
++ *
++ *
++ *
++ * @example
++ <example module="sampleServiceExample" deps="">
++ <file name="feedbackController.js">
++ vm.profiles = {
++        FirstName:"Константин",
++        LastName:"Юштин",
++        SurName:"Єдуардович",
++        BirthDay: new Date(2013, 9, 22),
++        Genders: [
++            {
++                GendertId: 1,
++                GenderName:'aaa1'
++            },
++            {
++                GendertId: 2,
++                GenderName:'aaa2'
++            },
++            {
++                GendertId: 3,
++                GenderName:'aaa3'
++            }
++        ],
++        selectedGender:{
++            GendertId:2,
++            GenderName:'aaa2'
++        },
++        MaritalStatuses: [
++            {
++                MaritalStatustId: 1,
++                MaritalStatusName:'aaa1'
++            },
++            {
++                MaritalStatustId: 2,
++                MaritalStatusName:'aaa2'
++            },
++            {
++                MaritalStatustId: 3,
++                MaritalStatusName:'aaa3'
++            }
++        ],
++        selectedMaritalStatus:{
++            MaritalStatustId: 3,
++            MaritalStatusName:'aaa3'
++        },
++        MobilePhoneNumber: 123,
++        HomePhoneNumber: 124,
++        Email:'mail@mail.com',
++ Areas: [
++ {
++     AreaName:'1',
++     AreaId:1
++ },
++ {
++     AreaName:'2',
++     AreaId:2
++ },
++ {
++     AreaName:'3',
++     AreaId:3
++ }
++ ],
++ selectedArea:{
++            AreaName:'3',
++            AreaId:3
++        } ,
++ Regions: [
++ {
++     RegionName:'1',
++     RegionId:1
++ },
++ {
++     RegionName:'2',
++     RegionId:2
++ },
++ {
++     RegionName:'3',
++     RegionId:3
++ }
++ ],
++ selectedRegion:{
++            RegionName:'3',
++            RegionId:3
++        },
++ Cities: [
++ {
++     CityName:'1',
++     CityId:1
++ },
++ {
++     CityName:'2',
++     CityId:2
++ },
++ {
++     CityName:'3',
++     CityId:3
++ }
++ ],
++ selectedCity:{
++            CityName:'3',
++            CityId:3
++        },
++ ZipCode: 12345,
++ Street: "Богоутовская",
++ HouseNumber: "2А",
++ FlatNumber: 1,
++ Pets: [
++ {id: 1, label: "Кіт"},
++ {id: 2, label: "Пес"},
++ {id: 3, label: "Птах"},
++ {id: 4, label: "Рибки"}
++ ],
++ selectedPet:[
++ {
++ id: 3,
++ label: "Птах"
++ },
++ {
++ id: 2,
++ label: "Пес"
++ }
++ ],
++ selectPetSettings:{
++            smartButtonMaxItems: 3
++        },
++ selectPetTexts:{
++            buttonDefaultText: 'Виберіть один або кілька варіантів',
++            checkAll:'Вибрати все',
++            uncheckAll:'За замовчуванням'
++        },
++ PetOther: '111',
++ Hobbes:[
++ {id: 1, label: "Рибальство"},
++ {id: 2, label: "Полювання"},
++ {id: 3, label: "Майстрування"},
++ {id: 4, label: "Спорт"},
++ {id: 5, label: "Декор інтерєрів"},
++ {id: 6, label: "Рукоділля"},
++ {id: 7, label: "Садівництво"}
++ ],
++ selectedHobby:[
++ {id: 2, label: "Полювання"},
++ {id: 3, label: "Майстрування"}
++ ],
++ selectHobbySettings:{
++            smartButtonMaxItems: 3
++        },
++ selectHobbyTexts:{
++            buttonDefaultText: 'Виберіть один або кілька варіантів',
++            checkAll:'Вибрати все',
++            uncheckAll:'За замовчуванням'
++        },
++ HobbyOther: '111'
++ };
++ </file>
++ <file name="index.html">
++
++ </file>
++
++ </example>
++ *
++ **/
++/**
++ *
++ * @ngdoc method
++ * @name profileFactory#profileController
++ * @param {number} subjectId  - id Темы.
++ * @param {subjectName} author - Названия темы.
++ * @description
++ *
++ * Описание полей контроллера
++ **/
++
++
++
++(function() {
++    'use strict';
++
++    angular
++        .module('angularStrap')
++        .factory('profileFactory', profileFactory);
++
++    /** @ngInject */
++    function profileFactory($cookies,$http,restConfig) {
++        return {
++            /**
++             *
++             * @ngdoc method
++             * @name profileFactory#getProfile
++             * @param {String} cookies - При запросе информации отправляем куки
++             * @return
++             *
++             * {Array} subjectId,
++             * @description
++             *
++             * Get the message.
++             **/
++            getProfile: function () {
++                return $http({
++                    method: 'GET',
++                    url: restConfig.url+'profile',
++                  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++                  data: {
++                    session_id: $cookies.getObject('session_id')
++                  }
++                })
++            },
++
++
++            getProfileRegions: function (areaId) {
++                return $http({
++                    method: 'POST',
++                    url: restConfig.url+'profile/regions',
++                    //data: $.param({
++                    //    areaId:areaId,
++                    //    session_id: $cookies.getObject('session_id')
++                    //}),
++                    //headers: {'Content-Type': 'application/x-www-form-urlencoded'}
++                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++                    data: {
++                      areaId:areaId,
++                      session_id: $cookies.getObject('session_id')
++                    }
++                })
++            },
++            getProfileCities: function (regionId) {
++                return $http({
++                    method: 'POST',
++                    url: restConfig.url+'profile/Cities',
++                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++                    data: {
++                       regionId:regionId,
++                       session_id: $cookies.getObject('session_id')
++                    }
++                })
++            },
++          c: function (data) {
++                return $http({
++                    method: 'POST',
++                    url: restConfig.url+'profile/Cities',
++                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
++                    data: {
++                       data:data,
++                       session_id: $cookies.getObject('session_id')
++                    }
++                })
++            }
++        };
++    }
++})();
+Index: src/app/admin/client/client-profile/client-profile.html
+IDEA additional info:
+Subsystem: com.intellij.openapi.diff.impl.patch.CharsetEP
+<+>UTF-8
+===================================================================
+--- src/app/admin/client/client-profile/client-profile.html	(date 1448971102000)
++++ src/app/admin/client/client-profile/client-profile.html	(date 1448971102000)
+@@ -0,0 +1,286 @@
++<div class="container-fluid col-lg-10 col-lg-offset-1">
++    <div class="row  ">
++            <client-navbar ></client-navbar>
++        <div class="col-lg-offset-1  col-md-2 col-sm-1 sidebar hidden-xs">
++            <client-sidebar></client-sidebar>
++        </div>
++        <div class="col-md-10 col-md-offset-2 col-sm-offset-1 margin-top-10 client-content client-content-profile row  col-lg-9 col-lg-offset-3">
++            <h3 class="font-size-1-3 text-center">Номер картки     0824746812</h3>
++          <form name="ClientProfile">
++            <div class="row">
++                    <div class="well col-md-12  ">
++                        <div class="form-group col-md-4" ng-class="{ 'has-error has-feedback': ClientProfile.lastname.$invalid }">
++                          <label>Прізвище <span style="color: red">*</span></label>
++                            <input type="text" class="form-control" name="lastname" ng-model="profile.profiles.LastName" ng-minlength="2" placeholder="Прізвище"  required>
++                          <span ng-show="ClientProfile.lastname.$invalid"> ааа все пропало</span>
++                        </div>
++                        <div class="form-group col-md-4" ng-class="{ 'has-error has-feedback': ClientProfile.firstname.$invalid }">
++                            <label >Імя <span style="color: red">*</span></label>
++                            <input type="text" class="form-control" name="firstname" ng-model="profile.profiles.FirstName" ng-minlength="1" placeholder="Імя" required>
++                          <span ng-show="ClientProfile.firstname.$invalid"> ааа все пропало</span>
++
++                        </div>
++                        <div class="form-group col-md-4" ng-class="{ 'has-error has-feedback': ClientProfile.surname.$invalid }">
++                            <label >По-батькові <span style="color: red">*</span></label>
++                            <input type="text" class="form-control" name="surname" ng-model="profile.profiles.SurName" ng-minlength="2"  placeholder="По-батькові" required>
++                          <span ng-show="ClientProfile.surname.$invalid"> ааа все пропало</span>
++
++                        </div>
++                    </div>
++                    <div class="well col-md-12 ">
++
++                    <div class="form-group col-md-4">
++                        <label >Дата народження <span style="color: red">*</span></label>
++                      <div class="input-group ">
++                        <input type="text" ng-model="profile.profiles.BirthDay" class="form-control" placeholder="Date" bs-datepicker data-autoclose="true" data-bs-show="BirthDay.show" disabled>
++                      <span class="input-group-btn">
++                      <button class="btn btn-primary" ng-click="BirthDay.show = ! BirthDay.show">   <span class="glyphicon glyphicon-calendar" aria-hidden="true"></span>
++                      </button>
++                      </span>
++                      </div>
++                    </div>
++                    <div class="form-group col-md-4 ">
++                        <label >Стать</label>
++                        <select class="form-control "  name="GenderSelect"
++                                ng-options="option.GenderName for option in profile.profiles.Genders track by option.GendertId"
++                                ng-model="profile.profiles.selectedGender"></select>
++                    </div>
++                    <div class="form-group col-md-4 ">
++                        <label>Сімейний стан</label>
++                        <select class="form-control "  name="MaritalStatusSelect"
++                                ng-options="option.MaritalStatusName for option in profile.profiles.MaritalStatuses track by option.MaritalStatusId"
++                                ng-model="profile.profiles.selectedMaritalStatus">
++
++                        </select>
++                    </div>
++                    <div class="form-group col-md-4">
++                        <label >Мобільний телефон</label>
++                        <input type="text" class="form-control" ng-model="profile.profiles.MobilePhoneNumber" ui-mask="+380(99) 999-99-99" ui-mask-placeholder  placeholder="Мобільний телефон" >
++                    </div>
++                    <div class="form-group col-md-4">
++                        <label >Домашній телефон </label>
++                        <input type="tel" class="form-control" ng-model="profile.profiles.HomePhoneNumber" ui-mask="(999) 999-99-99" ui-mask-placeholder placeholder="Домашній телефон">
++                    </div>
++                    <div class="form-group col-md-4">
++                        <label >E-mail</label>
++                        <input type="email" class="form-control" ng-model="profile.profiles.Email" placeholder="E-mail">
++                    </div>
++
++                    </div>
++
++
++                    <hr/>
++                    <div class="well col-md-12 ">
++
++                    <div class="form-group col-md-4">
++                        <label >Область</label>
++                        <select class="form-control "  name="AreaSelect"
++                                ng-options="option.AreaName for option in profile.profiles.Areas track by option.AreaId"
++                                ng-model="profile.profiles.selectedArea"
++                                ng-change="profile.AreaChange(profile.profiles.selectedArea.AreaId)"
++                                >
++                        </select>
++                    </div>
++                    <div class="form-group col-md-4">
++                        <label >Район</label>
++                        <select class="form-control "  name="RegionSelect"
++                                ng-options="option.RegionName for option in profile.profiles.Regions track by option.RegionId"
++                                ng-model="profile.profiles.selectedRegion"
++                                ng-change="profile.RegionChange(profile.profiles.selectedRegion.RegionId)"
++                                ng-disabled="profile.profiles.RegionSelectIsDisabled"
++                                >
++                        </select>
++                    </div>
++                    <div class="form-group col-md-4">
++                        <label >Місто</label>
++                        <select class="form-control "  name="CityesSelect"
++                                ng-options="option.CityName for option in profile.profiles.Cities track by option.CityId"
++                                ng-model="profile.profiles.selectedCity"
++                                ng-disabled="profile.profiles.CitySelectIsDisabled"
++                                >
++                        </select>
++                    </div>
++                    <div class="form-group col-md-3">
++                        <label >Індекс</label>
++                        <input type="text" class="form-control" ng-model="profile.profiles.ZipCode"  placeholder="Індекс">
++                    </div>
++                    <div class="form-group col-md-3">
++                        <label >Вулиця</label>
++                        <input type="text" class="form-control" ng-model="profile.profiles.Street" placeholder="Вулиця">
++                    </div>
++                    <div class="form-group col-md-3">
++                        <label >Будинок</label>
++                        <input type="text" class="form-control" ng-model="profile.profiles.HouseNumber" placeholder="Будинок">
++                    </div>
++
++                    <div class="form-group col-md-3">
++                        <label >Квартира</label>
++                        <input type="text" class="form-control" ng-model="profile.profiles.FlatNumber"  placeholder="Квартира">
++                    </div>
++                        </div>
++                    <div class="col-md-12 margin-bottom-15" >
++                        <p class="col-md-8 col-xs-8" >У вас э діти?</p>
++                      <div class="checkbox checkbox-primary checkbox-inline">
++                        <input type="radio" name="KidsIsSelected" id="KidsIsSelected1" ng-model="profile.profiles.KidsIsSelected" ng-change='profile.KidsSelect(profile.profiles.KidsIsSelected)' value="1">
++                        <label for="KidsIsSelected1">
++                          Так
++                        </label>
++                      </div>
++                      <div class="checkbox checkbox-primary checkbox-inline">
++                        <input type="radio" name="KidsIsSelected" id="KidsIsSelected2"   ng-model="profile.profiles.KidsIsSelected" ng-change='profile.KidsSelect(profile.profiles.KidsIsSelected)' value="2">
++                        <label for="KidsIsSelected2">
++                          Ні
++                        </label>
++                      </div>
++
++                        <!--<div class="radio-inline">-->
++                            <!--<label>-->
++                                <!--<input type="radio" name="KidsIsSelected" ng-model="profile.profiles.KidsIsSelected" ng-change='profile.KidsSelect(profile.profiles.KidsIsSelected)' value="1" >-->
++                                <!--Так-->
++                            <!--</label>-->
++                        <!--</div>-->
++                        <!--<div class="radio-inline">-->
++                            <!--<label>-->
++                                <!--<input type="radio" name="KidsIsSelected" ng-model="profile.profiles.KidsIsSelected" ng-change='profile.KidsSelect(profile.profiles.KidsIsSelected)' value="2">-->
++                                <!--Ні-->
++                            <!--</label>-->
++                        <!--</div>-->
++
++
++                    </div>
++                    <!--<div class="well col-md-12 ">-->
++                        <div class="col-md-12 padding-fix" ng-repeat="kid in profile.profiles.Kids" ng-if="profile.profiles.KidsIsSelected == 1">
++                            <div class="panel panel-default">
++                                <div class="panel-heading">
++                                    <h3 class="panel-title"> </h3>
++                                    <span class="pull-right clickable" ng-click="profile.KidRemove($index)"><i class="fa fa-times" ></i></span>
++                                </div>
++                                <div class="panel-body padding-top-0">
++                                  <div class="form-group col-md-4 ">
++                                    <label>Ім'я дитини</label>
++                                    <input type="text" class="form-control"  placeholder="Ім'я дитини" ng-model="kid.name">
++                                  </div>
++                                  <div class="form-group col-md-4">
++                                    <label >Стать</label>
++                                    <select class="form-control "  name="GenderSelect"
++                                            ng-options="option.GenderName for option in kid.Genders track by option.GendertId"
++                                            ng-model="kid.selectedGender"></select>
++                                  </div>
++                                  <div class="form-group col-md-4">
++                                    <label >Дата народження</label>
++                                    <div class="input-group ">
++                                      <input type="text" ng-model="kid.BirthDay" class="form-control" placeholder="Date" bs-datepicker data-autoclose="true" data-bs-show="kid.BirthDayShow" disabled>
++                                        <span class="input-group-btn">
++                                        <button class="btn btn-primary" ng-click="kid.BirthDayShow = ! kid.BirthDayShow">   <span class="glyphicon glyphicon-calendar" ></span>
++                                        </button>
++                                        </span>
++                                    </div>
++                                  </div>
++                                </div>
++                            </div>
++                        </div>
++                    <button class="btn btn-success center-block margin-bottom-10" ng-if="profile.profiles.KidsIsSelected == 1" ng-click="profile.KidAdd($index)">Додати</button>
++                    <div  class="well col-md-12 ">
++                        <h5 class="col-md-12">Домашні тварини</h5>
++                      <div class="row padding-left-15 ">
++                        <div class="col-md-9 col-xs-12">
++                          <div class="checkbox checkbox-primary  pets-checkbox-wrapper checkbox-inline" ng-repeat="pet in profile.profiles.Pets">
++                            <input id="{{pet.name}}" class="styled" type="checkbox" ng-model="pet.isSelected">
++                            <label for="{{pet.name}}">
++                              {{pet.label}}
++                            </label>
++                          </div>
++                        </div>
++                        <div class="form-inline">
++                          <label  style="margin-right: 20px">Інше</label>
++                          <input type="text" ng-model="profile.profiles.PetOther" class="form-control"  placeholder="Інше">
++                        </div>
++                      </div>
++                    </div>
++              <div  class="well col-md-12 ">
++                <h5 class="col-md-12">Хобі</h5>
++                <div class="row padding-left-15">
++                  <div class="col-md-9 col-xs-12">
++                    <div class="checkbox checkbox-primary  hobbi-checkbox-wrapper checkbox-inline" ng-repeat="hobby in profile.profiles.Hobbes">
++                      <input id="{{hobby.name}}" class="styled" type="checkbox" ng-model="hobby.isSelected">
++                      <label for="{{hobby.name}}">
++                        {{hobby.label}}
++                      </label>
++                    </div>
++                  </div>
++                  <div class="form-inline">
++                    <label  style="margin-right: 20px">Інше</label>
++                    <input type="text" ng-model="profile.profiles.HobbyOther" class="form-control"  placeholder="Інше">
++                  </div>
++                </div>
++            </div>
++
++            <div class="form-group col-md-12 col-lg-11">
++                        <h4 class="col-lg-8 " >Чи маєте ви автомобіль ?</h4>
++                        <div class="col-lg-4 ">
++                          <div class="checkbox checkbox-primary checkbox-inline">
++                            <input type="radio" name="CarIsSelected" id="CarIsSelected1"    ng-model="profile.profiles.CarIsSelected.val" value="1">
++                            <label for="CarIsSelected1">
++                              Так
++                            </label>
++                          </div>
++                          <div class="checkbox checkbox-primary checkbox-inline">
++                            <input type="radio" name="CarIsSelected" id="CarIsSelected2"  ng-model="profile.profiles.CarIsSelected.val" value="2">
++                            <label for="CarIsSelected2">
++                              Ні
++                            </label>
++                          </div>
++                        </div>
++                    </div>
++                    <div class="form-group col-md-12 col-lg-11">
++                        <h4 class="col-lg-8" >Чи бажаєте ви отримувати смс повідомлення з нащими пропозиціями ?</h4>
++                        <div class="col-lg-4" >
++                          <div class="checkbox checkbox-primary checkbox-inline">
++                            <input type="radio" name="SmsIsSelected" id="SmsIsSelected1"    ng-model="profile.profiles.SmsIsSelected.val" value="1">
++                            <label for="SmsIsSelected1">
++                              Так
++                            </label>
++                          </div>
++                          <div class="checkbox checkbox-primary checkbox-inline">
++                            <input type="radio" name="SmsIsSelected" id="SmsIsSelected2"  ng-model="profile.profiles.SmsIsSelected.val" value="2">
++                            <label for="SmsIsSelected2">
++                              Ні
++                            </label>
++                          </div>
++                        </div>
++                    </div>
++                    <div class="form-group col-md-12 col-lg-11 ">
++                        <h4 class="col-lg-8" >Чи бажаєте ви отримувати e-mail повідомлення з нащими пропозиціями ?</h4>
++                        <div class="col-lg-4">
++                          <div class="checkbox checkbox-primary checkbox-inline">
++                            <input type="radio" name="EmailIsSelected" id="EmailIsSelected1"    ng-model="profile.profiles.EmailIsSelected.val" value="1">
++                            <label for="EmailIsSelected1">
++                              Так
++                            </label>
++                          </div>
++                          <div class="checkbox checkbox-primary checkbox-inline">
++                            <input type="radio" name="EmailIsSelected" id="EmailIsSelected2"  ng-model="profile.profiles.EmailIsSelected.val" value="2">
++                            <label for="EmailIsSelected2">
++                              Ні
++                            </label>
++                          </div>
++                        </div>
++                    </div>
++                    <div class="form-group col-md-12 col-lg-11 margin-left-20">
++                      <div class="checkbox checkbox-primary col-md-1" id="policy-checkbox-wrapper" >
++                        <input id="policy_checkbox" class="styled" type="checkbox" ng-model="profile.profiles.PolicyIsSelected" required>
++                        <label for="policy_checkbox">
++                     </label>
++                      </div>
++                      <div class="col-md-11 col-xs-12">
++                        <h4>"Я погоджуюсь з обробкою ТОВ "Епіцентр К" моїх персональних даних, які є в цій формі для реалізації програми лояльності Епіцентр. Я заявляю, про своє право на доступ до своїх персональних даних та право на їх виправлення, та що ці персональні дані були надані на добровільній основі. Я заявляю, что приймаю усі офіційні правила Програми лояльності. Персональна інформація, яку містить дана форма буде внесена в базу даних ТОВ "Епіцентр К".</h4>
++                      </div>
++                    </div>
++            </div>
++            <pre>ClientProfile.$valid = {{ClientProfile.$valid}}</pre>
++            <pre>ClientProfile.lastname.$valid = {{ClientProfile.lastname.$valid}}</pre>
++            <button type="button" ng-disabled="!ClientProfile.$valid" ng-click="saveProfile(profile.profiles)" class="btn btn-success btn-block col-md-4 center-block">Зберегти</button>
++          </form>
++        </div>
++    </div>
++  </div>
