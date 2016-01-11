@@ -18,17 +18,7 @@ module app.feedback {
     //send:Function;
 
 
-
-
-
-
-
-
-
-
-
     //static $inject = ['$log', 'feedbackFactory', 'sweet'];
-
 
     /** @ngInject */
     constructor(
