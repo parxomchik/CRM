@@ -6,14 +6,14 @@
         <h4 class="modal-title" >111</h4>
       </div>
       <div class="modal-body" >
-        <form name="loginForm" novalidate ng-submit="submit()">
+        <form name="loginForm" novalidate ng-submit="submit(loginModal.mobilePhone,loginModal.password,loginModal.privatePolicy)">
           <div class="form-group">
             <label>Введите номер телефона</label>
-            <input type="text" name="MobilePhone" class="form-control" ng-model="loginModal.MobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required>
+            <input type="text" name="mobilePhone" class="form-control" ng-model="loginModal.mobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required>
           </div>
           <div class="form-group">
             <label>Введите пароль</label>
-            <input type="password" name="Password" class="form-control" ng-model="loginModal.Password" placeholder="Введите пароль" required>
+            <input type="password" name="password" class="form-control" ng-model="loginModal.password" placeholder="Введите пароль" required>
           </div>
           <div class="checkbox">
             <label>
@@ -23,7 +23,7 @@
           <hr/>
           <div class="row">
             <div class="col-md-4 col-md-offset-4">
-              <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="login.loginSubmit(loginModal.MobilePhone,loginModal.Password,loginModal.privatePolicy)">Submit</button>
+              <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="login.loginSubmit(loginModal.mobilePhone,loginModal.password,loginModal.privatePolicy)">Submit</button>
               <button class="btn btn-warning" type="button" ng-click="$hide()">Cancel</button>
             </div>
           </div>

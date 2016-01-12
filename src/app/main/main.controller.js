@@ -52,6 +52,8 @@
     vm.showRegisterationModal = function () {
       myOtherModal.$promise.then(myOtherModal.show);
     };
+
+
     vm.registrationSubmin = function (mobilePhone,password,privatePolicy) {
 
       $log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy);

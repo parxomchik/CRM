@@ -6,58 +6,31 @@
         .factory('loginFactory', loginFactory);
 
     /** @ngInject */
-    function loginFactory($http,$cookies,$log,$state,restConfig){
+    function loginFactory($http,$cookies,$log,restConfig,$httpParamSerializerJQLike){
         return {
 
-            //sendLogin: function (data) {
-            //    return $http({
-            //        method: 'POST',
-            //        url: restConfig + 'login',
-            //        data: $.param({
-            //            email:  data.email,
-            //            password:  data.password
-            //        }),
-            //        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-            //    })
-            //},
-
-
-          sendLogin: function (mobilePhone,password,privatePolicy) {
-            return $http({
-              method: "POST",
-              url: restConfig.url+'login',
-              headers:{
-                'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
-              },
-              data:$httpParamSerializerJQLike(savmobilePhone,password,privatePolicy)
-
-
-              //  method: 'POST',
-              //  url: restConfig.url+'feedback/save2',
-              //  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-              //  data: {
-              //    //data:{
-              //      data:saveData,
-              //    //  selectedSubject:selectedSubject,
-              //    //  feedbackText:feedbackText
-              //    //},
-              //  session_id: $cookies.getObject('session_id')
-              //}
-
-
-            });
-
-          },
-            sendRegistration: function (data) {
-                return $http({
-                    method: 'POST',
-                    url: restConfig + 'registration',
-                    data: $.param({
-                        session_id: $cookies.getObject('session_id')
-                    }),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                })
+            sendLogin: function (mobilePhone,password,privatePolicy) {
+              return $http({
+                method: "POST",
+                url: restConfig.url+'login',
+                headers:{
+                  'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
+                },
+                data:$httpParamSerializerJQLike(mobilePhone,password,privatePolicy)
+              });
             },
+
+            sendRegistration: function (mobilePhone,password,privatePolicy) {
+              return $http({
+                method: "POST",
+                url: restConfig.url+'registration',
+                headers:{
+                  'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
+                },
+                data:$httpParamSerializerJQLike(mobilePhone,password,privatePolicy)
+              });
+            },
+
             userStatus: function ($state,$q) {
                 //if(res = 'undefided'){
                 //  alert(222)
