@@ -42,18 +42,36 @@
       }
     ];
 
-    var myOtherModal = $modal({scope: $scope, template: './app/components/templates/modal-registration.tpl.html', show: false});
+    var myOtherModal = $modal({
+      scope: $scope,
+      template: './app/components/templates/modal-registration.tpl.html',
+      show: false
+    });
+
     // Show when some event occurs (use $promise property to ensure the template has been loaded)
     vm.showRegisterationModal = function () {
       myOtherModal.$promise.then(myOtherModal.show);
     };
-    vm.registrationSubmin = function (MobilePhone,Password,privatePolicy) {
-      $log.debug(MobilePhone,Password,privatePolicy);
-      vm.registrationData = {
-        phoneNumber:MobilePhone,
-        password: Password,
-        privatePolicy: privatePolicy
-      };
+    vm.registrationSubmin = function (mobilePhone,password,privatePolicy) {
+
+      $log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy);
+
+      loginFactory.sendLogin(mobilePhone,password,privatePolicy)
+        .success(function (data) {
+          $log.debug('loginFactory.sendLogin success = '+angular.toJson(data));
+          // redirect
+        })
+        .error(function (data) {
+          $log.debug('loginFactory.sendLogin error = '+angular.toJson(data));
+        });
+
+
+
+      //vm.registrationData = {
+      //  phoneNumber:MobilePhone,
+      //  password: Password,
+      //  privatePolicy: privatePolicy
+      //};
       //$uibModalInstance.close(vm.registrationData);
     };
 

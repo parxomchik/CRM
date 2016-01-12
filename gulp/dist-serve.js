@@ -5,7 +5,7 @@ var gulp = require('gulp'),
     open = require('gulp-open');
 
 
-gulp.task('serve-dist', function () {
+gulp.task('dist-serve', function () {
   connect.server({
     root: 'dist',
     port: 8001,

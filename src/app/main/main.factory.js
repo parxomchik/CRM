@@ -6,23 +6,52 @@
         .factory('loginFactory', loginFactory);
 
     /** @ngInject */
-    function loginFactory($http,$cookies,$log,$state){
+    function loginFactory($http,$cookies,$log,$state,restConfig){
         return {
-            sendLogin: function (data) {
-                return $http({
-                    method: 'POST',
-                    url: 'http://wall.epicentr.com:8081/api/login',
-                    data: $.param({
-                        email:  data.email,
-                        password:  data.password
-                    }),
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'}
-                })
-            },
+
+            //sendLogin: function (data) {
+            //    return $http({
+            //        method: 'POST',
+            //        url: restConfig + 'login',
+            //        data: $.param({
+            //            email:  data.email,
+            //            password:  data.password
+            //        }),
+            //        headers: {'Content-Type': 'application/x-www-form-urlencoded'}
+            //    })
+            //},
+
+
+          sendLogin: function (mobilePhone,password,privatePolicy) {
+            return $http({
+              method: "POST",
+              url: restConfig.url+'login',
+              headers:{
+                'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
+              },
+              data:$httpParamSerializerJQLike(savmobilePhone,password,privatePolicy)
+
+
+              //  method: 'POST',
+              //  url: restConfig.url+'feedback/save2',
+              //  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+              //  data: {
+              //    //data:{
+              //      data:saveData,
+              //    //  selectedSubject:selectedSubject,
+              //    //  feedbackText:feedbackText
+              //    //},
+              //  session_id: $cookies.getObject('session_id')
+              //}
+
+
+            });
+
+          },
             sendRegistration: function (data) {
                 return $http({
                     method: 'POST',
-                    url: 'http://wall.epicentr.com:8081/api/dashboard',
+                    url: restConfig + 'registration',
                     data: $.param({
                         session_id: $cookies.getObject('session_id')
                     }),

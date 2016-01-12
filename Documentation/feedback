@@ -1,0 +1,49 @@
+Инициализация
+
+
+url: api/feedback
+
+received_data:
+{
+    feedbackText:'',
+    subjects: [
+        {
+            subjectId:1,
+            subjectName:'aaa1'
+        },
+        {
+            subjectId:2,
+            subjectName:'aaa2'
+        },
+        {
+            subjectId:3,
+            subjectName:'aaa3'
+        }
+    ],
+    selectedSubject:{
+        subjectId:2,
+        subjectName:'aaa2'
+   }
+
+}
+
+
+Отправка
+
+url: api/feedback/save2
+method: post
+
+sent_data:
+
+{
+    feedbackText:''
+    selectedSubject:{
+        subjectId:2,
+        subjectName:'aaa2'
+   }
+}
+
+
+
+
+
