@@ -13,6 +13,7 @@ var app;
                 this.sweet = sweet;
                 $log.debug("clientFeedbackController start");
                 var vm = this;
+                this.init();
                 //$scope.vm = this;
                 //vm.send  = function(selectedSubject:string,feedbackText:string,feedbackFactory,$log,sweet)
                 //vm.send  = function(selectedSubject:string,feedbackText:string) {
@@ -43,14 +44,6 @@ var app;
                 //      $log.debug('feedbackFactory.sendFeedback error = '+angular.toJson(data));
                 //    });
                 //}
-                feedbackFactory.getFeedback()
-                    .success(function (data) {
-                    $log.debug('feedbackFactory.getFeedback success = ' + angular.toJson(data));
-                    vm.feedbacks = data.data;
-                })
-                    .error(function (data) {
-                    $log.debug('feedbackFactory.getFeedback error = ' + angular.toJson(data));
-                });
                 //  vm.send = function (selectedSubject:string,feedbackText:string) {
                 //  $log.debug('selected selectedSubject = '+ angular.toJson(selectedSubject));
                 //  $log.debug('selected feedbackText = '+ angular.toJson(feedbackText));
@@ -78,9 +71,12 @@ var app;
                 //      });
                 //};
             }
-            ClientFeedbackController.prototype.send = function (selectedSubject, feedbackText, feedbackFactory, $log) {
-                this.$log.debug('selected selectedSubject = ' + angular.toJson(selectedSubject));
-                this.$log.debug('selected feedbackText = ' + angular.toJson(feedbackText));
+            ClientFeedbackController.prototype.send = function (selectedSubject, feedbackText, $log, feedbackFactory, sweet) {
+                $log = this.$log;
+                feedbackFactory = this.feedbackFactory;
+                sweet = this.sweet;
+                $log.debug('selected selectedSubject = ' + angular.toJson(selectedSubject));
+                $log.debug('selected feedbackText = ' + angular.toJson(feedbackText));
                 var saveData = {
                     selectedSubject: selectedSubject,
                     feedbackText: feedbackText
@@ -88,10 +84,10 @@ var app;
                 //var data = JSON.stringify(saveData);
                 // var data = angular.toJson(saveData);
                 //feedbackFactory.sendFeedback(selectedSubject,feedbackText)
-                this.feedbackFactory.sendFeedback(saveData)
+                feedbackFactory.sendFeedback(saveData)
                     .success(function (data) {
                     $log.debug('feedbackFactory.sendFeedback success = ' + angular.toJson(data));
-                    this.sweet.show({
+                    sweet.show({
                         title: "ДАНІ ЗБЕРЕЖЕНО",
                         text: "You will not be able to recover this imaginary file!",
                         type: "success",
@@ -101,6 +97,18 @@ var app;
                 })
                     .error(function (data) {
                     $log.debug('feedbackFactory.sendFeedback error = ' + angular.toJson(data));
+                });
+            };
+            ClientFeedbackController.prototype.init = function () {
+                var vm = this;
+                var $log = this.$log;
+                this.feedbackFactory.getFeedback()
+                    .success(function (data) {
+                    $log.debug('feedbackFactory.getFeedback success = ' + angular.toJson(data));
+                    vm.feedbacks = data.data;
+                })
+                    .error(function (data) {
+                    $log.debug('feedbackFactory.getFeedback error = ' + angular.toJson(data));
                 });
             };
             return ClientFeedbackController;
