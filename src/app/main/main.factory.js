@@ -20,14 +20,14 @@
             //  });
             //},
 
-            sendRegistration: function (mobilePhone,password,privatePolicy) {
+            sendRegistration: function (mobilePhone,password,privatePolicy,smsPassword) {
               return $http({
                 method: "POST",
                 url: restConfig.url+'registration',
                 headers:{
                   'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
                 },
-                data:$httpParamSerializerJQLike(mobilePhone,password,privatePolicy)
+                data:$httpParamSerializerJQLike(mobilePhone,password,privatePolicy,smsPassword)
               });
             },
 

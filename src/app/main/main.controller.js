@@ -54,18 +54,38 @@
     };
 
 
-    vm.registrationSubmit = function (mobilePhone,password,privatePolicy) {
+    vm.registrationSubmit = function (mobilePhone,password,privatePolicy,smsPassword) {
 
-      $log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy);
+      $log.debug('vm.isSmsShow = '+vm.isSmsShow);
+      $log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy,'smsPassword = '+smsPassword);
+      //vm.isSmsShow = true;
 
-      loginFactory.sendRegistration(mobilePhone,password,privatePolicy)
-        .success(function (data) {
-          $log.debug('loginFactory.sendLogin success = '+angular.toJson(data));
-          // redirect
-        })
-        .error(function (data) {
-          $log.debug('loginFactory.sendLogin error = '+angular.toJson(data));
-        });
+      if(vm.isSmsShow === undefined){
+        //vm.disableForm = true;
+        vm.isSmsShow = true;
+        loginFactory.sendRegistration(mobilePhone,password,privatePolicy,smsPassword)
+          .success(function (data) {
+            $log.debug('loginFactory.sendLogin success = '+angular.toJson(data));
+            // redirect
+          })
+          .error(function (data) {
+            $log.debug('loginFactory.sendLogin error = '+angular.toJson(data));
+          });
+      }
+      else {
+        $log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy,'smsPassword = '+smsPassword);
+
+        loginFactory.sendRegistration(mobilePhone,password,privatePolicy,smsPassword)
+          .success(function (data) {
+            $log.debug('loginFactory.sendLogin success = '+angular.toJson(data));
+            // redirect
+          })
+          .error(function (data) {
+            $log.debug('loginFactory.sendLogin error = '+angular.toJson(data));
+          });
+      }
+
+
 
 
       //$uibModalInstance.close(vm.registrationData);
