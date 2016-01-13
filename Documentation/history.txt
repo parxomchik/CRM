@@ -1,0 +1,94 @@
+Инициализация
+
+
+url: api/history
+
+received_data:
+
+    bonuses = {
+        activeBonus: 123,
+        bonusReceived:132
+    };
+    Делается для того чтоб не передавать слишком много данных
+
+    Получаем объект сорт который конец периода текущий день начала периода это первое число последней даты покупки в месяце.
+
+
+    sort={
+        periodBegin:'12.03.2015',
+        periodEnd:'12.03.2015'
+    };
+
+    orders = [
+        {
+            orderDate:'22.10.2015',
+            orderCardNumber:'22231231',
+            orderDocNumber:'123123',
+            orderTotal:'1222',
+            orderBonusTotal: '333',
+            orderSaifTotal: '12',
+            orderBonusDeducted: '12',
+            orderSaifDeducted: '12'
+        },
+        {
+            orderDate:'22.10.2015',
+            orderCardNumber:'22231231',
+            orderDocNumber:'123123',
+            orderTotal:'1222',
+            orderBonusTotal: '333',
+            orderSaifTotal: '12',
+            orderBonusDeducted: '12',
+            orderSaifDeducted: '12'
+        }
+    ];
+
+
+
+
+Отправка сортировки по периоду
+
+url: api/history/getPeriod
+
+
+Если при получении периода нет данных - прислать сообщение о том что на данный период нет данных для отображения.
+
+method: post
+sent_data:
+
+    sort={
+        periodBegin:'12.03.2015',
+        periodEnd:'12.03.2015'
+    };
+
+ received_data:
+
+
+       orders = [
+           {
+               orderDate:'22.10.2015',
+               orderCardNumber:'22231231',
+               orderDocNumber:'123123',
+               orderTotal:'1222',
+               orderBonusTotal: '333',
+               orderSaifTotal: '12',
+               orderBonusDeducted: '12',
+               orderSaifDeducted: '12'
+           },
+           {
+               orderDate:'22.10.2015',
+               orderCardNumber:'22231231',
+               orderDocNumber:'123123',
+               orderTotal:'1222',
+               orderBonusTotal: '333',
+               orderSaifTotal: '12',
+               orderBonusDeducted: '12',
+               orderSaifDeducted: '12'
+           }
+       ];
+
+
+
+
+
+
+

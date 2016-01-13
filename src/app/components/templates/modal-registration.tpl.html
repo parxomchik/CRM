@@ -22,26 +22,17 @@
             </label>
           </div>
           <hr/>
-          <!--<div>-->
             <div class="form-group" ng-if="main.isSmsShow" >
               <label for="smsPassword">Веедіть пароль з смс</label>
               <input type="number" class="form-control" id="smsPassword" ng-model="registrationModal.smsPassword" placeholder="Веедіть пароль з смс">
               <hr/>
             </div>
-          <!--</div>-->
-          <!--<pre>-->
-            <!--{{main.isSmsShow}}-->
-          <!--</pre>-->
-
           <div class="row">
             <div class="col-md-6 col-md-offset-3">
               <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid" ng-click="main.registrationSubmit(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy,registrationModal.smsPassword)">Зареєструватись</button>
               <button class="btn btn-warning" type="button" ng-click="$hide()">Відмінити</button>
             </div>
           </div>
-
-
-
         </form>
     </div>
   </div>

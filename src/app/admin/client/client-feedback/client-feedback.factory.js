@@ -100,7 +100,6 @@
              *
              * Get the message.
              **/
-            //sendFeedback: function (selectedSubject,feedbackText) {
             sendFeedback: function (saveData) {
                 return $http({
                   method: "POST",
@@ -110,18 +109,6 @@
                   },
                   data:$httpParamSerializerJQLike(saveData)
 
-
-                  //  method: 'POST',
-                  //  url: restConfig.url+'feedback/save2',
-                  //  headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                  //  data: {
-                  //    //data:{
-                  //      data:saveData,
-                  //    //  selectedSubject:selectedSubject,
-                  //    //  feedbackText:feedbackText
-                  //    //},
-                  //  session_id: $cookies.getObject('session_id')
-                  //}
                 });
 
             }

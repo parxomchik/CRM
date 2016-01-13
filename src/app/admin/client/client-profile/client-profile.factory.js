@@ -215,17 +215,10 @@
                   }
                 })
             },
-
-
             getProfileRegions: function (areaId) {
                 return $http({
                     method: 'POST',
                     url: restConfig.url+'profile/regions',
-                    //data: $.param({
-                    //    areaId:areaId,
-                    //    session_id: $cookies.getObject('session_id')
-                    //}),
-                    //headers: {'Content-Type': 'application/x-www-form-urlencoded'}
                     headers: {'Content-Type': 'application/x-www-form-urlencoded'},
                     data: {
                       areaId:areaId,
@@ -249,9 +242,7 @@
                     method: 'POST',
                     url: restConfig.url+'profile',
                     headers: {'Content-Type': 'application/x-www-form-urlencoded;charset=utf-8'},
-                    //data:data
                     data:$httpParamSerializerJQLike(data)
-                    //session_id: $cookies.getObject('session_id')
                 })
             }
         };

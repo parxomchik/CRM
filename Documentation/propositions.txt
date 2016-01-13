@@ -1,0 +1,31 @@
+Инициализация
+
+url: api/propositions
+
+received_data:
+
+propositions =
+
+        [
+            {
+                id:1,
+                imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5',
+            },
+            {
+                id:2,
+                imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5',
+            },
+            {
+                id:3,
+                imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5',
+            },
+            {
+                id:4,
+                imgUrl: 'http://placehold.it/460x250/e67e22/ffffff&text=HTML5'
+            }
+        ];
+
+пока ничего не отправляем.
+
+
+

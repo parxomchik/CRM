@@ -6,7 +6,7 @@
         .factory('historyFactory', historyFactory);
 
     /** @ngInject */
-    function historyFactory($cookies,$http,$stateParams,restConfig) {
+    function historyFactory($cookies,$http,restConfig) {
       return {
         getHistory: function () {
           return $http({

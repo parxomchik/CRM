@@ -6,7 +6,7 @@ angular
     .controller('clientHistoryController', clientHistoryController);
 
 /** @ngInject */
-function clientHistoryController($scope,$log,historyFactory) {
+function clientHistoryController($log,historyFactory) {
     $log.debug("clientHistoryController start");
 
     var vm = this;
@@ -38,41 +38,5 @@ function clientHistoryController($scope,$log,historyFactory) {
 
          });
      };
-    //vm.bonuses = {
-    //    activeBonus: 123,
-    //    bonusReceived:132
-    //};
-    //vm.sort={
-    //    periodBegin:'12.03.2015',
-    //    periodEnd:'12.03.2015'
-    //};
-
-    //vm.orders = [
-    //    {
-    //        orderDate:'22.10.2015',
-    //        orderCardNumber:'22231231',
-    //        orderDocNumber:'123123',
-    //        orderTotal:'1222',
-    //        orderBonusTotal: '333',
-    //        orderSaifTotal: '12',
-    //        orderBonusDeducted: '12',
-    //        orderSaifDeducted: '12'
-    //    },
-    //    {
-    //        orderDate:'22.10.2015',
-    //        orderCardNumber:'22231231',
-    //        orderDocNumber:'123123',
-    //        orderTotal:'1222',
-    //        orderBonusTotal: '333',
-    //        orderSaifTotal: '12',
-    //        orderBonusDeducted: '12',
-    //        orderSaifDeducted: '12'
-    //    }
-    //];
-
-
-
-
-
 }
 })();

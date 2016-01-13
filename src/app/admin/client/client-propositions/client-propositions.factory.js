@@ -6,7 +6,7 @@
         .factory('propositionsFactory', propositionsFactory);
 
     /** @ngInject */
-    function propositionsFactory($cookies,$http,$stateParams,restConfig) {
+    function propositionsFactory($cookies,$http,restConfig) {
         return {
             getPropositions: function () {
                 return $http({
