@@ -6,7 +6,7 @@ module app.feedback {
     selectedSubject:string;
     feedbackText:{};
     feedbacks:any[];
-    send(selectedSubject:string,feedbackText:string, $log,feedbackFactory,sweet):void;
+    send(selectedSubject:string,feedbackText:string,$log):void;
     init():void;
   }
 
@@ -19,21 +19,19 @@ module app.feedback {
 
     /** @ngInject */
     constructor(
-      public $log,
+      public $log:angular.ILogService,
       public feedbackFactory,
       public sweet
      ){
          $log.debug("clientFeedbackController start");
-
-         var vm = this;
          this.init();
     }
     /** @ngInject */
-     send(selectedSubject:string,feedbackText:string, $log, feedbackFactory, sweet):void{
+     send(selectedSubject:string,feedbackText:string):void{
 
-      $log = this.$log;
-      feedbackFactory = this.feedbackFactory ;
-      sweet = this.sweet;
+      var $log = this.$log;
+      var feedbackFactory = this.feedbackFactory ;
+      var sweet = this.sweet;
 
       $log.debug('selected selectedSubject = '+ angular.toJson(selectedSubject));
       $log.debug('selected feedbackText = '+ angular.toJson(feedbackText));
@@ -44,7 +42,8 @@ module app.feedback {
       };
 
       feedbackFactory.sendFeedback(saveData)
-        .success(function (data) {
+        .success(function (data)
+        {
           $log.debug('feedbackFactory.sendFeedback success = '+angular.toJson(data));
           sweet.show({
             title: "ДАНІ ЗБЕРЕЖЕНО",
@@ -63,7 +62,9 @@ module app.feedback {
      init():void{
       var vm = this;
       var $log = this.$log;
-      this.feedbackFactory.getFeedback()
+      //var feedbackFactory = this.feedbackFactory ;
+
+       this.feedbackFactory.getFeedback()
         .success(function (data) {
           $log.debug('feedbackFactory.getFeedback success = '+angular.toJson(data));
           vm.feedbacks = data.data;

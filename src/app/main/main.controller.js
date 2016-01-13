@@ -24,10 +24,10 @@
 
   angular
     .module('angularStrap')
-    .controller('MainController', MainController)
+    .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController(restConfig,$log,$scope, loginFactory,$modal) {
+  function MainController(restConfig,$log,$scope,loginFactory,$modal) {
     var vm = this;
 
     vm.slides = [
@@ -58,7 +58,7 @@
 
       $log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy);
 
-      loginFactory.sendLogin(mobilePhone,password,privatePolicy)
+      loginFactory.sendRegistration(mobilePhone,password,privatePolicy)
         .success(function (data) {
           $log.debug('loginFactory.sendLogin success = '+angular.toJson(data));
           // redirect

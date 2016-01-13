@@ -15,9 +15,10 @@
             <label>Введите пароль</label>
             <input type="password" name="password" class="form-control" ng-model="loginModal.password" placeholder="Введите пароль" required>
           </div>
-          <div class="checkbox">
-            <label>
-              <input type="checkbox" ng-model="loginModal.privatePolicy" required> Check me out
+          <div class="checkbox checkbox-primary" >
+            <input id="policy_checkbox" class="styled" type="checkbox" ng-model="loginModal.privatePolicy" >
+            <label for="policy_checkbox">
+              Погоджуюсь з правилами програми
             </label>
           </div>
           <hr/>

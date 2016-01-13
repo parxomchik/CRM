@@ -10,14 +10,13 @@ var app;
                 this.feedbackFactory = feedbackFactory;
                 this.sweet = sweet;
                 $log.debug("clientFeedbackController start");
-                var vm = this;
                 this.init();
             }
             /** @ngInject */
-            ClientFeedbackController.prototype.send = function (selectedSubject, feedbackText, $log, feedbackFactory, sweet) {
-                $log = this.$log;
-                feedbackFactory = this.feedbackFactory;
-                sweet = this.sweet;
+            ClientFeedbackController.prototype.send = function (selectedSubject, feedbackText) {
+                var $log = this.$log;
+                var feedbackFactory = this.feedbackFactory;
+                var sweet = this.sweet;
                 $log.debug('selected selectedSubject = ' + angular.toJson(selectedSubject));
                 $log.debug('selected feedbackText = ' + angular.toJson(feedbackText));
                 var saveData = {
@@ -42,6 +41,7 @@ var app;
             ClientFeedbackController.prototype.init = function () {
                 var vm = this;
                 var $log = this.$log;
+                //var feedbackFactory = this.feedbackFactory ;
                 this.feedbackFactory.getFeedback()
                     .success(function (data) {
                     $log.debug('feedbackFactory.getFeedback success = ' + angular.toJson(data));

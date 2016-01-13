@@ -9,16 +9,16 @@
     function loginFactory($http,$cookies,$log,restConfig,$httpParamSerializerJQLike){
         return {
 
-            sendLogin: function (mobilePhone,password,privatePolicy) {
-              return $http({
-                method: "POST",
-                url: restConfig.url+'login',
-                headers:{
-                  'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
-                },
-                data:$httpParamSerializerJQLike(mobilePhone,password,privatePolicy)
-              });
-            },
+            //sendLogin: function (mobilePhone,password,privatePolicy) {
+            //  return $http({
+            //    method: "POST",
+            //    url: restConfig.url+'login',
+            //    headers:{
+            //      'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
+            //    },
+            //    data:$httpParamSerializerJQLike(mobilePhone,password,privatePolicy)
+            //  });
+            //},
 
             sendRegistration: function (mobilePhone,password,privatePolicy) {
               return $http({

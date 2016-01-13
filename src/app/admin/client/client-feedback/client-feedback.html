@@ -17,7 +17,7 @@
         <h4>Введіть текст звернення</h4>
         <textarea class="form-control margin-top-10" rows="14" ng-model="feedback.feedbacks.feedbackText" required></textarea>
         <!--<button id="feedback-submit" ng-disabled="clientFeedbackForm.$invalid" type="submit" class="btn btn-primary margin-top-20 center-block" ng-click="feedback.send(feedback.feedbacks.selectedSubject,feedback.feedbacks.feedbackText)">Надіслати</button>-->
-        <button id="feedback-submit" ng-disabled="clientFeedbackForm.$invalid" type="submit" class="btn btn-primary margin-top-20 center-block" ng-click="feedback.send(feedback.feedbacks.selectedSubject,feedback.feedbacks.feedbackText)">Надіслати</button>
+        <button id="feedback-submit" ng-disabled="clientFeedbackForm.$invalid" type="submit" class="btn btn-primary margin-top-20 center-block" ng-click="feedback.send(feedback.feedbacks.selectedSubject,feedback.feedbacks.feedbackText,$log)">Надіслати</button>
       </div>
     </form>
   </div>
