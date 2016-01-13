@@ -54,7 +54,7 @@
     };
 
 
-    vm.registrationSubmin = function (mobilePhone,password,privatePolicy) {
+    vm.registrationSubmit = function (mobilePhone,password,privatePolicy) {
 
       $log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy);
 
@@ -68,12 +68,6 @@
         });
 
 
-
-      //vm.registrationData = {
-      //  phoneNumber:MobilePhone,
-      //  password: Password,
-      //  privatePolicy: privatePolicy
-      //};
       //$uibModalInstance.close(vm.registrationData);
     };
 
