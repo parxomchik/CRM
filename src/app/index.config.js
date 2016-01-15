@@ -17,7 +17,8 @@
       startWeek: 1,
       maxDate: new Date(),
       modelDateFormat: 'dd.MM.yyyy',
-      dateType: 'date'
+      dateType: 'date',
+      language: 'uk-ua'
     });
   }
 

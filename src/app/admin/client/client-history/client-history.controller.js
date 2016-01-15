@@ -7,6 +7,7 @@ angular
 
 /** @ngInject */
 function clientHistoryController($log,historyFactory) {
+
     $log.debug("clientHistoryController start");
 
     var vm = this;
@@ -27,7 +28,6 @@ function clientHistoryController($log,historyFactory) {
 
         });
      vm.historySearch = function (periodBegin,periodEnd) {
-       alert('aaa');
        historyFactory.getPeriod(periodBegin,periodEnd)
          .success(function (data) {
            $log.debug('historyFactory.getPeriod success = '+angular.toJson(data));
@@ -35,7 +35,6 @@ function clientHistoryController($log,historyFactory) {
          })
          .error(function (data) {
            $log.debug('historyFactory.getPeriod error = '+angular.toJson(data));
-
          });
      };
 }

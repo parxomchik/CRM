@@ -33,32 +33,119 @@ function clientProfileController($log,profileFactory,sweet,$filter) {
       delete profileData.MaritalStatuses;
       delete profileData.Regions;
 
-      $log.debug(profileData);
+      $log.debug('vm.saveProfile profileData = '+angular.toJson(profileData));
+      $log.debug('vm.saveProfile profileData = '+angular.toJson(profileData.LastName));
+
+
+      //function CheckForm(){
+      //
+      //  $log.error('CheckForm start');
+      //
+      //  //for (var i = 0;  ){}
+      //
+      //
+      //   /*
+      //    *   Пройтись по всем полям с пометкой или класом если это поле пустое добавить клас контейнеру has-error и вставить span с ошибкой
+      //    *   Если все поля заполнены - выполнить отправку
+      //     *
+      //    *
+      //    *
+      //    *
+      //     *  */
+      //
+      //}
+      //
+      //
+      //CheckForm.prototype.resetErrors = function (){
+      //
+      // return $log.error('checkForm prototype works');
+      //
+      //};
+      //
+      //
+      //
+      //
+      //var profileForm = new CheckForm();
+      //
+      //profileForm.resetErrors();
+
+      //if(profileData.LastName === '' || profileData.FirstName === '' || profileData.SurName === ''){
+      //
+      //  if(profileData.LastName === ''){
+      //    angular.element(document.querySelector('#lastname')).addClass('has-error');
+      //    vm.focusInputLastName = true;
+      //  }
+      //  else{
+      //    angular.element(document.querySelector('#lastname')).removeClass('has-error');
+      //    vm.focusInputLastName = false;
+      //  }
+      //
+      //
+      //  if(profileData.FirstName === ''){
+      //    angular.element(document.querySelector('#firstname')).addClass('has-error');
+      //    vm.focusInputFirstName = true;
+      //  }
+      //  else{
+      //    angular.element(document.querySelector('#firstname')).removeClass('has-error');
+      //    vm.focusInputFirstName = false;
+      //  }
+      //
+      //
+      //  if(profileData.SurName === ''){
+      //    angular.element(document.querySelector('#surname')).addClass('has-error');
+      //    vm.focusInputSurName = true;
+      //  }
+      //  else{
+      //    angular.element(document.querySelector('#surname')).removeClass('has-error');
+      //    vm.focusInputSurName = false;
+      //  }
+      //
+      //
+      //}
+
+
+      //else {
+        //angular.element(document.querySelector('#lastname')).removeClass('has-error');
+        //vm.focusInputLastName = false;
+        //
+        //
+        //angular.element(document.querySelector('#firstname')).removeClass('has-error');
+        //vm.focusInputFirstName = false;
+        //
+        //angular.element(document.querySelector('#surname')).removeClass('has-error');
+        //vm.focusInputSurName = false;
 
 
 
-      profileFactory.saveProfile(profileData)
-      .success(function(data){
-        $log.debug(' profileFactory.saveProfile success = '+angular.toJson(data));
-        sweet.show({
-          title: "ДАНІ ЗБЕРЕЖЕНО",
-          text: "You will not be able to recover this imaginary file!",
-          type: "success",
-          timer: 1500,
-          showConfirmButton: false
-        });
-      })
-      .error(function (data) {
-        $log.debug(' profileFactory.saveProfile error = '+angular.toJson(data));
-        sweet.show({
-          title: "ПОМИЛКА ЗБЕРЕЖЕННЯ",
-          text: "Спробуйте пізніше",
-          type: "error",
-          timer: 1500,
-          showConfirmButton: false
-        });
-      });
-    };
+        profileFactory.saveProfile(profileData)
+          .success(function(data){
+            $log.debug(' profileFactory.saveProfile success = '+angular.toJson(data));
+            sweet.show({
+              title: "ДАНІ ЗБЕРЕЖЕНО",
+              text: "You will not be able to recover this imaginary file!",
+              type: "success",
+              timer: 1500,
+              showConfirmButton: false
+            });
+          })
+          .error(function (data) {
+            $log.debug(' profileFactory.saveProfile error = '+angular.toJson(data));
+            sweet.show({
+              title: "ПОМИЛКА ЗБЕРЕЖЕННЯ",
+              text: "Спробуйте пізніше",
+              type: "error",
+              timer: 1500,
+              showConfirmButton: false
+            });
+          });
+      };
+      //};
+
+
+
+      //};
+
+
 
     vm.KidsSelect = function (value){
             $log.debug('vm.profiles.KidsIsSelected = '+value);
@@ -137,6 +224,8 @@ function clientProfileController($log,profileFactory,sweet,$filter) {
             vm.profiles.RegionSelectIsDisabled = true;
         }
     };
+
+
     vm.RegionChange = function (data) {
         profileFactory.getProfileCities(data)
             .success(function (data) {
@@ -157,5 +246,8 @@ function clientProfileController($log,profileFactory,sweet,$filter) {
 
         }
     }
+
+
+
 }
 })();

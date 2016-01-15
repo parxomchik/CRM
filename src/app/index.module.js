@@ -27,6 +27,7 @@
         'angular-carousel',
         'hSweetAlert',
         'ngMask',
+        'focus-if',
         'mgcrea.ngStrap'
 
     ])
