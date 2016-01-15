@@ -337,14 +337,14 @@
     <div class="form-group col-md-12 col-lg-12 margin-left-20 padding-left-0">
     <div class="col-md-12">
       <div class="checkbox checkbox-primary"  id="policy-checkbox-wrapper" >
-        <input id="policy_checkbox" class="styled" type="checkbox" ng-model="profile.profiles.PolicyIsSelected" required>
+        <input id="policy_checkbox" class="styled" type="checkbox" ng-model="profile.profiles.PolicyIsSelected" >
         <label for="policy_checkbox">
         </label>
       </div>
     </div>
     <div class="col-md-12 col-xs-12 padding-left-0">
     <h4>"Я погоджуюсь з обробкою ТОВ "Епіцентр К" моїх персональних даних, які є в цій формі для реалізації програми лояльності Епіцентр. Я заявляю, про своє право на доступ до своїх персональних даних та право на їх виправлення, та що ці персональні дані були надані на добровільній основі. Я заявляю, что приймаю усі офіційні правила Програми лояльності. Персональна інформація, яку містить дана форма буде внесена в базу даних ТОВ "Епіцентр К".</h4>
-    <button id="profile-submit" type="button" ng-disabled="isDisabled || !ClientProfile.$valid" ng-click="profile.saveProfile(profile.profiles)" class="btn btn-success center-block">Зберегти</button>
+    <button id="profile-submit" type="button" ng-disabled="isDisabled || !profile.profiles.PolicyIsSelected" ng-click="profile.saveProfile(profile.profiles)" class="btn btn-success center-block">Зберегти</button>
 
     </div>
     </div>
