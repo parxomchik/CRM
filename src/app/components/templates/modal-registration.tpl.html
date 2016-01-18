@@ -3,18 +3,28 @@
     <div class="modal-content">
       <div class="modal-header" >
         <button type="button" class="close" ng-click="$hide()">&times;</button>
-        <h4 class="modal-title" >111</h4>
+        <h4 class="modal-title" >Регєстрація нового користувача</h4>
       </div>
       <div class="modal-body" >
-        <form name="registrationForm" novalidate ng-submit="registrationModal.registrationSubmin(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy,registrationModal.smsPassword)">
+        <form name="registrationForm" novalidate ng-submit="registrationModal.registrationSubmin(registrationModal)">
+          <div class="form-group" ng-class="{'has-error': registrationForm.cardNumber.$dirty && registrationForm.cardNumber.$invalid, 'has-success':registrationForm.cardNumber.$valid}">
+            <label>Введіть номер бонусної картки</label>
+            <input type="number" name="cardNumber" class="form-control" ng-model="registrationModal.cardNumber" placeholder="Номер бонусної картки"  ng-minlength="13" ng-maxlength="20" ignore-mouse-wheel required ng-disabled="main.isSmsShow">
+            <span class='' ng-if="registrationForm.cardNumber.$dirty && registrationForm.cardNumber.$invalid">Номер картки повинен мати від 13 до 20 чисел</span>
+          </div>
           <div class="form-group">
             <label>Введите номер телефона</label>
-            <input type="text" name="MobilePhone" class="form-control" ng-model="registrationModal.MobilePhone" placeholder="Введите номер телефона"   ui-mask="(999) 999-9999" ui-mask-placeholder required ng-disabled="main.isSmsShow">
+            <input type="text" name="MobilePhone" class="form-control" ng-model="registrationModal.mobilePhone" placeholder="Номер телефона"   ui-mask="+380(99) 999-9999" ui-mask-placeholder required ng-disabled="main.isSmsShow">
           </div>
-          <div class="form-group">
-            <label>Введите пароль</label>
-            <input type="password" name="Password" class="form-control" ng-model="registrationModal.Password" placeholder="Введите пароль" required ng-disabled="main.isSmsShow">
+          <div class="form-group" ng-class="{'has-error': registrationForm.repeatPassword.$dirty && registrationModal.password !== registrationModal.repeatPassword}">
+            <label>Введіть пароль</label>
+            <input type="password" name="password" class="form-control" ng-model="registrationModal.password" placeholder="Пароль" required ng-disabled="main.isSmsShow">
           </div>
+          <div class="form-group" ng-class="{'has-error':registrationForm.repeatPassword.$dirty && registrationModal.password !== registrationModal.repeatPassword}">
+            <label>Повторіть пароль</label>
+            <input type="password" name="repeatPassword" class="form-control" ng-model="registrationModal.repeatPassword" placeholder="Повторіть пароль" required ng-disabled="main.isSmsShow">
+          </div>
+          <span class='span-error' ng-if="registrationForm.repeatPassword.$dirty && registrationModal.password !== registrationModal.repeatPassword">Паролі не співпадають</span>
           <div class="checkbox checkbox-primary" >
             <input id="policy_checkbox" class="styled" type="checkbox" ng-model="registrationModal.privatePolicy" required>
             <label for="policy_checkbox">
@@ -29,7 +39,7 @@
             </div>
           <div class="row">
             <div class="col-md-6 col-md-offset-3">
-              <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid" ng-click="main.registrationSubmit(registrationModal.MobilePhone,registrationModal.Password,registrationModal.privatePolicy,registrationModal.smsPassword)">Зареєструватись</button>
+              <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid || registrationModal.password !== registrationModal.repeatPassword" ng-click="main.registrationSubmit(registrationModal)">Зареєструватись</button>
               <button class="btn btn-warning" type="button" ng-click="$hide()">Відмінити</button>
             </div>
           </div>

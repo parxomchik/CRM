@@ -115,6 +115,7 @@ body{
   text-align: center;
   padding-top: 50px;
   padding-left: 0;
+  padding-right: 0;
 
 }
 
@@ -161,6 +162,21 @@ input{
   font-weight: 600;
   color: #246ea8;
 }
+
+.span-error {
+  color: red;
+}
+
+// disable input number scroll
+
+input[type=number]::-webkit-inner-spin-button,
+input[type=number]::-webkit-outer-spin-button {
+  -webkit-appearance: none;
+  margin: 0;
+}
+
+
+
 @media all and (min-width: 600px) {
   .aside-flex {
     flex: 2 ;

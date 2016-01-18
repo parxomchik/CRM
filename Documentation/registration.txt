@@ -5,6 +5,8 @@ method: post
 
 sent_data:
 
+
+cardNumber:number
 mobilePhone: number
 password: text
 privatePolicy: boolean
