@@ -30,8 +30,7 @@
   function MainController($log,$scope,loginFactory,$modal) {
     var vm = this;
         vm.registration = {};
-
-    $log.debug('vm = '+angular.toJson(vm));
+        vm.isSmsShow = false;
 
     vm.slides = [
       {
@@ -44,8 +43,7 @@
         img: './assets/slider/3.jpg'
       }
     ];
-    //var scope = $scope.$new();
-    //scope.data = ...;
+
     var myOtherModal = $modal({
       scope: $scope,
       template: './app/components/templates/modal-registration.tpl.html',
@@ -62,15 +60,11 @@
     vm.registrationSubmit = function (data) {
 
 
-      $log.debug('vm.isSmsShow = '+vm.isSmsShow);
-
-
 
       if(data.password === data.repeatPassword) {
 
 
-        if (vm.isSmsShow === undefined) {
-          //vm.disableForm = true;
+        if (vm.isSmsShow === false) {
           vm.isSmsShow = true;
           loginFactory.sendRegistration(data)
             .success(function (data) {
@@ -94,7 +88,11 @@
               $log.debug('loginFactory.sendLogin success = ' + angular.toJson(data));
               myOtherModal.$promise.then(myOtherModal.hide);
               vm.isSmsShow = false;
+
+              delete vm.registration.smsPassword;
               vm.registration = null;
+
+
 
               // redirect
             })
