@@ -27,8 +27,9 @@
     .controller('MainController', MainController);
 
   /** @ngInject */
-  function MainController(restConfig,$log,$scope,loginFactory,$modal) {
+  function MainController($log,$scope,loginFactory,$modal) {
     var vm = this;
+        vm.registration = {};
 
     $log.debug('vm = '+angular.toJson(vm));
 
@@ -49,8 +50,6 @@
       scope: $scope,
       template: './app/components/templates/modal-registration.tpl.html',
       show: false
-      //controller: MainController,
-      //controllerAs: 'main'
     });
 
     // Show when some event occurs (use $promise property to ensure the template has been loaded)
@@ -61,34 +60,14 @@
 
 
     vm.registrationSubmit = function (data) {
-      //var savedData;
-      //var passwordToSend;
-
-      //$log.debug('Modal scope = '+angular.toJson(scope.cardNumber));
 
 
       $log.debug('vm.isSmsShow = '+vm.isSmsShow);
-      //$log.debug('MobilePhone = '+mobilePhone,'Password = '+password,'privatePolicy = '+privatePolicy,'smsPassword = '+smsPassword);
-      $log.debug(data);
 
 
-      //if(data.cardNumber < 13 && data.cardNumber > 20){
-      //  angular.element(document.querySelectorAll("[ng-model=]"));
-      //
-      //}
-
-      //if(password === repeatPassword){
-      //  passwordToSend = password;
-      //}
-
-      //savedData = {
-      //  mobilePhone: mobilePhone,
-      //  password: passwordToSend,
-      //  privatePolicy: privatePolicy,
-      //  smsPassword:smsPassword
-      //};
 
       if(data.password === data.repeatPassword) {
+
 
         if (vm.isSmsShow === undefined) {
           //vm.disableForm = true;
@@ -98,7 +77,6 @@
               $log.debug('loginFactory.sendLogin success = ' + angular.toJson(data));
 
 
-              $log.debug('cardNumber = '+$scope.cardNumber);
               // redirect
 
 
@@ -116,8 +94,8 @@
               $log.debug('loginFactory.sendLogin success = ' + angular.toJson(data));
               myOtherModal.$promise.then(myOtherModal.hide);
               vm.isSmsShow = false;
-              //$log.debug('cardNumber = '+scope.cardNumber);
-              //scope.cardNumber = '';
+              vm.registration = null;
+
               // redirect
             })
             .error(function (data) {
@@ -130,11 +108,7 @@
         $log.error("Паролі не співпадають")
       }
 
-
-      //$uibModalInstance.close(vm.registrationData);
     };
-
-
 
   }
 

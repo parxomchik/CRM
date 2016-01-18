@@ -6,27 +6,27 @@
         <h4 class="modal-title" >Регєстрація нового користувача</h4>
       </div>
       <div class="modal-body" >
-        <form name="registrationForm" novalidate ng-submit="registrationModal.registrationSubmin(registrationModal)">
+        <form name="registrationForm" novalidate ng-submit="main.registrationSubmin(main.registration)">
           <div class="form-group" ng-class="{'has-error': registrationForm.cardNumber.$dirty && registrationForm.cardNumber.$invalid, 'has-success':registrationForm.cardNumber.$valid}">
             <label>Введіть номер бонусної картки</label>
-            <input type="number" name="cardNumber" class="form-control" ng-model="registrationModal.cardNumber" placeholder="Номер бонусної картки"  ng-minlength="13" ng-maxlength="20" ignore-mouse-wheel required ng-disabled="main.isSmsShow">
+            <input type="number" name="cardNumber" class="form-control" ng-model="main.registration.cardNumber" placeholder="Номер бонусної картки"  ng-minlength="13" ng-maxlength="20" ignore-mouse-wheel required ng-disabled="main.isSmsShow">
             <span class='' ng-if="registrationForm.cardNumber.$dirty && registrationForm.cardNumber.$invalid">Номер картки повинен мати від 13 до 20 чисел</span>
           </div>
           <div class="form-group">
             <label>Введите номер телефона</label>
-            <input type="text" name="MobilePhone" class="form-control" ng-model="registrationModal.mobilePhone" placeholder="Номер телефона"   ui-mask="+380(99) 999-9999" ui-mask-placeholder required ng-disabled="main.isSmsShow">
+            <input type="text" name="MobilePhone" class="form-control" ng-model="main.registration.mobilePhone" placeholder="Номер телефона"   ui-mask="+380(99) 999-9999" ui-mask-placeholder required ng-disabled="main.isSmsShow">
           </div>
-          <div class="form-group" ng-class="{'has-error': registrationForm.repeatPassword.$dirty && registrationModal.password !== registrationModal.repeatPassword}">
+          <div class="form-group" ng-class="{'has-error': registrationForm.repeatPassword.$dirty && main.registration.password !== main.registration.repeatPassword}">
             <label>Введіть пароль</label>
-            <input type="password" name="password" class="form-control" ng-model="registrationModal.password" placeholder="Пароль" required ng-disabled="main.isSmsShow">
+            <input type="password" name="password" class="form-control" ng-model="main.registration.password" placeholder="Пароль" required ng-disabled="main.isSmsShow">
           </div>
-          <div class="form-group" ng-class="{'has-error':registrationForm.repeatPassword.$dirty && registrationModal.password !== registrationModal.repeatPassword}">
+          <div class="form-group" ng-class="{'has-error':registrationForm.repeatPassword.$dirty && main.registration.password !== main.registration.repeatPassword}">
             <label>Повторіть пароль</label>
-            <input type="password" name="repeatPassword" class="form-control" ng-model="registrationModal.repeatPassword" placeholder="Повторіть пароль" required ng-disabled="main.isSmsShow">
+            <input type="password" name="repeatPassword" class="form-control" ng-model="main.registration.repeatPassword" placeholder="Повторіть пароль" required ng-disabled="main.isSmsShow">
           </div>
-          <span class='span-error' ng-if="registrationForm.repeatPassword.$dirty && registrationModal.password !== registrationModal.repeatPassword">Паролі не співпадають</span>
+          <span class='span-error' ng-if="registrationForm.repeatPassword.$dirty && main.registration.password !== main.registration.repeatPassword">Паролі не співпадають</span>
           <div class="checkbox checkbox-primary" >
-            <input id="policy_checkbox" class="styled" type="checkbox" ng-model="registrationModal.privatePolicy" required>
+            <input id="policy_checkbox" class="styled" type="checkbox" ng-model="main.registration.privatePolicy" required>
             <label for="policy_checkbox">
               Погоджуюсь з правилами програми
             </label>
@@ -34,12 +34,12 @@
           <hr/>
             <div class="form-group" ng-if="main.isSmsShow" >
               <label for="smsPassword">Веедіть пароль з смс</label>
-              <input type="number" class="form-control" id="smsPassword" ng-model="registrationModal.smsPassword" placeholder="Веедіть пароль з смс">
+              <input type="number" class="form-control" id="smsPassword" ng-model="main.registration.smsPassword" placeholder="Веедіть пароль з смс">
               <hr/>
             </div>
           <div class="row">
             <div class="col-md-6 col-md-offset-3">
-              <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid || registrationModal.password !== registrationModal.repeatPassword" ng-click="main.registrationSubmit(registrationModal)">Зареєструватись</button>
+              <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid || main.registration.password !== main.registration.repeatPassword" ng-click="main.registrationSubmit(main.registration)">Зареєструватись</button>
               <button class="btn btn-warning" type="button" ng-click="$hide()">Відмінити</button>
             </div>
           </div>
