@@ -1,13 +1,10 @@
-<!--<div class="container">-->
   <client-navbar ></client-navbar>
-<!--</div>-->
 <div class="wrapper container ">
   <div class="aside-flex aside-flex-1  sidebar hidden-xs">
     <client-sidebar></client-sidebar>
   </div>
   <article class="main client-content-profile">
     <!-- content -->
-    <!--<div class="row">-->
     <div style="" class="card-number center-block">
     <h3 class="font-size-1-3 text-center margin-0">
      <span>Номер картки: </span>
@@ -38,15 +35,13 @@
     </div>
 
     <div class="well col-md-12 ">
-      <!--<form name="datepickerForm">-->
 
       <div class="form-group col-md-4 " ng-class="{'has-error': profile.profiles.BirthDay === null}">
       <label ng-if="profile.profiles.BirthDay !== null">Дата народження <span style="color: red">*</span></label>
       <label ng-if="profile.profiles.BirthDay === null"> <span style="color: red">Невірний формат</span></label>
         <div class="input-group ">
     <input  type="text"  name="BirthDayDate" validation ng-model="profile.profiles.BirthDay"  class="form-control" placeholder="Дата народження" bs-datepicker data-autoclose="true" data-start-view="2" data-bs-show="BirthDay.show"  >
-    <!--<input  type="text"   name="BirthDayDate1" ng-model="profile.profiles.BirthDay1 " class="form-control" placeholder="Дата народження" ui-mask-placeholder ui-mask="99.99.9999" >-->
-          <!--mask="12.31.2999" -->
+
     <span class="input-group-btn">
     <button  class="btn calendar" ng-click="BirthDay.show = ! BirthDay.show">
     <i class="fa fa-calendar"></i>
@@ -54,11 +49,7 @@
     </span>
     </div>
     </div>
-        <!--<pre>-->
-          <!--{{ClientProfile.BirthDayDate}}-->
-          <!--{{ClientProfile.$invalid}}-->
-        <!--</pre>-->
-      <!--</form>-->
+
     <div class="form-group col-md-4 ">
     <label >Стать</label>
     <select class="form-control "  name="GenderSelect"
@@ -155,22 +146,7 @@
     </label>
     </div>
 
-    <!--<div class="radio-inline">-->
-    <!--<label>-->
-    <!--<input type="radio" name="KidsIsSelected" ng-model="profile.profiles.KidsIsSelected" ng-change='profile.KidsSelect(profile.profiles.KidsIsSelected)' value="1" >-->
-    <!--Так-->
-    <!--</label>-->
-    <!--</div>-->
-    <!--<div class="radio-inline">-->
-    <!--<label>-->
-    <!--<input type="radio" name="KidsIsSelected" ng-model="profile.profiles.KidsIsSelected" ng-change='profile.KidsSelect(profile.profiles.KidsIsSelected)' value="2">-->
-    <!--Ні-->
-    <!--</label>-->
-    <!--</div>-->
-
-
     </div>
-    <!--<div class="well col-md-12 ">-->
     <div class="col-md-12 padding-fix" ng-repeat="kid in profile.profiles.Kids" ng-if="profile.profiles.KidsIsSelected == 1">
     <div class="panel panel-default">
     <div class="panel-heading kid-panel-header">
@@ -220,21 +196,15 @@
         <input type="text" ng-model="profile.profiles.PetOther" class="form-control"  placeholder="Інше">
       </div>
 
-    <!--</div>-->
-    <!--<div class="form-inline col-md-3">-->
-    <!--&lt;!&ndash;<label  style="margin-right: 20px">Інше</label>&ndash;&gt;-->
-    <!--<input type="text" ng-model="profile.profiles.PetOther" class="form-control"  placeholder="Інше">-->
     </div>
     </div>
     </div>
     <div  class="well col-md-12 ">
     <label class="col-md-12">Хобі</label>
     <div class="row padding-left-15 " style="margin-left: 20px">
-    <!--<div class="col-md-12 col-xs-12">-->
 
       <div class="checkbox checkbox-primary  hobbi-checkbox-wrapper checkbox-inline col-md-3" style="padding: 0; margin: 0; margin-top:10px " ng-repeat="hobby in profile.profiles.Hobbes ">
 
-        <!--<div class="col-md-6">-->
 
     <input id="{{hobby.name}}" class="styled" type="checkbox" ng-model="hobby.isSelected">
     <label for="{{hobby.name}}">
@@ -253,9 +223,7 @@
 
     <div class="form-group col-md-12 col-lg-11 padding-0">
     <div class="form-group">
-    <!--<div class="col-md-12">-->
       <label class="font-size-1-1 col-md-12" >Чи бажаєте ви отримувати e-mail повідомлення з нащими пропозиціями ?</label>
-    <!--</div>-->
     <div class="checkbox checkbox-primary checkbox-inline">
     <input type="radio" name="CarIsSelected" id="CarIsSelected1"    ng-model="profile.profiles.CarIsSelected.val" value="1">
     <label for="CarIsSelected1">
@@ -271,21 +239,6 @@
 
     </div>
 
-    <!--<h4 class="col-lg-8 " >Чи маєте ви автомобіль ?</h4>-->
-    <!--<div class="col-lg-4 ">-->
-    <!--<div class="checkbox checkbox-primary checkbox-inline">-->
-    <!--<input type="radio" name="CarIsSelected" id="CarIsSelected1"    ng-model="profile.profiles.CarIsSelected.val" value="1">-->
-    <!--<label for="CarIsSelected1">-->
-    <!--Так-->
-    <!--</label>-->
-    <!--</div>-->
-    <!--<div class="checkbox checkbox-primary checkbox-inline">-->
-    <!--<input type="radio" name="CarIsSelected" id="CarIsSelected2"  ng-model="profile.profiles.CarIsSelected.val" value="2">-->
-    <!--<label for="CarIsSelected2">-->
-    <!--Ні-->
-    <!--</label>-->
-    <!--</div>-->
-    <!--</div>-->
     </div>
     </div>
     <div class="well col-md-12 ">
@@ -305,14 +258,12 @@
     Ні
     </label>
     </div>
-    <!--</div>-->
     </div>
     </div>
     <div class="well col-md-12 ">
 
     <div class="form-group col-md-12  padding-0">
     <label class="font-size-1-1 col-md-12" >Чи бажаєте ви отримувати e-mail повідомлення з нащими пропозиціями ?</label>
-    <!--<div class="col-lg-4">-->
     <div class="checkbox checkbox-primary checkbox-inline">
     <input type="radio" name="EmailIsSelected" id="EmailIsSelected1"    ng-model="profile.profiles.EmailIsSelected.val" value="1">
     <label for="EmailIsSelected1">
@@ -325,7 +276,6 @@
     Ні
     </label>
     </div>
-    <!--</div>-->
     </div>
     </div>
     <div class="well col-md-12 ">
@@ -341,18 +291,13 @@
     <div class="col-md-12 col-xs-12 padding-left-0">
     <h4>"Я погоджуюсь з обробкою ТОВ "Епіцентр К" моїх персональних даних, які є в цій формі для реалізації програми лояльності Епіцентр. Я заявляю, про своє право на доступ до своїх персональних даних та право на їх виправлення, та що ці персональні дані були надані на добровільній основі. Я заявляю, что приймаю усі офіційні правила Програми лояльності. Персональна інформація, яку містить дана форма буде внесена в базу даних ТОВ "Епіцентр К".</h4>
     <button id="profile-submit" type="button" ng-disabled="isDisabled || !profile.profiles.PolicyIsSelected || profile.profiles.BirthDay === null" ng-click="profile.saveProfile(profile.profiles)" class="btn btn-success center-block">Зберегти</button>
-    <!--<button id="profile-submit" type="button" ng-disabled="isDisabled || !profile.profiles.PolicyIsSelected" ng-click="profile.saveProfile(profile.profiles)" class="btn btn-success center-block">Зберегти</button>-->
+    </div>
+    </div>
+    </div>
+    </div>
 
-    </div>
-    </div>
-    </div>
-    </div>
-    <!--<pre>ClientProfile.$valid = {{ClientProfile.$valid}}</pre>-->
-    <!--<pre>ClientProfile.lastname.$valid = {{ClientProfile.lastname.$valid}}</pre>-->
     </form>
-    <!--</div>-->
   </article>
-
   <div class="footer-flex client-footer">
   <client-footer></client-footer>
     </div>
