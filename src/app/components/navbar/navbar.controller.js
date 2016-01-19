@@ -7,6 +7,7 @@
 
     /** @ngInject */
     function navbarController($location,$scope,$log,$modal,navbarFactory) {
+
         var vm = this;
         $log.debug('Start navbarController');
 
@@ -38,7 +39,7 @@
 
           })
           .error(function(data){
-            $log.debug('navbarFactory.sendLogin success = '+angular.toJson(data));
+            $log.debug('navbarFactory.sendLogin error = '+angular.toJson(data));
           });
       };
     }

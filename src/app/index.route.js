@@ -14,7 +14,12 @@
         controller: 'MainController',
         controllerAs: 'main'
       })
-
+      .state('reset-password', {
+        url: '/reset-password',
+        templateUrl: 'app/reset-password/reset-password.html',
+        controller: 'resetPasswordController',
+        controllerAs: 'reset'
+      })
       .state('client', {
         template: '<div ui-view></div>',
         resolve:
