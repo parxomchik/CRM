@@ -55,14 +55,9 @@
       myOtherModal.$promise.then(myOtherModal.show);
     };
 
-
-
     vm.registrationSubmit = function (data) {
 
-
-
       if(data.password === data.repeatPassword) {
-
 
         if (vm.isSmsShow === false) {
           vm.isSmsShow = true;
@@ -70,10 +65,7 @@
             .success(function (data) {
               $log.debug('loginFactory.sendLogin success = ' + angular.toJson(data));
 
-
               // redirect
-
-
 
             })
             .error(function (data) {
@@ -88,11 +80,7 @@
               $log.debug('loginFactory.sendLogin success = ' + angular.toJson(data));
               myOtherModal.$promise.then(myOtherModal.hide);
               vm.isSmsShow = false;
-
-              delete vm.registration.smsPassword;
               vm.registration = null;
-
-
 
               // redirect
             })
@@ -109,6 +97,5 @@
     };
 
   }
-
 
 })();

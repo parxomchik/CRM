@@ -41,7 +41,6 @@ var app;
             ClientFeedbackController.prototype.init = function () {
                 var vm = this;
                 var $log = this.$log;
-                //var feedbackFactory = this.feedbackFactory ;
                 this.feedbackFactory.getFeedback()
                     .success(function (data) {
                     $log.debug('feedbackFactory.getFeedback success = ' + angular.toJson(data));

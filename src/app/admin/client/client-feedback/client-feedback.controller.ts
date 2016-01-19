@@ -62,7 +62,6 @@ module app.feedback {
      init():void{
       var vm = this;
       var $log = this.$log;
-      //var feedbackFactory = this.feedbackFactory ;
 
        this.feedbackFactory.getFeedback()
         .success(function (data) {
