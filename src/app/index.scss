@@ -37,6 +37,7 @@ $icon-font-path: "../../bower_components/bootstrap-sass-official/assets/fonts/bo
 body{
   font-family: 'Open Sans', sans-serif;
   font-weight: 600;
+  overflow: auto;
 }
 
 .browsehappy {
@@ -189,7 +190,7 @@ input[type=number]::-webkit-outer-spin-button {
     flex: 1 ;
   }
   .main {
-    flex: 10 0px;
+    flex: 10 0;
   }
 }
 

@@ -6,6 +6,7 @@ url: api/profile
 received_data:
 
     profiles = {
+        cardNumber: '1234567890123'
         FirstName:"Константин",
         LastName:"Юштин",
         SurName:"Єдуардович",
