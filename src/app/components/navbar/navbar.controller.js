@@ -10,6 +10,8 @@
         var vm = this;
         $log.debug('Start navbarController');
 
+        vm.loginData = {};
+
         $scope.isActive = function (viewLocation) {
             return viewLocation === $location.path();
         };
@@ -26,11 +28,11 @@
 
 
 
-      vm.loginSubmit = function (mobilePhone,password,privatePolicy) {
+      vm.loginSubmit = function (loginData) {
 
-        $log.debug( 'loginSubmit mobilePhone = '+mobilePhone,'password = '+password,'privatePolicy = '+privatePolicy);
+        $log.debug( 'loginSubmit mobilePhone = '+loginData.mobilePhone,'password = '+loginData.password,'privatePolicy = '+loginData.privatePolicy);
 
-        navbarFactory.sendLogin(mobilePhone,password,privatePolicy)
+        navbarFactory.sendLogin(loginData)
           .success(function(data){
             $log.debug('navbarFactory.sendLogin success = '+angular.toJson(data));
 

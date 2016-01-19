@@ -6,17 +6,17 @@
         <h4 class="modal-title" >Вхід</h4>
       </div>
       <div class="modal-body" >
-        <form name="loginForm" novalidate ng-submit="submit(loginModal.mobilePhone,loginModal.password,loginModal.privatePolicy)">
+        <form name="loginForm" novalidate ng-submit="submit(login.loginData)">
           <div class="form-group">
             <label>Введіть номер телефону</label>
-            <input type="text" name="mobilePhone" class="form-control" ng-model="loginModal.mobilePhone" placeholder="Введіть номер телефона"   ui-mask="+380(99) 999-9999" ui-mask-placeholder required>
+            <input type="text" name="mobilePhone" class="form-control" ng-model="login.loginData.mobilePhone" placeholder="Введіть номер телефона"   ui-mask="+380(99) 999-9999" ui-mask-placeholder required>
           </div>
           <div class="form-group">
             <label>Введіть пароль</label>
-            <input type="password" name="password" class="form-control" ng-model="loginModal.password" placeholder="Введіть пароль" required>
+            <input type="password" name="password" class="form-control" ng-model="login.loginData.password" placeholder="Введіть пароль" required>
           </div>
           <div class="checkbox checkbox-primary" >
-            <input id="policy_checkbox" class="styled" type="checkbox" ng-model="loginModal.privatePolicy" >
+            <input id="policy_checkbox" class="styled" type="checkbox" ng-model="login.loginData.privatePolicy" >
             <label for="policy_checkbox">
               Погоджуюсь з правилами програми
             </label>
@@ -24,7 +24,7 @@
           <hr/>
           <div class="row">
             <div class="col-md-4 col-md-offset-4">
-              <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="login.loginSubmit(loginModal.mobilePhone,loginModal.password,loginModal.privatePolicy)">Ввійти</button>
+              <button type="submit" class="btn btn-success" ng-disabled="loginForm.$invalid" ng-click="login.loginSubmit(login.loginData)">Ввійти</button>
               <button class="btn btn-warning" type="button" ng-click="$hide()">Закрити</button>
             </div>
           </div>

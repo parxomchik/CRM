@@ -8,14 +8,14 @@
     /** @ngInject */
     function navbarFactory($http,restConfig,$httpParamSerializerJQLike){
         return {
-            sendLogin: function (mobilePhone,password,privatePolicy) {
+            sendLogin: function (loginData) {
               return $http({
                 method: "POST",
-                url: restConfig.url+'registration',
+                url: restConfig.url+'login',
                 headers:{
                   'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
                 },
-                data:$httpParamSerializerJQLike(mobilePhone,password,privatePolicy)
+                data:$httpParamSerializerJQLike(loginData)
               });
             }
         };
