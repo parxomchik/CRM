@@ -16,7 +16,7 @@ function clientPropositionsController($log,propositionsFactory) {
             $log.debug('propositionsFactory.getPropositions success = '+angular.toJson(data));
             vm.propositions = data.data;
         })
-        .error(function(){
+        .error(function(data){
            $log.debug('propositionsFactory.getPropositions error = '+data);
         })
 }
