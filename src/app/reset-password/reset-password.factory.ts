@@ -1,19 +1,34 @@
 /// <reference path="../../typings/angularjs/angular.d.ts" />
 
-
 namespace app.resetPassword {
   interface IResetPasswordFactory {
-    sendResetPassword(resetPasswordData:{}):void
+    getProductResource:(resetPasswordData) => any;
   }
-  class ResetPasswordFactory implements IResetPasswordFactory{
-    constructor(){
+
+
+  export class ResetPasswordFactory
+  implements IResetPasswordFactory {
+
+    /** @ngInject */
+    constructor(
+      private $http,
+      private restConfig,
+      private $httpParamSerializerJQLike
+    )
+    {
 
     }
-    sendResetPassword(resetPasswordData:{}){
-      return
+    /** @ngInject */
+    getProductResource(resetPasswordData){
+    return this.$http({
+      method: 'POST',
+      url: this.restConfig.url+'reset-password',
+      headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      data: this.$httpParamSerializerJQLike(resetPasswordData)
+    })
     }
   }
   angular
-    .module('angularStrap')
-    .factory('resetPasswordFactory',ResetPasswordFactory);
+    .module("angularStrap")
+    .service("resetPasswordFactory", ResetPasswordFactory);
 }
