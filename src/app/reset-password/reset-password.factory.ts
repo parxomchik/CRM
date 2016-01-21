@@ -22,9 +22,10 @@ namespace app.resetPassword {
     getProductResource(resetPasswordData){
     return this.$http({
       method: 'POST',
-      url: this.restConfig.url+'reset-password',
+      url: this.restConfig.url+'resetpassword',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      data: this.$httpParamSerializerJQLike(resetPasswordData)
+      //data: this.$httpParamSerializerJQLike(resetPasswordData)
+      data : resetPasswordData
     })
     }
   }
