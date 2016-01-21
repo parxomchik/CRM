@@ -12,9 +12,10 @@
             <input type="number" name="cardNumber" class="form-control" ng-model="main.registration.cardNumber" placeholder="Номер бонусної картки"  ng-minlength="13" ng-maxlength="20" ignore-mouse-wheel required ng-disabled="main.isSmsShow">
             <span class='' ng-if="registrationForm.cardNumber.$dirty && registrationForm.cardNumber.$invalid">Номер картки повинен мати від 13 до 20 чисел</span>
           </div>
-          <div class="form-group">
+          <div class="form-group" ng-class="{'has-error':main.mobilePhoneIsError}">
             <label>Введите номер телефона</label>
             <input type="text" name="MobilePhone" class="form-control" ng-model="main.registration.mobilePhone" placeholder="Номер телефона"   ui-mask="+380(99) 999-9999" ui-mask-placeholder required ng-disabled="main.isSmsShow">
+            <span class="span-error" ng-if="main.mobilePhoneIsError">{{main.mobilePhoneIsErrorMassage}}</span>
           </div>
           <div class="form-group" ng-class="{'has-error': registrationForm.repeatPassword.$dirty && main.registration.password !== main.registration.repeatPassword}">
             <label>Введіть пароль</label>
@@ -32,15 +33,16 @@
             </label>
           </div>
           <hr/>
-            <div class="form-group" ng-if="main.isSmsShow" >
+            <div class="form-group" ng-if="main.isSmsShow" ng-class="{'has-error':main.smsIsError}">
               <label for="smsPassword">Веедіть пароль з смс</label>
               <input type="number" class="form-control" id="smsPassword" ng-model="main.registration.smsPassword" placeholder="Веедіть пароль з смс">
+              <span class="span-error" ng-if="main.smsIsError">{{main.smsIsErrorMassage}}</span>
               <hr/>
             </div>
           <div class="row">
             <div class="col-md-6 col-md-offset-3">
               <button type="submit" class="btn btn-success" ng-disabled="registrationForm.$invalid || main.registration.password !== main.registration.repeatPassword" ng-click="main.registrationSubmit(main.registration)">Зареєструватись</button>
-              <button class="btn btn-warning" type="button" ng-click="$hide()">Відмінити</button>
+              <button class="btn btn-warning" type="button" ng-click="main.registrationCancel()">Відмінити</button>
             </div>
           </div>
         </form>

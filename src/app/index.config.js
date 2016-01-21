@@ -5,7 +5,8 @@
     .module('angularStrap')
     .config(config)
     .config(modalConfig)
-    .config(datePicker);
+    .config(datePicker)
+    .config(httpBackend);
 
 
 
@@ -41,5 +42,12 @@
     angular.extend($modalProvider.defaults, {
       animation: 'am-fade-and-scale'
     });
+  }
+
+  /** @ngInject */
+  function httpBackend($provide) {
+    // Enable log
+
+    //$provide.decorator('$httpBackend', angular.mock.e2e.$httpBackendDecorator);
   }
 })();

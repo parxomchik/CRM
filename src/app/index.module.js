@@ -16,7 +16,7 @@
 
   angular
     .module('angularStrap', [
-        'ngAnimate',
+      'ngAnimate',
         'ngCookies',
         'ngTouch',
         'ngSanitize',
@@ -28,7 +28,7 @@
         'hSweetAlert',
         'ngMask',
         'focus-if',
-        'mgcrea.ngStrap'
-
+        'mgcrea.ngStrap',
+        'ngMockE2E'
     ])
 })();

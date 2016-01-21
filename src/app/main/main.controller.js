@@ -52,7 +52,12 @@
 
     // Show when some event occurs (use $promise property to ensure the template has been loaded)
     vm.showRegisterationModal = function () {
+      vm.registration = null;
+      vm.isSmsShow = false;
       myOtherModal.$promise.then(myOtherModal.show);
+    };
+    vm.registrationCancel = function () {
+      myOtherModal.$promise.then(myOtherModal.hide);
     };
 
     vm.registrationSubmit = function (data) {
@@ -60,16 +65,20 @@
       if(data.password === data.repeatPassword) {
 
         if (vm.isSmsShow === false) {
-          vm.isSmsShow = true;
           loginFactory.sendRegistration(data)
             .success(function (data) {
               $log.debug('loginFactory.sendLogin success = ' + angular.toJson(data));
-
+              vm.isSmsShow = true;
+              vm.mobilePhoneIsError= false;
+              delete vm.mobilePhoneIsErrorMassage;
               // redirect
 
             })
             .error(function (data) {
               $log.debug('loginFactory.sendLogin error = ' + angular.toJson(data));
+              vm.mobilePhoneIsError= true;
+              vm.mobilePhoneIsErrorMassage= data.Data;
+
             });
         }
         else {
@@ -86,6 +95,9 @@
             })
             .error(function (data) {
               $log.debug('loginFactory.sendLogin error = ' + angular.toJson(data));
+              vm.smsIsError = true;
+              vm.smsIsErrorMassage = data.Data;
+
             });
         }
 

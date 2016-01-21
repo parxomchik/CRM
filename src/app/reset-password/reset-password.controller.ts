@@ -17,17 +17,16 @@ namespace app.resetPassword {
     }
 
     sendResetPassword(resetData){
-
       this.resetPasswordFactory.getProductResource(resetData)
-        .success(function (data) {
+        .success((data) => {
           console.log(data);
+          this.isSmsShow = true;
         })
-        .error(function (data) {
+        .error((data) => {
           console.log(data);
         });
     }
   }
-
   angular
     .module('angularStrap')
     .controller('resetPasswordController', ResetPasswordController);
