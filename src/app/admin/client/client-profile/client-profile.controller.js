@@ -27,11 +27,11 @@ function clientProfileController($log,profileFactory,sweet,$filter) {
         });
     vm.saveProfile = function (profileData) {
 
-      delete profileData.Areas;
-      delete profileData.Genders;
-      delete profileData.Cities;
-      delete profileData.MaritalStatuses;
-      delete profileData.Regions;
+      //delete profileData.Areas;
+      //delete profileData.Genders;
+      //delete profileData.Cities;
+      //delete profileData.MaritalStatuses;
+      //delete profileData.Regions;
 
       $log.debug('vm.saveProfile profileData = '+angular.toJson(profileData));
       $log.debug('vm.saveProfile profileData = '+angular.toJson(profileData.LastName));

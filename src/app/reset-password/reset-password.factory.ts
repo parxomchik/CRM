@@ -24,8 +24,8 @@ namespace app.resetPassword {
       method: 'POST',
       url: this.restConfig.url+'resetpassword',
       headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-      //data: this.$httpParamSerializerJQLike(resetPasswordData)
-      data : resetPasswordData
+      data: this.$httpParamSerializerJQLike(resetPasswordData)
+      //data : resetPasswordData
     })
     }
   }
