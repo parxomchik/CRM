@@ -1,3 +1,4 @@
+/// <reference path="../../../../typings/angularjs/angular.d.ts" />
 /**
  *
  * @ngdoc service
@@ -36,13 +37,11 @@
     }
  </file>
  <file name="index.html">
-
  </file>
 
  </example>
  *
  **/
-
 /**
  *
  * @ngdoc method
@@ -53,19 +52,18 @@
  *
  * Описание полей контроллера
  **/
-
-
-
-(function() {
-    'use strict';
-
-    angular
-        .module('angularStrap')
-        .factory('feedbackFactory', feedbackFactory);
-
-    /** @ngInject */
-    function feedbackFactory($cookies,$http,restConfig,$httpParamSerializerJQLike) {
-        return {
+var app;
+(function (app) {
+    var feedback;
+    (function (feedback) {
+        var FeedbackFactory = (function () {
+            /** @ngInject */
+            function FeedbackFactory($http, restConfig, $httpParamSerializerJQLike) {
+                this.$http = $http;
+                this.restConfig = restConfig;
+                this.$httpParamSerializerJQLike = $httpParamSerializerJQLike;
+            }
+            /** @ngInject */
             /**
              *
              * @ngdoc method
@@ -78,16 +76,14 @@
              *
              * Get the message.
              **/
-            getFeedback: function () {
-                return $http({
+            FeedbackFactory.prototype.getFeedback = function () {
+                return this.$http({
                     method: 'GET',
-                    url: restConfig.url+'feedback',
-                    headers: {'Content-Type': 'application/x-www-form-urlencoded'},
-                    data: {
-                      session_id: $cookies.getObject('session_id')
-                    }
+                    url: this.restConfig.url + 'feedback',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
                 });
-            },
+            };
+            /** @ngInject */
             /**
              *
              * @ngdoc method
@@ -100,16 +96,20 @@
              *
              * Get the message.
              **/
-            sendFeedback: function (saveData) {
-                return $http({
-                  method: "POST",
-                  url: restConfig.url+'feedback/save2',
-                  headers:{
-                    'Content-Type': "application/x-www-form-urlencoded;charset=utf-8"
-                  },
-                  data:$httpParamSerializerJQLike(saveData)
+            FeedbackFactory.prototype.sendFeedback = function (saveData) {
+                return this.$http({
+                    method: 'POST',
+                    url: this.restConfig.url + 'feedback/save2',
+                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
+                    data: this.$httpParamSerializerJQLike(saveData)
                 });
-            }
-        };
-    }
-})();
+            };
+            return FeedbackFactory;
+        })();
+        feedback.FeedbackFactory = FeedbackFactory;
+        angular
+            .module("angularStrap")
+            .service("feedbackFactory", FeedbackFactory);
+    })(feedback = app.feedback || (app.feedback = {}));
+})(app || (app = {}));
+//# sourceMappingURL=client-feedback.factory.js.map
