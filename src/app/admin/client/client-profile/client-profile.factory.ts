@@ -1,4 +1,5 @@
 /// <reference path="../../../../typings/angularjs/angular.d.ts" />
+
 /**
  *
  * @ngdoc service
@@ -181,74 +182,95 @@
  *
  * Описание полей контроллера
  **/
-var app;
-(function (app) {
-    var profile;
-    (function (profile) {
-        var ProfileFactory = (function () {
-            /** @ngInject */
-            function ProfileFactory($http, restConfig, $httpParamSerializerJQLike) {
-                this.$http = $http;
-                this.restConfig = restConfig;
-                this.$httpParamSerializerJQLike = $httpParamSerializerJQLike;
-            }
-            /** @ngInject */
-            /**
-             *
-             * @ngdoc method
-             * @name profileFactory#getProfile
-             * @param {String} cookies - При запросе информации отправляем куки
-             * @return
-             *
-             * {Array} subjectId,
-             * @description
-             *
-             * Get the message.
-             **/
-            ProfileFactory.prototype.getProfile = function () {
-                return this.$http({
-                    method: 'GET',
-                    url: this.restConfig.url + 'profile',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' }
-                });
-            };
-            /** @ngInject */
-            ProfileFactory.prototype.getProfileRegions = function (areaId) {
-                return this.$http({
-                    method: 'POST',
-                    url: this.restConfig.url + 'profile/regions',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    data: {
-                        areaId: areaId
-                    }
-                });
-            };
-            /** @ngInject */
-            ProfileFactory.prototype.getProfileCities = function (regionId) {
-                return this.$http({
-                    method: 'POST',
-                    url: this.restConfig.url + 'profile/Cities',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    data: {
-                        regionId: regionId
-                    }
-                });
-            };
-            /** @ngInject */
-            ProfileFactory.prototype.saveProfile = function (data) {
-                return this.$http({
-                    method: 'POST',
-                    url: this.restConfig.url + 'profile',
-                    headers: { 'Content-Type': 'application/x-www-form-urlencoded' },
-                    data: this.$httpParamSerializerJQLike(data)
-                });
-            };
-            return ProfileFactory;
-        })();
-        profile.ProfileFactory = ProfileFactory;
-        angular
-            .module("angularStrap")
-            .service("profileFactory", ProfileFactory);
-    })(profile = app.profile || (app.profile = {}));
-})(app || (app = {}));
-//# sourceMappingURL=client-profile.factory.js.map
+
+namespace app.profile {
+  interface IProfileFactory {
+    getProfile:() => any;
+    getProfileRegions:(areaId) => any;
+    getProfileCities:(regionId) => any;
+    saveProfile:(data) => any;
+
+  }
+
+
+  export class ProfileFactory
+  implements IProfileFactory {
+
+    /** @ngInject */
+    constructor(
+      private $http,
+      private restConfig,
+      private $httpParamSerializerJQLike
+    )
+    {
+
+    }
+
+
+
+    /** @ngInject */
+
+    /**
+     *
+     * @ngdoc method
+     * @name profileFactory#getProfile
+     * @param {String} cookies - При запросе информации отправляем куки
+     * @return
+     *
+     * {Array} subjectId,
+     * @description
+     *
+     * Get the message.
+     **/
+
+    getProfile(){
+      return this.$http({
+        method: 'GET',
+        url: this.restConfig.url+'profile',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+      })
+    }
+
+
+    /** @ngInject */
+    getProfileRegions(areaId){
+      return this.$http({
+        method: 'POST',
+        url: this.restConfig.url+'profile/regions',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        data: {
+          areaId:areaId,
+        }
+      })
+    }
+
+    /** @ngInject */
+    getProfileCities(regionId){
+      return this.$http({
+        method: 'POST',
+        url: this.restConfig.url+'profile/Cities',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        data: {
+          regionId:regionId,
+        }
+      })
+    }
+
+
+    /** @ngInject */
+    saveProfile(data){
+      return this.$http({
+        method: 'POST',
+        url: this.restConfig.url+'profile',
+        headers: {'Content-Type': 'application/x-www-form-urlencoded'},
+        data: this.$httpParamSerializerJQLike(data)
+      })
+    }
+
+
+  }
+  angular
+    .module("angularStrap")
+    .service("profileFactory", ProfileFactory);
+}
+
