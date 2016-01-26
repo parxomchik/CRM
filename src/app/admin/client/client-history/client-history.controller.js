@@ -15,8 +15,6 @@ var app;
             ClientHistoryController.prototype.historySearch = function (periodBegin, periodEnd) {
                 var vm = this;
                 var $log = this.$log;
-                //var historyFactory = this.historyFactory ;
-                //var sweet = this.sweet;
                 this.historyFactory.getPeriod(periodBegin, periodEnd)
                     .success(function (data) {
                     $log.debug('historyFactory.getPeriod success = ' + angular.toJson(data));

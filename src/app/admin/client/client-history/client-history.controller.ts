@@ -23,7 +23,6 @@ module app.history {
     constructor(
       public $log:angular.ILogService,
       public historyFactory
-      //public sweet
     ){
       $log.debug("clientHistoryController start");
       this.init();
@@ -33,9 +32,6 @@ module app.history {
 
       var vm = this;
       var $log = this.$log;
-      //var historyFactory = this.historyFactory ;
-      //var sweet = this.sweet;
-
 
       this.historyFactory.getPeriod(periodBegin,periodEnd)
         .success(function (data) {
